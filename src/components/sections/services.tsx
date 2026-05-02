@@ -7,7 +7,6 @@ import { services } from "@/lib/site-data";
 export function Services() {
   return (
     <section id="services" className="section-block">
-      <div className="pointer-events-none absolute inset-x-0 -top-28 h-[420px] bg-[radial-gradient(ellipse_56%_72%_at_50%_0%,rgba(95,123,255,0.22),transparent_72%)] [mask-image:linear-gradient(to_bottom,rgba(0,0,0,0.95),rgba(0,0,0,0.75)_52%,transparent)]" />
       <div className="container-site relative z-10">
         <Reveal>
           <Eyebrow number="02" label="Services" />

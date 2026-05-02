@@ -14,12 +14,10 @@ export function Proof() {
         <SectionHead
           title={
             <>
-              Numbers, not
-              <br />
-              narrative.
+              Built on real work.
             </>
           }
-          lead="Five years of shipping production systems for founders, ops teams and growing businesses. The work speaks for itself - but here's the receipt."
+          lead="Five years of building production systems for founders, operators, and growing teams. From initial build to long-term iteration, each system is designed to perform reliably in real-world use."
         />
 
         <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20">

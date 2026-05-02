@@ -13,12 +13,10 @@ export function Process() {
         <SectionHead
           title={
             <>
-              Three steps.
-              <br />
-              No theatre.
+              A simple, reliable process.
             </>
           }
-          lead="A predictable rhythm tuned for momentum. Most engagements move from kickoff to launch in four to eight weeks."
+          lead="Each project follows a clear structure from planning to launch. Most builds move from kickoff to production in four to eight weeks."
         />
 
         <div className="grid gap-6 md:grid-cols-3">

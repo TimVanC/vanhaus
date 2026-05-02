@@ -14,20 +14,20 @@ export function Cta() {
             <div className="relative z-10">
               <Eyebrow number="05" label="Next step" />
               <h2 className="mb-6 max-w-[14ch] text-balance text-[clamp(40px,6vw,80px)] font-semibold leading-[0.98] tracking-[-0.04em]">
-                Let&apos;s build <span className="text-[var(--accent)]">something.</span>
+                Start a <span className="text-[var(--accent)]">project.</span>
               </h2>
               <p className="mb-10 max-w-[540px] text-lg leading-[1.55] text-zinc-400">
-                One short call. We&apos;ll talk through what you&apos;re trying to ship, where the bottleneck
-                is, and whether I&apos;m the right person to help. No pitch deck, no upsell.
+                We&apos;ll talk through your goals, what needs to be built, and how to move forward.
+                If it&apos;s a fit, we&apos;ll define the next steps clearly.
               </p>
-              <div className="flex flex-wrap items-center gap-3.5">
+              <div className="flex flex-wrap items-center gap-5">
                 <button className="group inline-flex h-[50px] items-center gap-2.5 rounded-[10px] border border-[var(--accent)] bg-[var(--accent)] px-[22px] text-[14.5px] font-semibold tracking-[-0.01em] text-white shadow-[0_0_0_1px_var(--accent),0_8px_30px_-8px_var(--accent-glow)] transition hover:-translate-y-px hover:bg-[var(--accent-2)]">
-                  Book a 20-min call
+                  Book a call
                   <ArrowRight className="transition-transform group-hover:translate-x-[3px]" />
                 </button>
-                <span className="ml-2 font-mono text-[13px] text-zinc-400">
-                  or email{" "}
-                  <a className="transition-colors hover:text-white" href="mailto:hello@vanhaus.dev">
+                <span className="font-mono text-[13px] text-zinc-400">
+                  <span className="text-zinc-500">or email </span>
+                  <a className="text-zinc-300 transition-colors hover:text-white" href="mailto:hello@vanhaus.dev">
                     hello@vanhaus.dev
                   </a>
                 </span>

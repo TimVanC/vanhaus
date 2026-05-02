@@ -45,16 +45,16 @@ export const services = [
 ] as const;
 
 export const proofStats = [
-  { value: "40", unit: "+", label: "// PROJECTS SHIPPED" },
-  { value: "5", unit: "yrs", label: "// IN BUSINESS" },
-  { value: "98", unit: "%", label: "// ON-TIME DELIVERY" },
-  { value: "12", unit: "k", label: "// HOURS WRITTEN" },
+  { value: "40", unit: "+", label: "// projects shipped" },
+  { value: "5", unit: "yrs", label: "// building systems" },
+  { value: "98", unit: "%", label: "// on-time delivery" },
+  { value: "12", unit: "k+", label: "// hours shipped" },
 ];
 
 export const proofItems = [
-  { text: "Direct access to the engineer building it", meta: "no PMs" },
-  { text: "Fixed-scope quotes, weekly demos, no surprises", meta: "contract" },
-  { text: "Code you own - clean repo, full handoff, no lock-in", meta: "your IP" },
+  { text: "Direct access to the engineer building it", meta: "hands-on" },
+  { text: "Fixed-scope quotes, weekly demos, no surprises", meta: "predictable" },
+  { text: "Code you own - clean repo, full handoff, no lock-in", meta: "ownership" },
   { text: "Optional retainer for maintenance and iteration", meta: "post-launch" },
 ];
 
@@ -62,19 +62,19 @@ export const processSteps = [
   {
     step: "STEP / 01",
     title: "Plan",
-    body: "Discovery call, written brief, fixed-scope quote. We agree on what success looks like before a single line of code gets written.",
-    tags: ["scope", "timeline", "quote"],
+    body: "Discovery call, clear scope, and a defined plan. We align on goals, timeline, and deliverables before any build begins.",
+    tags: ["scope", "timeline", "alignment"],
   },
   {
     step: "STEP / 02",
     title: "Build",
-    body: "Weekly demos in a private staging environment. You watch the thing get made - and steer it as it does. No black-box agency drama.",
-    tags: ["staging", "demos", "iteration"],
+    body: "The system is built in a private environment with regular updates. You stay involved through demos and feedback as the project progresses.",
+    tags: ["progress", "feedback", "iteration"],
   },
   {
     step: "STEP / 03",
     title: "Ship",
-    body: "Production deploy, full repo handoff, written documentation, and a 30-day warranty on everything we built. Then optional retainer.",
+    body: "Production deployment, full handoff, and documentation. Everything is delivered cleanly, with optional support after launch.",
     tags: ["deploy", "handoff", "support"],
   },
 ];
