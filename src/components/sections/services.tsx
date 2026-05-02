@@ -7,16 +7,17 @@ import { services } from "@/lib/site-data";
 export function Services() {
   return (
     <section id="services" className="section-block">
-      <div className="container-site">
+      <div className="pointer-events-none absolute inset-x-0 -top-28 h-[420px] bg-[radial-gradient(ellipse_56%_72%_at_50%_0%,rgba(95,123,255,0.22),transparent_72%)] [mask-image:linear-gradient(to_bottom,rgba(0,0,0,0.95),rgba(0,0,0,0.75)_52%,transparent)]" />
+      <div className="container-site relative z-10">
         <Reveal>
           <Eyebrow number="02" label="Services" />
         </Reveal>
         <SectionHead
           title={
             <>
-              Three disciplines.
+              Three core systems.
               <br />
-              One operator.
+              Built end-to-end.
             </>
           }
           lead="End-to-end ownership across the stack. From the marketing site that earns the lead to the system that delivers the product to the automation that runs it on autopilot."
@@ -27,7 +28,7 @@ export function Services() {
             {services.map((service, index) => (
               <article
                 key={service.id}
-                className={`group relative flex min-h-[360px] flex-col gap-5 px-8 pb-8 pt-9 transition hover:bg-[#1A1A22] ${
+                className={`group relative flex min-h-[360px] flex-col gap-[22px] px-8 pb-9 pt-10 transition hover:bg-[#1A1A22] ${
                   index !== services.length - 1 ? "border-b border-white/10 md:border-b-0 md:border-r" : ""
                 }`}
               >
@@ -37,7 +38,7 @@ export function Services() {
                 </div>
                 <h3 className="text-[22px] font-semibold tracking-[-0.02em]">{service.title}</h3>
                 <p className="text-[14.5px] leading-[1.6] text-zinc-400">{service.description}</p>
-                <ul className="mt-auto flex list-none flex-col gap-2 border-t border-white/10 pt-5">
+                <ul className="mt-auto flex list-none flex-col gap-2.5 border-t border-white/10 pt-6">
                   {service.bullets.map((bullet) => (
                     <li key={bullet} className="flex items-center gap-2.5 font-mono text-xs">
                       <span className="h-1 w-1 rounded-full bg-[var(--accent)]" />

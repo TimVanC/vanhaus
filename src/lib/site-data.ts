@@ -1,8 +1,8 @@
 export const heroMeta = [
-  { key: "// BASED IN", value: "Ghent, BE ", accent: "↗" },
+  { key: "// BASED IN", value: "NYC Metro Area" },
   { key: "// FOUNDED", value: "2021" },
   { key: "// PROJECTS", value: "40", accent: "+ shipped" },
-  { key: "// ENGAGEMENT", value: "Project · Retainer" },
+  { key: "// ENGAGEMENT", value: "Fixed Projects & Ongoing Support" },
 ];
 
 export const services = [
@@ -12,9 +12,9 @@ export const services = [
     description:
       "Marketing sites, landing pages and product surfaces engineered for speed, SEO and conversion. Component-driven, accessible, and a joy to maintain.",
     bullets: [
-      "Next.js · Astro · Tailwind",
-      "Headless CMS · MDX",
-      "Edge hosting · Analytics",
+      "Custom websites & rebuilds",
+      "Performance & SEO optimization",
+      "Analytics & conversion tracking",
     ],
     icon: "web",
   },
@@ -24,21 +24,21 @@ export const services = [
     description:
       "Internal tools, dashboards, APIs and full product builds. Typed end-to-end, tested where it matters, and architected so the second version costs less than the first.",
     bullets: [
-      "TypeScript · Node · Postgres",
-      "REST · GraphQL · tRPC",
-      "Auth · Billing · Multi-tenant",
+      "Internal tools & dashboards",
+      "APIs & system integrations",
+      "Scalable application architecture",
     ],
     icon: "software",
   },
   {
     id: "03 / AUTOMATION",
-    title: "Automation & AI",
+    title: "AI Automation",
     description:
       "Take the repetitive work off your team. Workflow automations, internal copilots and AI integrations that plug into the tools you already use - and pay for themselves.",
     bullets: [
-      "OpenAI · Anthropic · RAG",
-      "n8n · Make · Zapier",
-      "Custom agents · Pipelines",
+      "Workflow automation",
+      "Custom reporting systems",
+      "AI integrations & tools",
     ],
     icon: "automation",
   },
