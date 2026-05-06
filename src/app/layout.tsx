@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/react";
 import { JetBrains_Mono, Manrope } from "next/font/google";
 import type { ReactNode } from "react";
 import "./globals.css";
@@ -46,7 +47,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${manrope.variable} ${jetbrainsMono.variable}`}>
-      <body className="bg-[#0D0D0D] font-sans text-white antialiased">{children}</body>
+      <body className="bg-[#0D0D0D] font-sans text-white antialiased">
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }
