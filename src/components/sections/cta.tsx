@@ -161,17 +161,31 @@ export function Cta() {
 
                       <label className="flex flex-col gap-2 sm:gap-1.5">
                         <span className="font-mono text-[11px] text-zinc-500">Timeline (optional)</span>
-                        <select
-                          name="timeline"
-                          defaultValue=""
-                          className="h-12 rounded-[8px] border border-white/10 bg-[#14141A] px-3.5 pr-10 text-sm text-zinc-300 outline-none transition focus:border-white/30 sm:h-11 sm:px-3 sm:pr-10"
-                        >
-                          <option value="">Select timeline</option>
-                          <option value="asap">As soon as possible</option>
-                          <option value="month">Within 1 month</option>
-                          <option value="quarter">Within 2-3 months</option>
-                          <option value="flexible">Flexible</option>
-                        </select>
+                        <div className="relative">
+                          <select
+                            name="timeline"
+                            defaultValue=""
+                            className="h-12 w-full appearance-none rounded-[8px] border border-white/10 bg-[#14141A] px-3.5 pr-14 text-sm text-zinc-300 outline-none transition focus:border-white/30 sm:h-11 sm:appearance-auto sm:px-3 sm:pr-10"
+                          >
+                            <option value="">Select timeline</option>
+                            <option value="asap">As soon as possible</option>
+                            <option value="month">Within 1 month</option>
+                            <option value="quarter">Within 2-3 months</option>
+                            <option value="flexible">Flexible</option>
+                          </select>
+                          <svg
+                            className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400 sm:hidden"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            aria-hidden
+                          >
+                            <path d="m6 9 6 6 6-6" />
+                          </svg>
+                        </div>
                       </label>
 
                       <button
