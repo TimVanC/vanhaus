@@ -6,6 +6,12 @@ import { useEffect, useState } from "react";
 export function Header() {
   const [isServicesActive, setIsServicesActive] = useState(false);
 
+  const handleStartProject = () => {
+    const ctaSection = document.getElementById("about");
+    ctaSection?.scrollIntoView({ behavior: "smooth", block: "start" });
+    window.dispatchEvent(new Event("vanhaus:start-project"));
+  };
+
   useEffect(() => {
     const servicesSection = document.getElementById("services");
     if (!servicesSection) return;
@@ -60,12 +66,16 @@ export function Header() {
             className="transition-colors duration-200 hover:text-white"
             href="#about"
           >
-            About
+            Next step
           </a>
         </nav>
 
-        <button className="group inline-flex h-9 items-center gap-2 rounded-lg bg-white px-4 text-[13.5px] font-semibold tracking-[-0.01em] text-black transition hover:bg-[var(--accent)] hover:text-white">
-          Work with me
+        <button
+          type="button"
+          onClick={handleStartProject}
+          className="group inline-flex h-9 items-center gap-2 rounded-lg bg-white px-4 text-[13.5px] font-semibold tracking-[-0.01em] text-black transition hover:bg-[var(--accent)] hover:text-white"
+        >
+          Start a project
           <ArrowRight className="h-[14px] w-[14px] transition-transform group-hover:translate-x-0.5" />
         </button>
       </div>

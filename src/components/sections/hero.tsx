@@ -17,6 +17,12 @@ export function Hero() {
   const [typedLength, setTypedLength] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
 
+  const handleStartProject = () => {
+    const ctaSection = document.getElementById("about");
+    ctaSection?.scrollIntoView({ behavior: "smooth", block: "start" });
+    window.dispatchEvent(new Event("vanhaus:start-project"));
+  };
+
   const currentWord = WORDS[wordIndex];
   const typedWord = useMemo(() => currentWord.slice(0, typedLength), [currentWord, typedLength]);
 
@@ -78,8 +84,12 @@ export function Hero() {
 
             <Reveal className="d4">
               <div className="flex flex-wrap items-center gap-3.5">
-                <button className="group inline-flex h-[50px] items-center gap-2.5 rounded-[10px] border border-[var(--accent)] bg-[var(--accent)] px-[22px] text-[14.5px] font-semibold tracking-[-0.01em] text-white shadow-[0_0_0_1px_var(--accent),0_8px_30px_-8px_var(--accent-glow)] transition hover:-translate-y-px hover:bg-[var(--accent-2)]">
-                  Work with me
+                <button
+                  type="button"
+                  onClick={handleStartProject}
+                  className="group inline-flex h-[50px] items-center gap-2.5 rounded-[10px] border border-[var(--accent)] bg-[var(--accent)] px-[22px] text-[14.5px] font-semibold tracking-[-0.01em] text-white shadow-[0_0_0_1px_var(--accent),0_8px_30px_-8px_var(--accent-glow)] transition hover:-translate-y-px hover:bg-[var(--accent-2)]"
+                >
+                  Start a project
                   <ArrowRight className="transition-transform group-hover:translate-x-[3px]" />
                 </button>
                 <button className="inline-flex h-[50px] items-center gap-2.5 rounded-[10px] border border-white/15 px-[22px] text-[14.5px] font-semibold tracking-[-0.01em] text-white transition hover:border-white">

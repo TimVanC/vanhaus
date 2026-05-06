@@ -1,14 +1,35 @@
+"use client";
+
 import { Eyebrow } from "@/components/common/eyebrow";
 import { ArrowRight } from "@/components/common/icons";
 import { Reveal } from "@/components/common/reveal";
+import { useEffect, useState, type FormEvent } from "react";
 
 export function Cta() {
+  const [showForm, setShowForm] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    const handleStartProject = () => setShowForm(true);
+    window.addEventListener("vanhaus:start-project", handleStartProject);
+    return () => window.removeEventListener("vanhaus:start-project", handleStartProject);
+  }, []);
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setSubmitted(true);
+  };
+
   return (
     <section id="about" className="pb-[clamp(80px,10vw,140px)] pt-[clamp(80px,10vw,140px)]">
       <div className="container-site">
         <Reveal>
           <div className="relative overflow-hidden rounded-[18px] border border-white/10 bg-[#14141A] px-[clamp(48px,7vw,96px)] py-[clamp(48px,7vw,96px)]">
-            <div className="cta-gradient absolute inset-0" />
+            <div
+              className={`cta-gradient absolute inset-0 transition-opacity duration-300 ease-out ${
+                showForm ? "opacity-100" : "opacity-85"
+              }`}
+            />
             <div className="cta-grid-mask absolute inset-0 pointer-events-none" />
 
             <div className="relative z-10">
@@ -20,17 +41,100 @@ export function Cta() {
                 We&apos;ll talk through your goals, what needs to be built, and how to move forward.
                 If it&apos;s a fit, we&apos;ll define the next steps clearly.
               </p>
-              <div className="flex flex-wrap items-center gap-5">
-                <button className="group inline-flex h-[50px] items-center gap-2.5 rounded-[10px] border border-[var(--accent)] bg-[var(--accent)] px-[22px] text-[14.5px] font-semibold tracking-[-0.01em] text-white shadow-[0_0_0_1px_var(--accent),0_8px_30px_-8px_var(--accent-glow)] transition hover:-translate-y-px hover:bg-[var(--accent-2)]">
-                  Book a call
-                  <ArrowRight className="transition-transform group-hover:translate-x-[3px]" />
-                </button>
-                <span className="font-mono text-[13px] text-zinc-400">
-                  <span className="text-zinc-500">or email </span>
-                  <a className="text-zinc-300 transition-colors hover:text-white" href="mailto:hello@vanhaus.dev">
-                    hello@vanhaus.dev
-                  </a>
-                </span>
+              <div
+                className={`relative max-w-[640px] transition-[min-height] duration-300 ease-out ${
+                  showForm ? "min-h-[430px]" : "min-h-[132px]"
+                }`}
+              >
+                <div
+                  className={`absolute inset-x-0 top-0 transition-all duration-300 ease-out ${
+                    showForm ? "pointer-events-none translate-y-[-6px] opacity-0" : "translate-y-0 opacity-100"
+                  }`}
+                >
+                  <button
+                    type="button"
+                    onClick={() => setShowForm(true)}
+                    className="group inline-flex h-[50px] items-center gap-2.5 rounded-[10px] border border-[var(--accent)] bg-[var(--accent)] px-[22px] text-[14.5px] font-semibold tracking-[-0.01em] text-white shadow-[0_0_0_1px_var(--accent),0_8px_30px_-8px_var(--accent-glow)] transition hover:-translate-y-px hover:bg-[var(--accent-2)]"
+                  >
+                    Start a project
+                    <ArrowRight className="transition-transform group-hover:translate-x-[3px]" />
+                  </button>
+                  <div className="mt-4 font-mono text-[13px] text-zinc-400">
+                    <span className="text-zinc-500">or email </span>
+                    <a className="text-zinc-300 transition-colors hover:text-white" href="mailto:hello@vanhaus.dev">
+                      hello@vanhaus.dev
+                    </a>
+                  </div>
+                </div>
+
+                <div
+                  className={`absolute inset-x-0 top-0 transition-all duration-300 ease-out ${
+                    showForm ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-3 opacity-0"
+                  }`}
+                >
+                  {!submitted ? (
+                    <form
+                      onSubmit={handleSubmit}
+                      className="space-y-4 rounded-[12px] border border-white/10 bg-[#1A1A22]/70 p-5"
+                    >
+                      <div className="grid gap-4 sm:grid-cols-2">
+                        <label className="flex flex-col gap-1.5">
+                          <span className="font-mono text-[11px] text-zinc-500">Name</span>
+                          <input
+                            required
+                            name="name"
+                            className="h-11 rounded-[8px] border border-white/10 bg-[#14141A] px-3 text-sm text-white outline-none transition focus:border-white/30"
+                          />
+                        </label>
+                        <label className="flex flex-col gap-1.5">
+                          <span className="font-mono text-[11px] text-zinc-500">Email</span>
+                          <input
+                            required
+                            type="email"
+                            name="email"
+                            className="h-11 rounded-[8px] border border-white/10 bg-[#14141A] px-3 text-sm text-white outline-none transition focus:border-white/30"
+                          />
+                        </label>
+                      </div>
+
+                      <label className="flex flex-col gap-1.5">
+                        <span className="font-mono text-[11px] text-zinc-500">Message</span>
+                        <textarea
+                          required
+                          name="message"
+                          rows={4}
+                          className="rounded-[8px] border border-white/10 bg-[#14141A] px-3 py-2.5 text-sm text-white outline-none transition focus:border-white/30"
+                        />
+                      </label>
+
+                      <label className="flex flex-col gap-1.5">
+                        <span className="font-mono text-[11px] text-zinc-500">Timeline (optional)</span>
+                        <select
+                          name="timeline"
+                          defaultValue=""
+                          className="h-11 rounded-[8px] border border-white/10 bg-[#14141A] px-3 text-sm text-zinc-300 outline-none transition focus:border-white/30"
+                        >
+                          <option value="">Select timeline</option>
+                          <option value="asap">As soon as possible</option>
+                          <option value="month">Within 1 month</option>
+                          <option value="quarter">Within 2-3 months</option>
+                          <option value="flexible">Flexible</option>
+                        </select>
+                      </label>
+
+                      <button
+                        type="submit"
+                        className="inline-flex h-[44px] items-center gap-2 rounded-[8px] border border-[var(--accent)] bg-[var(--accent)] px-4 text-[14px] font-semibold tracking-[-0.01em] text-white transition hover:bg-[var(--accent-2)]"
+                      >
+                        Send request
+                      </button>
+                    </form>
+                  ) : (
+                    <p className="rounded-[12px] border border-white/10 bg-[#1A1A22]/70 p-5 font-mono text-sm text-zinc-300">
+                      Got it. I&apos;ll reach out within 24 hours.
+                    </p>
+                  )}
+                </div>
               </div>
             </div>
           </div>
