@@ -91,7 +91,11 @@ export function Cta() {
               </p>
               <div
                 className={`relative max-w-[640px] transition-[min-height] duration-300 ease-out ${
-                  showForm ? "min-h-[430px]" : "min-h-[132px]"
+                  showForm
+                    ? submitted
+                      ? "min-h-[118px] sm:min-h-[132px]"
+                      : "min-h-[500px] sm:min-h-[430px]"
+                    : "min-h-[132px]"
                 }`}
               >
                 <div
@@ -123,44 +127,44 @@ export function Cta() {
                   {!submitted ? (
                     <form
                       onSubmit={handleSubmit}
-                      className="space-y-4 rounded-[12px] border border-white/10 bg-[#1A1A22]/70 p-5"
+                      className="space-y-5 rounded-[12px] border border-white/10 bg-[#1A1A22]/55 p-4 sm:space-y-4 sm:bg-[#1A1A22]/70 sm:p-5"
                     >
                       <div className="grid gap-4 sm:grid-cols-2">
-                        <label className="flex flex-col gap-1.5">
+                        <label className="flex flex-col gap-2 sm:gap-1.5">
                           <span className="font-mono text-[11px] text-zinc-500">Name</span>
                           <input
                             required
                             name="name"
-                            className="h-11 rounded-[8px] border border-white/10 bg-[#14141A] px-3 text-sm text-white outline-none transition focus:border-white/30"
+                            className="h-12 rounded-[8px] border border-white/10 bg-[#14141A] px-3.5 text-sm text-white outline-none transition focus:border-white/30 sm:h-11 sm:px-3"
                           />
                         </label>
-                        <label className="flex flex-col gap-1.5">
+                        <label className="flex flex-col gap-2 sm:gap-1.5">
                           <span className="font-mono text-[11px] text-zinc-500">Email</span>
                           <input
                             required
                             type="email"
                             name="email"
-                            className="h-11 rounded-[8px] border border-white/10 bg-[#14141A] px-3 text-sm text-white outline-none transition focus:border-white/30"
+                            className="h-12 rounded-[8px] border border-white/10 bg-[#14141A] px-3.5 text-sm text-white outline-none transition focus:border-white/30 sm:h-11 sm:px-3"
                           />
                         </label>
                       </div>
 
-                      <label className="flex flex-col gap-1.5">
+                      <label className="flex flex-col gap-2 sm:gap-1.5">
                         <span className="font-mono text-[11px] text-zinc-500">Message</span>
                         <textarea
                           required
                           name="message"
-                          rows={4}
-                          className="rounded-[8px] border border-white/10 bg-[#14141A] px-3 py-2.5 text-sm text-white outline-none transition focus:border-white/30"
+                          rows={5}
+                          className="min-h-[132px] rounded-[8px] border border-white/10 bg-[#14141A] px-3.5 py-3 text-sm text-white outline-none transition focus:border-white/30 sm:min-h-0 sm:px-3 sm:py-2.5"
                         />
                       </label>
 
-                      <label className="flex flex-col gap-1.5">
+                      <label className="flex flex-col gap-2 sm:gap-1.5">
                         <span className="font-mono text-[11px] text-zinc-500">Timeline (optional)</span>
                         <select
                           name="timeline"
                           defaultValue=""
-                          className="h-11 rounded-[8px] border border-white/10 bg-[#14141A] px-3 text-sm text-zinc-300 outline-none transition focus:border-white/30"
+                          className="h-12 rounded-[8px] border border-white/10 bg-[#14141A] px-3.5 text-sm text-zinc-300 outline-none transition focus:border-white/30 sm:h-11 sm:px-3"
                         >
                           <option value="">Select timeline</option>
                           <option value="asap">As soon as possible</option>
@@ -173,7 +177,7 @@ export function Cta() {
                       <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="inline-flex h-[44px] items-center gap-2 rounded-[8px] border border-[var(--accent)] bg-[var(--accent)] px-4 text-[14px] font-semibold tracking-[-0.01em] text-white transition hover:bg-[var(--accent-2)]"
+                        className="inline-flex h-[48px] w-full items-center justify-center gap-2 rounded-[8px] border border-[var(--accent)] bg-[var(--accent)] px-4 text-[14.5px] font-semibold tracking-[-0.01em] text-white transition hover:bg-[var(--accent-2)] sm:h-[44px] sm:w-auto sm:text-[14px]"
                       >
                         {isSubmitting ? "Sending..." : "Send request"}
                       </button>
@@ -183,7 +187,7 @@ export function Cta() {
                     </form>
                   ) : (
                     <p className="rounded-[12px] border border-white/10 bg-[#1A1A22]/70 p-5 font-mono text-sm text-zinc-300">
-                      Thanks. I&apos;ll reach out shortly.
+                      We&apos;ll be in touch shortly.
                     </p>
                   )}
                 </div>
