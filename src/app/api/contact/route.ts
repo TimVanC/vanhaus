@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const CONTACT_DESTINATION = "hello@vanhaus.dev";
+const CONTACT_DESTINATION = "timvancau@gmail.com";
+const CONTACT_FROM = "Vanhaus <hello@vanhaus.dev>";
 
 type ContactPayload = {
   name?: string;
@@ -42,7 +43,7 @@ export async function POST(request: Request) {
 
   try {
     const { error } = await resend.emails.send({
-      from: "Vanhaus Contact <onboarding@resend.dev>",
+      from: CONTACT_FROM,
       to: [CONTACT_DESTINATION],
       replyTo: email,
       subject: "New Vanhaus Project Request",
@@ -59,11 +60,26 @@ export async function POST(request: Request) {
     });
 
     if (error) {
-      return NextResponse.json({ error: "Unable to send message right now." }, { status: 502 });
+      // Temporary: expose exact provider error during development while keeping production generic.
+      console.error("Resend API error response:", error);
+      return NextResponse.json(
+        {
+          error: "Unable to send message right now.",
+          details: process.env.NODE_ENV === "development" ? error : undefined,
+        },
+        { status: 502 },
+      );
     }
 
     return NextResponse.json({ ok: true });
-  } catch {
-    return NextResponse.json({ error: "Unexpected error while sending message." }, { status: 500 });
+  } catch (error) {
+    console.error("Unexpected contact API error:", error);
+    return NextResponse.json(
+      {
+        error: "Unexpected error while sending message.",
+        details: process.env.NODE_ENV === "development" ? String(error) : undefined,
+      },
+      { status: 500 },
+    );
   }
 }
