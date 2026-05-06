@@ -164,7 +164,7 @@ export function Cta() {
                         <select
                           name="timeline"
                           defaultValue=""
-                          className="h-12 rounded-[8px] border border-white/10 bg-[#14141A] px-3.5 text-sm text-zinc-300 outline-none transition focus:border-white/30 sm:h-11 sm:px-3"
+                          className="h-12 rounded-[8px] border border-white/10 bg-[#14141A] px-3.5 pr-10 text-sm text-zinc-300 outline-none transition focus:border-white/30 sm:h-11 sm:px-3 sm:pr-10"
                         >
                           <option value="">Select timeline</option>
                           <option value="asap">As soon as possible</option>
