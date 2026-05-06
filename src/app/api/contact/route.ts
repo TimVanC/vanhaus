@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const CONTACT_DESTINATION = "timvancau@gmail.com";
+const CONTACT_DESTINATION = "info@vanhaus.dev";
 const CONTACT_FROM = "Vanhaus <hello@vanhaus.dev>";
 
 type ContactPayload = {
