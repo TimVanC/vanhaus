@@ -8,6 +8,8 @@ import { useEffect, useState, type FormEvent } from "react";
 export function Cta() {
   const [showForm, setShowForm] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   useEffect(() => {
     const handleStartProject = () => setShowForm(true);
@@ -15,9 +17,55 @@ export function Cta() {
     return () => window.removeEventListener("vanhaus:start-project", handleStartProject);
   }, []);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setSubmitted(true);
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    const name = String(formData.get("name") ?? "").trim();
+    const email = String(formData.get("email") ?? "").trim();
+    const timeline = String(formData.get("timeline") ?? "").trim();
+    const message = String(formData.get("message") ?? "").trim();
+
+    if (!name || !email || !message) {
+      setSubmitError("Please complete all required fields.");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setSubmitError("Please enter a valid email address.");
+      return;
+    }
+
+    setSubmitError(null);
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          email,
+          timeline,
+          message,
+        }),
+      });
+
+      const data = (await response.json().catch(() => null)) as { error?: string } | null;
+      if (!response.ok) {
+        setSubmitError(data?.error ?? "Could not send your request. Please try again.");
+        return;
+      }
+
+      setSubmitted(true);
+      form.reset();
+    } catch {
+      setSubmitError("Network error. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -124,14 +172,18 @@ export function Cta() {
 
                       <button
                         type="submit"
+                        disabled={isSubmitting}
                         className="inline-flex h-[44px] items-center gap-2 rounded-[8px] border border-[var(--accent)] bg-[var(--accent)] px-4 text-[14px] font-semibold tracking-[-0.01em] text-white transition hover:bg-[var(--accent-2)]"
                       >
-                        Send request
+                        {isSubmitting ? "Sending..." : "Send request"}
                       </button>
+                      {submitError ? (
+                        <p className="font-mono text-[12px] text-red-300">{submitError}</p>
+                      ) : null}
                     </form>
                   ) : (
                     <p className="rounded-[12px] border border-white/10 bg-[#1A1A22]/70 p-5 font-mono text-sm text-zinc-300">
-                      Got it. I&apos;ll reach out within 24 hours.
+                      Thanks. I&apos;ll reach out shortly.
                     </p>
                   )}
                 </div>
