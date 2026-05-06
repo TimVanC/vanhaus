@@ -18,6 +18,12 @@ export const metadata: Metadata = {
   title: "Vanhaus - Building digital systems that scale",
   description:
     "Vanhaus builds modern web, software, and automation systems for ambitious teams.",
+  openGraph: {
+    images: ["/og-image.png"],
+  },
+  twitter: {
+    images: ["/og-image.png"],
+  },
   icons: {
     icon: [
       { url: "/favicon.svg", type: "image/svg+xml" },
