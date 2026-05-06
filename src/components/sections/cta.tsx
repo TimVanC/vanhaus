@@ -72,7 +72,7 @@ export function Cta() {
     <section id="about" className="pb-[clamp(80px,10vw,140px)] pt-[clamp(80px,10vw,140px)]">
       <div className="container-site">
         <Reveal>
-          <div className="relative overflow-hidden rounded-[18px] border border-white/10 bg-[#14141A] px-[clamp(48px,7vw,96px)] py-[clamp(48px,7vw,96px)]">
+          <div className="relative overflow-hidden rounded-[18px] border border-white/10 bg-[#14141A] px-6 py-10 sm:px-[clamp(48px,7vw,96px)] sm:py-[clamp(48px,7vw,96px)]">
             <div
               className={`cta-gradient absolute inset-0 transition-opacity duration-300 ease-out ${
                 showForm ? "opacity-100" : "opacity-85"
