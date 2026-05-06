@@ -13,15 +13,19 @@ const jetbrainsMono = JetBrains_Mono({
   variable: "--font-mono",
 });
 
+const SITE_TITLE = "Vanhaus — Web Development, Software & AI Automation";
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://vanhaus.dev"),
-  title: "Vanhaus - Building digital systems that scale",
+  title: SITE_TITLE,
   description:
     "Vanhaus builds modern web, software, and automation systems for ambitious teams.",
   openGraph: {
+    title: SITE_TITLE,
     images: ["/og-image.png"],
   },
   twitter: {
+    title: SITE_TITLE,
     images: ["/og-image.png"],
   },
   icons: {
