@@ -90,7 +90,7 @@ export function Cta() {
                 If it&apos;s a fit, we&apos;ll define the next steps clearly.
               </p>
               <div
-                className={`relative max-w-[640px] transition-[min-height] duration-300 ease-out ${
+                className={`relative w-full sm:max-w-[640px] transition-[min-height] duration-300 ease-out ${
                   showForm
                     ? submitted
                       ? "min-h-[118px] sm:min-h-[132px]"
