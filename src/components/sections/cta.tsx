@@ -80,7 +80,7 @@ export function Cta() {
             />
             <div className="cta-grid-mask absolute inset-0 pointer-events-none" />
 
-            <div className="relative z-10">
+            <div className="relative z-10 pb-3 sm:pb-0">
               <Eyebrow number="05" label="Next step" />
               <h2 className="mb-6 max-w-[14ch] text-balance text-[clamp(40px,6vw,80px)] font-semibold leading-[0.98] tracking-[-0.04em]">
                 Start a <span className="text-[var(--accent)]">project.</span>
