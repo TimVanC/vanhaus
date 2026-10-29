@@ -30,7 +30,7 @@
   --color-on-accent: var(--on-accent);
 
   --font-sans: var(--font-body);
-  --font-display: var(--font-display);
+  --font-display: var(--font-bricolage);
 }
 
 * {
@@ -65,13 +65,8 @@ body {
   outline-offset: 3px;
 }
 
-/* Direction switch for the hero review. Each direction sets its own display font. */
-.dir-a {
-  --font-display: var(--font-fraunces);
-}
-
-.dir-b {
-  --font-display: var(--font-bricolage);
+section[id] {
+  scroll-margin-top: 72px;
 }
 
 @utility container-site {

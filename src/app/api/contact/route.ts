@@ -3,7 +3,7 @@ import { Resend } from "resend";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const CONTACT_DESTINATION = "info@vanhaus.dev";
-const CONTACT_FROM = "Vanhaus <hello@vanhaus.dev>";
+const CONTACT_FROM = "VanHaus <hello@vanhaus.dev>";
 
 type ContactPayload = {
   name?: string;
@@ -46,9 +46,9 @@ export async function POST(request: Request) {
       from: CONTACT_FROM,
       to: [CONTACT_DESTINATION],
       replyTo: email,
-      subject: "New Vanhaus Project Request",
+      subject: "New VanHaus discovery call request",
       text: [
-        "New project request submitted via vanhaus.dev",
+        "New discovery call request submitted via vanhaus.dev",
         "",
         `Name: ${name}`,
         `Email: ${email}`,

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
-import { Bricolage_Grotesque, Fraunces, Instrument_Sans } from "next/font/google";
+import { Bricolage_Grotesque, Instrument_Sans } from "next/font/google";
 import type { ReactNode } from "react";
 import "./globals.css";
 
@@ -11,16 +11,7 @@ const instrumentSans = Instrument_Sans({
   display: "swap",
 });
 
-/* Display font, direction A: a warm, characterful serif. */
-const fraunces = Fraunces({
-  subsets: ["latin"],
-  style: ["normal", "italic"],
-  axes: ["opsz", "SOFT"],
-  variable: "--font-fraunces",
-  display: "swap",
-});
-
-/* Display font, direction B: a distinctive grotesk. */
+/* Display font: a distinctive grotesk for headlines and big numbers. */
 const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
   axes: ["opsz", "wdth"],
@@ -69,7 +60,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${instrumentSans.variable} ${fraunces.variable} ${bricolage.variable}`}
+      className={`${instrumentSans.variable} ${bricolage.variable}`}
     >
       <body className="bg-bg font-sans text-text">
         {/* Marks that JS is running so scroll reveals can safely hide content until they fire. */}

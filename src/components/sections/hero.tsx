@@ -1,24 +1,21 @@
 import { BookCallLink, SecondaryLink } from "@/components/common/buttons";
+import { Kicker } from "@/components/common/kicker";
 import { Reveal } from "@/components/common/reveal";
 import { StatusDot } from "@/components/common/status-dot";
 import { hero } from "@/lib/site-data";
 
 /**
- * Direction B: "Workshop".
  * A distinctive grotesk set very large across the full width, one hand-drawn copper
  * underline, and a plain facts column instead of imagery. The photo stays exclusive
  * to the founders section.
  */
-export function HeroB() {
+export function Hero() {
   return (
-    <section className="dir-b relative">
+    <section className="relative">
       <div className="container-site pb-[clamp(64px,8vw,112px)] pt-[clamp(44px,6vw,80px)]">
         <Reveal>
           <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-3">
-            <p className="flex items-center gap-3 text-[14px] text-muted">
-              <span className="h-px w-8 bg-accent" aria-hidden />
-              Custom software and AI for small businesses
-            </p>
+            <Kicker>Custom software and AI for small businesses</Kicker>
             <StatusDot />
           </div>
         </Reveal>
@@ -45,8 +42,7 @@ export function HeroB() {
                 </svg>
               </span>{" "}
               way to do it.
-            </span>
-            {" "}
+            </span>{" "}
             <span className="md:block">We find it and build it.</span>
           </h1>
         </Reveal>
