@@ -1,124 +1,84 @@
-"use client";
-
-import { Eyebrow } from "@/components/common/eyebrow";
-import { ArrowRight } from "@/components/common/icons";
+import { BookCallLink, SecondaryLink } from "@/components/common/buttons";
+import { Kicker } from "@/components/common/kicker";
 import { Reveal } from "@/components/common/reveal";
-import { heroMeta } from "@/lib/site-data";
-import { useEffect, useMemo, useState } from "react";
+import { StatusDot } from "@/components/common/status-dot";
+import { hero } from "@/lib/site-data";
 
-const WORDS = ["scale.", "perform.", "automate.", "ship.", "grow."];
-const TYPE_SPEED_MS = 70;
-const DELETE_SPEED_MS = 42;
-const PAUSE_AFTER_TYPE_MS = 950;
-const PAUSE_AFTER_DELETE_MS = 180;
-
+/**
+ * A distinctive grotesk set very large across the full width, one hand-drawn copper
+ * underline, and a plain facts column instead of imagery. The photo stays exclusive
+ * to the founders section.
+ */
 export function Hero() {
-  const [wordIndex, setWordIndex] = useState(0);
-  const [typedLength, setTypedLength] = useState(0);
-  const [isDeleting, setIsDeleting] = useState(false);
-
-  const handleStartProject = () => {
-    const ctaSection = document.getElementById("about");
-    ctaSection?.scrollIntoView({ behavior: "smooth", block: "start" });
-    window.dispatchEvent(new Event("vanhaus:start-project"));
-  };
-
-  const currentWord = WORDS[wordIndex];
-  const typedWord = useMemo(() => currentWord.slice(0, typedLength), [currentWord, typedLength]);
-
-  useEffect(() => {
-    let timeoutId: ReturnType<typeof setTimeout>;
-
-    if (!isDeleting && typedLength < currentWord.length) {
-      timeoutId = setTimeout(() => setTypedLength((length) => length + 1), TYPE_SPEED_MS);
-      return () => clearTimeout(timeoutId);
-    }
-
-    if (!isDeleting && typedLength === currentWord.length) {
-      timeoutId = setTimeout(() => setIsDeleting(true), PAUSE_AFTER_TYPE_MS);
-      return () => clearTimeout(timeoutId);
-    }
-
-    if (isDeleting && typedLength > 0) {
-      timeoutId = setTimeout(() => setTypedLength((length) => length - 1), DELETE_SPEED_MS);
-      return () => clearTimeout(timeoutId);
-    }
-
-    timeoutId = setTimeout(() => {
-      setIsDeleting(false);
-      setWordIndex((index) => (index + 1) % WORDS.length);
-    }, PAUSE_AFTER_DELETE_MS);
-
-    return () => clearTimeout(timeoutId);
-  }, [currentWord.length, isDeleting, typedLength]);
-
   return (
-    <section className="relative border-b border-white/10 pb-[clamp(80px,12vw,140px)] pt-[clamp(72px,12vw,140px)]">
-      <div className="hero-glow pointer-events-none absolute inset-x-0 bottom-[-20%] h-[600px]" />
-      <div className="container-site relative z-10">
-        <div className="grid items-end gap-16">
-          <div>
-            <Reveal className="d1">
-              <Eyebrow number="01" label="Studio · Taking on new projects" />
-            </Reveal>
-
-            <Reveal className="d2">
-              <h1 className="mb-8 text-balance text-[clamp(44px,7.5vw,104px)] font-semibold leading-[1.03] tracking-[-0.045em]">
-                <span className="block">Building digital systems</span>
-                <span className="mt-[0.15em] block">
-                  that{" "}
-                  <span className="inline-flex min-w-[9ch] items-baseline text-[var(--accent)]">
-                    <span>{typedWord}</span>
-                    <span className="ml-[0.06em] inline-block h-[0.82em] w-[0.55ch] shrink-0 animate-blink bg-[var(--accent)] align-[-0.03em]" />
-                  </span>
-                </span>
-              </h1>
-            </Reveal>
-
-            <Reveal className="d3">
-              <p className="mb-10 max-w-[560px] text-pretty text-[clamp(16px,1.5vw,19px)] leading-[1.55] text-zinc-400">
-                Web development, software systems, and automation for modern businesses. Built for
-                performance, scalability, and real-world use.
-              </p>
-            </Reveal>
-
-            <Reveal className="d4">
-              <div className="flex flex-wrap items-center gap-3.5">
-                <button
-                  type="button"
-                  onClick={handleStartProject}
-                  className="group inline-flex h-[50px] items-center gap-2.5 rounded-[10px] border border-[var(--accent)] bg-[var(--accent)] px-[22px] text-[14.5px] font-semibold tracking-[-0.01em] text-white shadow-[0_0_0_1px_var(--accent),0_8px_30px_-8px_var(--accent-glow)] transition hover:-translate-y-px hover:bg-[var(--accent-2)]"
-                >
-                  Start a project
-                  <ArrowRight className="transition-transform group-hover:translate-x-[3px]" />
-                </button>
-                <button className="inline-flex h-[50px] items-center gap-2.5 rounded-[10px] border border-white/15 px-[22px] text-[14.5px] font-semibold tracking-[-0.01em] text-white transition hover:border-white">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#5BD37A] shadow-[0_0_8px_#5BD37A]" />
-                  Taking on new projects
-                </button>
-              </div>
-            </Reveal>
-          </div>
-        </div>
-
+    <section className="relative">
+      <div className="container-site pb-[clamp(64px,8vw,112px)] pt-[clamp(44px,6vw,80px)]">
         <Reveal>
-          <div className="mt-20 grid grid-cols-2 border-y border-white/10 md:grid-cols-4">
-            {heroMeta.map((item, index) => (
-              <div
-                key={item.key}
-                className={`border-white/10 px-4 py-8 md:px-6 md:py-9 ${index !== heroMeta.length - 1 ? "border-r" : ""} ${
-                  index < 2 ? "max-md:border-b" : ""
-                } ${index === 1 ? "max-md:border-r-0" : ""}`}
-              >
-                <p className="mb-3 font-mono text-[10px] tracking-[0.06em] text-zinc-500">{item.key}</p>
-                <p className="text-[19px] font-medium leading-tight tracking-[-0.02em]">
-                  {item.value}
-                  {item.accent ? <span className="text-[var(--accent)]">{item.accent}</span> : null}
-                </p>
-              </div>
-            ))}
+          <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-3">
+            <Kicker>Custom software and AI for small businesses</Kicker>
+            <StatusDot />
           </div>
         </Reveal>
+
+        <Reveal className="d1">
+          <h1 className="mt-10 font-display text-[clamp(44px,8.2vw,122px)] font-bold leading-[0.96] tracking-[-0.035em] md:mt-14">
+            <span className="md:block">Every task has a</span>{" "}
+            <span className="md:block">
+              <span className="relative inline-block">
+                smarter
+                <svg
+                  className="absolute left-0 top-full -mt-[0.14em] h-[0.16em] w-full text-accent"
+                  viewBox="0 0 200 20"
+                  preserveAspectRatio="none"
+                  aria-hidden
+                >
+                  <path
+                    d="M3 15 C 50 5, 120 3, 197 11"
+                    stroke="currentColor"
+                    strokeWidth="5"
+                    strokeLinecap="round"
+                    fill="none"
+                  />
+                </svg>
+              </span>{" "}
+              way to do it.
+            </span>{" "}
+            <span className="md:block">We find it and build it.</span>
+          </h1>
+        </Reveal>
+
+        <div className="mt-12 grid gap-10 border-t border-border pt-10 md:mt-16 lg:grid-cols-12 lg:gap-8">
+          <div className="lg:col-span-6">
+            <Reveal className="d2">
+              <p className="max-w-[48ch] text-[clamp(17px,1.4vw,20px)] leading-[1.6] text-muted text-pretty">
+                {hero.sub}
+              </p>
+            </Reveal>
+            <Reveal className="d3">
+              <div className="mt-9 flex flex-wrap items-center gap-3">
+                <BookCallLink />
+                <SecondaryLink href="#work">{hero.secondaryCta}</SecondaryLink>
+              </div>
+            </Reveal>
+          </div>
+
+          <Reveal className="d3 lg:col-span-4 lg:col-start-9">
+            <dl className="divide-y divide-border border-y border-border text-[15px]">
+              <div className="grid grid-cols-[88px_1fr] gap-4 py-4">
+                <dt className="text-muted">Based in</dt>
+                <dd className="text-text">Madison, NJ</dd>
+              </div>
+              <div className="grid grid-cols-[88px_1fr] gap-4 py-4">
+                <dt className="text-muted">Serving</dt>
+                <dd className="text-text">New Jersey and the NYC area</dd>
+              </div>
+              <div className="grid grid-cols-[88px_1fr] gap-4 py-4">
+                <dt className="text-muted">Discovery</dt>
+                <dd className="text-text">Always free. 30 minutes, no pitch deck.</dd>
+              </div>
+            </dl>
+          </Reveal>
+        </div>
       </div>
     </section>
   );

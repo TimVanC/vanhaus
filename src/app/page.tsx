@@ -1,24 +1,28 @@
-import { Cta } from "@/components/sections/cta";
+import { Contact } from "@/components/sections/contact";
 import { Footer } from "@/components/sections/footer";
+import { Founders } from "@/components/sections/founders";
 import { Header } from "@/components/sections/header";
 import { Hero } from "@/components/sections/hero";
+import { PainPoints } from "@/components/sections/pain-points";
 import { Process } from "@/components/sections/process";
-import { Proof } from "@/components/sections/proof";
-import { Services } from "@/components/sections/services";
+import { Stats } from "@/components/sections/stats";
+import { Testimonial } from "@/components/sections/testimonial";
+import { Work } from "@/components/sections/work";
 
 export default function Home() {
   return (
     <>
-      <div className="bg-grid" />
-      <div className="bg-noise" />
-
+      <div className="grain" />
       <main className="relative z-10">
         <Header />
         <Hero />
-        <Services />
-        <Proof />
+        <PainPoints />
+        <Work />
+        <Stats />
         <Process />
-        <Cta />
+        <Founders />
+        <Testimonial />
+        <Contact />
         <Footer />
       </main>
     </>

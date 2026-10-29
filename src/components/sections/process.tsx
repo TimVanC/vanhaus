@@ -1,46 +1,44 @@
-import { Eyebrow } from "@/components/common/eyebrow";
+import { BookCallLink } from "@/components/common/buttons";
+import { Kicker } from "@/components/common/kicker";
 import { Reveal } from "@/components/common/reveal";
-import { SectionHead } from "@/components/common/section-head";
 import { processSteps } from "@/lib/site-data";
 
+/** Three steps, stepping down the page on desktop so it reads as a path rather than a card row. */
 export function Process() {
   return (
-    <section id="process" className="section-block">
-      <div className="container-site">
+    <section id="how-it-works" className="border-t border-border">
+      <div className="container-site py-[clamp(72px,9vw,128px)]">
         <Reveal>
-          <Eyebrow number="04" label="Process" />
+          <Kicker>How it works</Kicker>
+          <h2 className="mt-6 max-w-[16ch] font-display text-[clamp(34px,4.4vw,60px)] font-bold leading-[1] tracking-[-0.03em] text-balance">
+            Three steps. The first one is free.
+          </h2>
         </Reveal>
-        <SectionHead
-          title={
-            <>
-              A simple, reliable process.
-            </>
-          }
-          lead="Each project follows a clear structure from planning to launch. Most builds move from kickoff to production in four to eight weeks."
-        />
 
-        <div className="grid gap-6 md:grid-cols-3">
+        <ol className="mt-14 grid list-none gap-10 md:mt-20 md:grid-cols-3 md:gap-8">
           {processSteps.map((step, index) => (
-            <Reveal key={step.step} className={`d${Math.min(index + 1, 4)}`}>
-              <article className="group relative h-full overflow-hidden rounded-[14px] border border-white/10 bg-[#14141A] p-8 transition hover:-translate-y-0.5 hover:border-white/15">
-                <div className="absolute bottom-0 left-0 top-0 w-0.5 origin-top scale-y-0 bg-[var(--accent)] transition group-hover:scale-y-100" />
-                <p className="mb-6 font-mono text-xs tracking-[0.02em] text-[var(--accent)]">{step.step}</p>
-                <h3 className="mb-3 text-[26px] font-semibold tracking-[-0.025em]">{step.title}</h3>
-                <p className="mb-7 text-[14.5px] leading-[1.6] text-zinc-400">{step.body}</p>
-                <div className="flex flex-wrap gap-2">
-                  {step.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded-md border border-white/10 px-2.5 py-1.5 font-mono text-[11px] text-zinc-400"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </article>
+            <Reveal key={step.number} className={`d${index + 1}`}>
+              <li
+                className={`border-t border-border pt-6 ${index === 1 ? "md:mt-12" : index === 2 ? "md:mt-24" : ""}`}
+              >
+                <span className="font-display text-[clamp(56px,7vw,96px)] font-bold leading-none tracking-[-0.04em] text-accent">
+                  {step.number}
+                </span>
+                <h3 className="mt-5 font-display text-[24px] font-bold leading-[1.15] tracking-[-0.02em]">
+                  {step.title}
+                </h3>
+                <p className="mt-3 max-w-[34ch] text-[16px] leading-[1.6] text-muted">{step.body}</p>
+              </li>
             </Reveal>
           ))}
-        </div>
+        </ol>
+
+        <Reveal className="d2">
+          <div className="mt-16 flex flex-wrap items-center gap-x-6 gap-y-4 md:mt-20">
+            <BookCallLink />
+            <p className="text-[15px] text-muted">30 minutes. No cost, no obligation.</p>
+          </div>
+        </Reveal>
       </div>
     </section>
   );
