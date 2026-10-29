@@ -1,32 +1,52 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
-import { JetBrains_Mono, Manrope } from "next/font/google";
+import { Bricolage_Grotesque, Fraunces, Instrument_Sans } from "next/font/google";
 import type { ReactNode } from "react";
 import "./globals.css";
 
-const manrope = Manrope({
+/* Body font: clean and highly readable. */
+const instrumentSans = Instrument_Sans({
   subsets: ["latin"],
-  variable: "--font-sans",
+  variable: "--font-body",
+  display: "swap",
 });
 
-const jetbrainsMono = JetBrains_Mono({
+/* Display font, direction A: a warm, characterful serif. */
+const fraunces = Fraunces({
   subsets: ["latin"],
-  variable: "--font-mono",
+  style: ["normal", "italic"],
+  axes: ["opsz", "SOFT"],
+  variable: "--font-fraunces",
+  display: "swap",
 });
 
-const SITE_TITLE = "Vanhaus — Web Development, Software & AI Automation";
+/* Display font, direction B: a distinctive grotesk. */
+const bricolage = Bricolage_Grotesque({
+  subsets: ["latin"],
+  axes: ["opsz", "wdth"],
+  variable: "--font-bricolage",
+  display: "swap",
+});
+
+const SITE_TITLE = "VanHaus | Custom Software & AI for Small Businesses | Madison, NJ";
+const SITE_DESCRIPTION =
+  "VanHaus builds custom software and AI for small businesses. AI receptionists, proposal tools, integrations, dashboards, and fast websites. Based in Madison, NJ. Serving New Jersey and the NYC area. Discovery is always free.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://vanhaus.dev"),
   title: SITE_TITLE,
-  description:
-    "Vanhaus builds modern web, software, and automation systems for ambitious teams.",
+  description: SITE_DESCRIPTION,
   openGraph: {
     title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    url: "https://vanhaus.dev",
+    siteName: "VanHaus",
     images: ["/og-image.png"],
   },
   twitter: {
+    card: "summary_large_image",
     title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
     images: ["/og-image.png"],
   },
   icons: {
@@ -46,8 +66,14 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${manrope.variable} ${jetbrainsMono.variable}`}>
-      <body className="bg-[#0D0D0D] font-sans text-white antialiased">
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${instrumentSans.variable} ${fraunces.variable} ${bricolage.variable}`}
+    >
+      <body className="bg-bg font-sans text-text">
+        {/* Marks that JS is running so scroll reveals can safely hide content until they fire. */}
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
         {children}
         <Analytics />
       </body>
