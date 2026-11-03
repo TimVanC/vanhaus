@@ -1,25 +1,27 @@
+import Link from "next/link";
 import { BrandLogo } from "@/components/common/brand-logo";
 import { BookCallLink } from "@/components/common/buttons";
 
+/* Root-relative so the links work from /work and the case study pages too. */
 const links = [
-  { href: "#work", label: "Work" },
-  { href: "#how-it-works", label: "How it works" },
-  { href: "#who-we-are", label: "Who we are" },
+  { href: "/work", label: "Work" },
+  { href: "/#how-it-works", label: "How it works" },
+  { href: "/#who-we-are", label: "Who we are" },
 ];
 
 export function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-border/70 bg-bg/85 backdrop-blur-md">
       <div className="container-site flex h-[72px] items-center justify-between gap-4">
-        <a href="#" aria-label="VanHaus home" className="shrink-0">
+        <Link href="/" aria-label="VanHaus home" className="shrink-0">
           <BrandLogo />
-        </a>
+        </Link>
 
         <nav aria-label="Primary" className="hidden items-center gap-8 text-[15px] text-muted md:flex">
           {links.map((link) => (
-            <a key={link.href} href={link.href} className="transition-colors duration-200 hover:text-text">
+            <Link key={link.href} href={link.href} className="transition-colors duration-200 hover:text-text">
               {link.label}
-            </a>
+            </Link>
           ))}
         </nav>
 

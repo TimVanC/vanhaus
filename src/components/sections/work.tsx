@@ -1,68 +1,15 @@
-import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight } from "@/components/common/icons";
 import { Kicker } from "@/components/common/kicker";
 import { Reveal } from "@/components/common/reveal";
-import { caseStudies, type CaseStudy } from "@/lib/site-data";
+import { LazyDemo } from "@/components/demos/lazy-demo";
+import { ProjectBadges, ProjectCard } from "@/components/work/project-card";
+import { featuredProjects, tileProjects } from "@/lib/projects";
 
-function MediaSlot({ study, index }: { study: CaseStudy; index: number }) {
-  if (study.media?.type === "image") {
-    return (
-      <div className="relative aspect-[16/10] overflow-hidden rounded-[var(--radius)] bg-surface">
-        <Image
-          src={study.media.src}
-          alt={study.media.alt}
-          fill
-          sizes="(min-width: 1024px) 640px, 100vw"
-          className="object-cover"
-        />
-      </div>
-    );
-  }
-
-  if (study.media?.type === "video") {
-    return (
-      <div className="relative aspect-[16/10] overflow-hidden rounded-[var(--radius)] bg-surface">
-        <video
-          className="h-full w-full object-cover"
-          src={study.media.src}
-          controls
-          playsInline
-          preload="metadata"
-          aria-label={study.media.alt}
-        />
-      </div>
-    );
-  }
-
-  /* TODO: media slot. Fill study.media in site-data.ts with a screenshot or demo video. */
-  return (
-    <div
-      className="relative flex aspect-[16/10] items-end overflow-hidden rounded-[var(--radius)] border border-border bg-surface p-6"
-      role="img"
-      aria-label={`Demo for ${study.title} coming soon`}
-    >
-      <span
-        className="pointer-events-none absolute -right-2 -top-5 font-display text-[clamp(96px,18vw,220px)] font-bold leading-none tracking-[-0.05em] text-text/[0.05]"
-        aria-hidden
-      >
-        0{index + 1}
-      </span>
-      <p className="relative text-[13.5px] text-muted">Demo coming soon</p>
-    </div>
-  );
-}
-
-function Detail({ label, children, highlight = false }: { label: string; children: string; highlight?: boolean }) {
-  return (
-    <div className={`grid gap-1.5 py-5 sm:grid-cols-[120px_1fr] sm:gap-6 ${highlight ? "border-l-2 border-accent pl-4 sm:pl-5" : ""}`}>
-      <dt className="text-[13px] uppercase tracking-[0.08em] text-muted">{label}</dt>
-      <dd className={`text-[16px] leading-[1.6] ${highlight ? "font-medium text-text" : "text-muted"}`}>
-        {children}
-      </dd>
-    </div>
-  );
-}
-
-/** Three case studies, media and text swapping sides each row. Clients named by industry only. */
+/**
+ * Homepage Work section: two featured live demos with their story beside them,
+ * two smaller tiles with a static final state and one stat, then a link to /work.
+ */
 export function Work() {
   return (
     <section id="work" className="border-t border-border">
@@ -76,39 +23,72 @@ export function Work() {
               </h2>
             </div>
             <p className="max-w-[36ch] text-[15px] leading-[1.6] text-muted">
-              Real tools for real businesses. Clients are described by industry until they say
+              Live recreations of real tools, with made-up data. Clients are described by industry until they say
               it&apos;s fine to use their name.
             </p>
           </div>
         </Reveal>
 
         <div className="mt-14 flex flex-col gap-[clamp(56px,7vw,96px)] md:mt-20">
-          {caseStudies.map((study, index) => {
+          {featuredProjects.map((project, index) => {
             const flip = index % 2 === 1;
+            const stat = project.stats[0];
             return (
-              <Reveal key={study.id}>
+              <Reveal key={project.slug}>
                 <article className="grid items-center gap-8 lg:grid-cols-12 lg:gap-12">
                   <div className={`lg:col-span-7 ${flip ? "lg:order-2" : ""}`}>
-                    <MediaSlot study={study} index={index} />
+                    <LazyDemo slug={project.slug} />
                   </div>
                   <div className={`lg:col-span-5 ${flip ? "lg:order-1" : ""}`}>
-                    <p className="text-[14px] text-muted">{study.client}</p>
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+                      <p className="text-[14px] text-muted">{project.client}</p>
+                      <ProjectBadges project={project} />
+                    </div>
                     <h3 className="mt-3 font-display text-[clamp(26px,2.6vw,34px)] font-bold leading-[1.1] tracking-[-0.02em] text-balance">
-                      {study.title}
+                      {project.title}
                     </h3>
-                    <dl className="mt-6 divide-y divide-border border-t border-border">
-                      <Detail label="Problem">{study.problem}</Detail>
-                      <Detail label="What we built">{study.built}</Detail>
-                      <Detail label="Result" highlight>
-                        {study.result}
-                      </Detail>
-                    </dl>
+                    <p className="mt-5 text-[16px] leading-[1.6] text-muted">{project.summary}</p>
+                    {stat ? (
+                      <p className="mt-6 border-l-2 border-accent pl-4 text-[15.5px] leading-[1.5]">
+                        <span className="font-display text-[30px] font-bold leading-none tracking-[-0.03em]">{stat.value}</span>
+                        <span className="ml-2 text-muted">{stat.label}</span>
+                      </p>
+                    ) : (
+                      <p className="mt-6 border-l-2 border-accent pl-4 text-[15.5px] leading-[1.5] text-text">{project.result}</p>
+                    )}
+                    <Link
+                      href={`/work/${project.slug}`}
+                      className="mt-7 inline-flex items-center gap-2 text-[15px] font-semibold underline-offset-4 hover:underline"
+                    >
+                      Read the case study
+                      <ArrowRight className="h-4 w-4 text-accent" />
+                    </Link>
                   </div>
                 </article>
               </Reveal>
             );
           })}
         </div>
+
+        <Reveal>
+          <div className="mt-[clamp(56px,7vw,96px)] grid gap-10 border-t border-border pt-12 md:grid-cols-2 md:gap-8">
+            {tileProjects.map((project) => (
+              <ProjectCard key={project.slug} project={project} />
+            ))}
+          </div>
+        </Reveal>
+
+        <Reveal>
+          <div className="mt-14 flex justify-center md:mt-16">
+            <Link
+              href="/work"
+              className="group inline-flex h-[54px] items-center gap-2.5 rounded-full border border-border px-7 text-[15.5px] font-semibold tracking-[-0.01em] text-text transition-colors hover:border-muted"
+            >
+              See all our work
+              <ArrowRight className="h-4 w-4 text-accent transition-transform duration-200 group-hover:translate-x-0.5" />
+            </Link>
+          </div>
+        </Reveal>
       </div>
     </section>
   );

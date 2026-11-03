@@ -127,3 +127,87 @@ section[id] {
     transition: none;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Work demos. Each demo derives its state from an elapsed-time clock, so most
+   motion is plain CSS transitions. These keyframes cover the few one-shot
+   effects (caret blink, stamp, signature stroke, finger tap).
+   --------------------------------------------------------------------------- */
+@keyframes demo-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes demo-stamp {
+  from {
+    transform: scale(1.8) rotate(-14deg);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(0.96) rotate(-9deg);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1) rotate(-9deg);
+    opacity: 1;
+  }
+}
+
+@keyframes demo-tap {
+  0% {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+@keyframes demo-pulse {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.demo-caret {
+  animation: demo-blink 0.9s steps(1) infinite;
+}
+
+.demo-stamp {
+  animation: demo-stamp 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+}
+
+.demo-tap {
+  animation: demo-tap 0.6s ease-out both;
+}
+
+.demo-pulse {
+  animation: demo-pulse 1.2s ease-in-out infinite;
+}
+
+.demo-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1.4s cubic-bezier(0.4, 0, 0.3, 1);
+}
+
+.demo-draw.on {
+  stroke-dashoffset: 0;
+}
+
+/* Reduced motion: demos render their final state, so no transitions should play. */
+@media (prefers-reduced-motion: reduce) {
+  .demo-stage *,
+  .demo-stage *::before,
+  .demo-stage *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
