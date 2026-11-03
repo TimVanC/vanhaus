@@ -73,7 +73,7 @@ export function ProjectRow({
             return (
               <div
                 key={row.label}
-                className={`grid gap-1.5 py-4 sm:grid-cols-[112px_1fr] sm:gap-5 ${last ? "border-l-2 border-accent pl-4 sm:pl-5" : ""}`}
+                className={`grid gap-1.5 py-4 sm:grid-cols-[112px_1fr] sm:gap-5 lg:grid-cols-1 lg:gap-1.5 ${last ? "border-l-2 border-accent pl-4 sm:pl-5" : ""}`}
               >
                 <dt className="text-[12.5px] uppercase tracking-[0.08em] text-muted">{row.label}</dt>
                 <dd className={`m-0 text-[15.5px] leading-[1.6] ${last ? "font-medium text-text" : "text-muted"}`}>{row.text}</dd>

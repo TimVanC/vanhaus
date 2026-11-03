@@ -105,43 +105,53 @@ export const projects: Project[] = [
     home: [
       {
         label: "Problem",
-        text: "Every generator proposal was built by hand. Pricing lived in old quotes and in people's heads, so each one took hours. Slow quotes meant missed bids and jobs lost to faster competitors.",
+        text: "Every quote was rebuilt by hand from a spreadsheet, a Word template, and the owner's memory. Slow quotes meant missed bids and jobs lost to faster competitors.",
       },
       {
         label: "What we built",
-        text: "A proposal generator. The team enters the job once and gets a priced, branded proposal the customer can sign online.",
+        text: "A proposal generator. Describe the job by form, chat, photos, or a bid PDF, and get a priced, branded proposal the customer signs online.",
       },
       {
         label: "How it learns",
-        text: "It's built on their full history of hand-built quotes, and every new proposal is added back in. Each job is priced against their most similar past jobs, so quotes stay consistent and match what they actually charge.",
+        text: "Built on 121 of their past proposals, with every new one added back in. Repeated price edits become new pricing rules the owner approves.",
       },
-      { label: "Result", text: "Hours by hand became minutes. Customers sign online and the job is marked won." },
+      {
+        label: "Result",
+        text: "Hours by hand became minutes. Tested against a real job they had won, it landed on the exact same total.",
+      },
     ],
     problem: [
-      "Every generator proposal was built by hand in Word. Pricing lived in a dealer price sheet, in years of old proposals, and in people's heads, so each quote took hours.",
-      "While a quote was being put together, bids were missed and some jobs went to competitors who answered faster. Two estimators could also price the same job differently.",
+      "Every quote was rebuilt by hand: a spreadsheet for the math, a Word template for the document, and the owner's memory for everything in between. Each one took hours.",
+      "Three years of past proposals sat in about 45 customer folders that nobody could search. Installs were quoted as one lump sum, so there was nothing to compare a new job against, and the generator size was often picked by feel.",
+      "While a quote was being put together, bids were missed and some jobs went to competitors who answered faster.",
     ],
     built: [
-      "A web app where the team describes the job once: quote type, site, generator size and fuel, transfer switch, and install details. They can also upload a site survey or an old proposal and let the assistant fill in the form.",
-      "It's built on the company's full history of hand-built proposals. Equipment is priced from the dealer price sheet and their own markups. Installation is priced from their most similar past jobs, which are cited right on the worksheet. Anything it can't price is flagged for a person to approve.",
-      "Every new proposal goes back into that history, and jobs they win count the most. Each quote has more of their own real jobs to compare against than the one before it.",
-      "The finished proposal exports to Word or PDF, goes to the customer by email, and gets accepted online with a typed or drawn signature.",
+      "A web app where the team describes a job whichever way is easiest: the site survey form, a short chat or dictation, job photos, an uploaded PDF, or a public bid package of 100+ pages. Techs can start an estimate from their phone on site.",
+      "We read and structured 121 of their past proposals. Installs are now split into materials, mechanical, and electrical, and each part, like a crane lift, a new pad, or a gas run, is priced from the same element on similar past jobs. Those jobs are cited on every line.",
+      "Built-in sizing uses NEC load calculations to pick the smallest unit that covers the demand. A second-reader check flags easy-to-miss problems before export, like a transfer switch smaller than the service or a diesel unit with no fuel tank.",
+      "Every new proposal goes back in. Won jobs rank first as comparables, and when the team keeps making the same price edit, the tool proposes a new pricing rule for the owner to approve.",
+      "The finished proposal exports to Word or PDF in their own layout and goes to the customer with a signing link. They draw or type a signature, and a signed copy comes back automatically.",
     ],
-    stats: [],
-    result: "Hours by hand became minutes. Customers sign online and the job is marked won automatically.",
+    stats: [
+      { value: "121", label: "past proposals turned into pricing data" },
+      { value: "18 days", label: "from kickoff to delivery" },
+    ],
+    result:
+      "Hours by hand became minutes. In an accuracy check, a 20 kW residential job priced by the tool landed on the exact total of a real proposal the company had won, and the equipment matched the owner's own workbook to the cent.",
     howItWorks: {
-      stack: ["Next.js", "Neon Postgres", "Claude (Anthropic API)", "docx and pdf-lib", "Resend", "Vercel"],
+      stack: ["Next.js", "Neon Postgres", "Claude (Anthropic API)", "docx, pdf-lib, and pdf.js", "Resend", "Vercel"],
       approach: [
-        "The job comes in through a form, a document upload, or a short chat. Claude reads surveys and photos, runs the chat, and writes the scope of work narrative.",
-        "The AI never sets a price. A rules engine prices equipment from the dealer price sheet and markup workbook, and prices installation from the median of similar past jobs, which are cited on the worksheet.",
-        "Assumptions and allowances are tinted and need a checkbox before export. The proposal is generated as Word or PDF, emailed with a private acceptance link, and signed online. Won jobs feed back in as comparables.",
+        "The job comes in through a form, a chat, photos, or a document. Claude reads surveys and bid packages, runs the chat, reviews the worksheet like a second estimator, and writes the scope of work. Large PDFs are read right in the browser.",
+        "The AI never sets a price. Every line is tagged with where its number came from: the price list, a past job, a public bid, an assumption, or an allowance. Export stays blocked until a person signs off on anything not backed by hard data.",
+        "When the manufacturer's price sheet changes each year, an admin uploads the new one, reviews a line-by-line diff, and applies it. No re-keying.",
+        "Proposals are generated as Word or PDF, emailed with a private signing link, and signed online. Won and lost outcomes feed back in, so the next quote has more to go on.",
       ],
     },
     caption: "Hours by hand to minutes.",
     seo: {
       title: "AI Proposal Generator for Generator Installers | VanHaus",
       description:
-        "How VanHaus built a proposal generator for a tri-state area HVAC and generator company. Built on years of past quotes, it turns a job into a priced, branded proposal in minutes that customers sign online.",
+        "How VanHaus built a proposal generator for a tri-state area HVAC and generator company. Built on 121 past quotes, it turns a job into a priced, branded proposal in minutes that customers sign online.",
     },
   },
   {
@@ -149,46 +159,56 @@ export const projects: Project[] = [
     name: "QA/QC checklist app",
     title: "A QA/QC checklist that checks itself against Housecall Pro",
     client: "HVAC & generator company, NJ",
-    summary: "A mobile checklist for every job. Housecall Pro fills in what it knows, a person confirms the rest.",
+    summary:
+      "Monthly Excel checklist workbooks replaced by one app. Jobs flow in from Housecall Pro, and managers see every missing checklist before a pay period closes.",
     status: QAQC_IN_PROGRESS ? "in-progress" : "live",
     demo: "ready",
     featured: false,
     home: [
       {
         label: "Problem",
-        text: "Quality checks lived in a spreadsheet the office filled in after the fact. Half the answers were already sitting in Housecall Pro, but someone still had to look each one up.",
+        text: "Every employee had a locked Excel checklist workbook per month, filled in by a call team overseas. Jobs were typed in by hand, and nobody could see which checklists were still missing before payroll.",
       },
       {
         label: "What we built",
-        text: "A mobile checklist for every job. Housecall Pro data suggests the answers and shows the facts behind them, and a person confirms each one with a tap.",
+        text: "One app for every job. Jobs sync from Housecall Pro, the call team works a daily queue, Housecall Pro data suggests answers a person confirms, and managers track completion per technician and pay period.",
       },
-      { label: "Status", text: "Being built now. Results will be added once it's live." },
+      QAQC_IN_PROGRESS
+        ? { label: "Status", text: "In final rollout. Results will be added once it's fully live." }
+        : {
+            label: "Result",
+            text: "Every job's checklist in one place, scored exactly like the old workbook, with no more typing jobs in by hand.",
+          },
     ],
     problem: [
-      "Quality checks lived in a spreadsheet that the office filled in after the fact, one call at a time.",
-      "Half the questions could be answered from data the company already had in Housecall Pro, but someone still had to look it up.",
+      "Every employee had a locked Excel workbook per month, with 35 checklist tabs and 10 call back tabs, filled in by a call team working overseas. Each job's customer, date, location, and invoice number were typed in by hand from Housecall Pro.",
+      "Nobody could see from one place which jobs still needed a checklist before a pay period closed, and a missing checklist had real consequences at payroll. Half the questions asked things Housecall Pro already knew, and there was no record of who answered what, or when.",
     ],
     built: [
-      "A mobile-first web app with a call queue for the day and one checklist per job. Each step is answered Y, N, or B (call back) with one tap.",
-      "Jobs, invoices, and payments sync from Housecall Pro through webhooks. Where the data answers a step, the app suggests the answer and shows the facts behind it. A person confirms or overrides it.",
-      "A score panel, a completion tracker by pay period, and exports for the office.",
+      "A web app for the call team, managers, and admins. Jobs sync from Housecall Pro through webhooks, and the call team works one New Jersey day at a time, with jobs grouped by technician and the checklist header already filled in.",
+      "Each checklist has 44 items answered Y, N, or B with a tap or a keystroke, and it saves on every answer. Where Housecall Pro already knows the answer, like the arrival time, the deposit, or a paid invoice, the app suggests it with the evidence and a person confirms it.",
+      "Managers get a completion tracker per pay period and production numbers per technician, using the old workbook's formulas, with a 60/40 split when two technicians share a job.",
+      "Every answer, submit, and reopen goes to an audit log. Any N answer gets a follow-up with an owner and a due date, and the company can export all of its data in one click.",
     ],
-    stats: [],
-    /* TODO: add results once the app is live and the client signs off on numbers. */
-    result: "In progress. Results will be added once the app is live.",
+    stats: QAQC_IN_PROGRESS ? [] : [{ value: "10 days", label: "from first commit to live" }],
+    /* TODO: add client-approved results once the app is fully live. */
+    result: QAQC_IN_PROGRESS
+      ? "In final rollout. Results will be added once it's fully live."
+      : "One place to see every job's checklist, scores that match the old workbook exactly, and no more typing jobs in by hand.",
     howItWorks: {
-      stack: ["Next.js", "Neon Postgres", "Drizzle ORM", "Housecall Pro API and webhooks", "Vercel"],
+      stack: ["Next.js", "Neon Postgres", "Drizzle ORM", "Housecall Pro API and webhooks", "Resend", "Vercel"],
       approach: [
-        "Housecall Pro sends a webhook whenever a job, invoice, or customer changes. The app verifies it, stores it, and re-syncs that job.",
-        "Rules compare the synced data with each checklist step: did the tech start early, was the deposit collected, is the invoice paid, is a follow-up job booked. Matches show up as suggestions with the evidence.",
-        "The office confirms each suggestion with a tap. Submitted checklists lock, and managers can reopen them. A nightly reconcile catches anything a webhook missed.",
+        "Housecall Pro sends a webhook whenever a job, invoice, or customer changes. The app verifies it, stores it, and re-syncs that job. It only ever reads from Housecall Pro and never writes back.",
+        "Rules compare the synced data with each checklist step: did the tech start early, was the deposit collected, is the invoice paid, is a follow-up job booked. Matches show up as suggestions with the evidence, and nothing is ever submitted on its own.",
+        "Scoring runs on every save using the old workbook's formulas. The expected results were made by filling in the real workbook and recalculating it in Excel, so Excel is the referee.",
+        "Every day and pay period is worked out in Eastern time on the server, since the call team works from another time zone. A nightly reconcile catches anything a webhook missed.",
       ],
     },
     caption: "Housecall Pro suggests. A person confirms.",
     seo: {
       title: "QA/QC Checklist App for Field Service Companies | VanHaus",
       description:
-        "How VanHaus is building a mobile QA/QC checklist app for a New Jersey HVAC and generator company, synced with Housecall Pro so steps are suggested from real job data.",
+        "How VanHaus replaced monthly Excel QA/QC workbooks with a mobile checklist app for a New Jersey HVAC and generator company, synced with Housecall Pro so steps are suggested from real job data.",
     },
   },
   {
