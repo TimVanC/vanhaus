@@ -3,7 +3,7 @@ import { Kicker } from "@/components/common/kicker";
 import { Reveal } from "@/components/common/reveal";
 import { Footer } from "@/components/sections/footer";
 import { Header } from "@/components/sections/header";
-import { ProjectCard } from "@/components/work/project-card";
+import { ProjectRow } from "@/components/work/project-card";
 import { projects } from "@/lib/projects";
 
 export const metadata: Metadata = {
@@ -31,10 +31,10 @@ export default function WorkPage() {
             </p>
           </Reveal>
 
-          <div className="mt-14 grid gap-x-8 gap-y-16 md:mt-20 md:grid-cols-2">
+          <div className="mt-14 flex flex-col gap-[clamp(64px,8vw,112px)] md:mt-20">
             {projects.map((project, index) => (
-              <Reveal key={project.slug} className={index % 2 === 1 ? "d1" : ""}>
-                <ProjectCard project={project} />
+              <Reveal key={project.slug}>
+                <ProjectRow project={project} flip={index % 2 === 1} headingLevel="h2" />
               </Reveal>
             ))}
           </div>

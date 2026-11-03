@@ -6,18 +6,19 @@ import type { DemoProps } from "./lazy-demo";
 import { useDemoPlayer } from "./use-demo-player";
 
 /* Invented honorees. Avatars are initials, never photos. */
+/* Sorted by last name, the way the real importer orders a list. `pos` is the place in the list. */
 const PEOPLE = [
-  { rank: 12, name: "Dana Okafor", title: "Chief Operating Officer", company: "Harbor & Pine Logistics" },
-  { rank: 13, name: "Theo Lindqvist", title: "Founder", company: "Brightwater Health" },
-  { rank: 14, name: "Amara Castellano", title: "Managing Partner", company: "Summit Row Capital" },
-  { rank: 15, name: "Ruben Achebe", title: "President", company: "Meadowlark Foods" },
-  { rank: 16, name: "Lena Moravec", title: "VP, Engineering", company: "Northgate Robotics" },
-  { rank: 17, name: "Jonah Whitcombe", title: "Partner", company: "Ferris & Hale Law" },
+  { pos: 4, name: "Ruben Achebe", title: "President", company: "Meadowlark Foods" },
+  { pos: 97, name: "Amara Castellano", title: "Managing Partner", company: "Summit Row Capital" },
+  { pos: 362, name: "Theo Lindqvist", title: "Founder", company: "Brightwater Health" },
+  { pos: 418, name: "Lena Moravec", title: "VP, Engineering", company: "Northgate Robotics" },
+  { pos: 471, name: "Dana Okafor", title: "Chief Operating Officer", company: "Harbor & Pine Logistics" },
+  { pos: 694, name: "Jonah Whitcombe", title: "Partner", company: "Ferris & Hale Law" },
 ];
 
 const COLUMNS = ["LastName", "FirstName", "FullName", "Rank", "Title", "Company", "Category", "ImageFileName", "Writeup"];
 const STEPS = ["Upload CSV", "Map Columns", "Configure", "Image Mapping", "Import & Results"];
-const ROWS = 48;
+const ROWS = 712;
 
 const T = {
   fileIn: 400,
@@ -55,8 +56,8 @@ export function ImporterDemo({ isStatic = false, hideCaption = false }: DemoProp
     <DemoFrame
       player={player}
       title="Influencer importer"
-      summary="A CSV file drags onto a WordPress upload page. The columns are matched, an import runs with a progress bar, and a grid of finished profile posts appears, each with an initials avatar, rank, name, title, and company."
-      caption={hideCaption ? undefined : "One CSV in. Every profile post out."}
+      summary="A CSV file drags onto a WordPress upload page. The columns are matched, an import runs with a progress bar, and a grid of finished profile articles appears in alphabetical order, each with an initials avatar, its place in the list, name, title, and company."
+      caption={hideCaption ? undefined : "One spreadsheet in. Hundreds of articles out."}
     >
       <div className="relative min-h-[430px]">
         {/* Stepper */}
@@ -89,7 +90,7 @@ export function ImporterDemo({ isStatic = false, hideCaption = false }: DemoProp
           <div className={`absolute inset-0 flex items-center justify-between px-3 text-[11px] transition-opacity duration-300 ${dropped ? "opacity-100" : "opacity-0"}`}>
             <span className="flex items-center gap-2">
               <FileIcon className="h-4 w-4 text-accent" />
-              <span className="font-semibold">power-list-2026.csv</span>
+              <span className="font-semibold">influencer-list-2026.csv</span>
               <span className="text-muted">{ROWS} rows detected</span>
             </span>
             <Pill tone="good">CSV uploaded</Pill>
@@ -107,7 +108,7 @@ export function ImporterDemo({ isStatic = false, hideCaption = false }: DemoProp
             aria-hidden
           >
             <FileIcon className="h-4 w-4 text-accent" />
-            power-list-2026.csv
+            influencer-list-2026.csv
           </div>
         </div>
 
@@ -136,7 +137,7 @@ export function ImporterDemo({ isStatic = false, hideCaption = false }: DemoProp
               Rows processed: <span className="font-semibold text-text tabular-nums">{rowsDone} / {ROWS}</span>
             </span>
             <Pill tone={at(T.results) ? "good" : "accent"}>
-              {at(T.results) ? `${ROWS} posts created · ${ROWS} images assigned · 0 failed` : "Importing 10 rows per pass"}
+              {at(T.results) ? `${ROWS} articles created · 0 failed` : "Importing 10 rows per pass"}
             </Pill>
           </div>
           <Bar value={progress(T.importStart, T.importEnd)} className="mt-1.5" tone={at(T.importEnd) ? "good" : "accent"} />
@@ -147,7 +148,7 @@ export function ImporterDemo({ isStatic = false, hideCaption = false }: DemoProp
                 <div className="flex items-center gap-2.5">
                   <Avatar initials={initials(person.name)} size={34} />
                   <div className="min-w-0">
-                    <span className="block truncate text-[9.5px] text-muted">No. {person.rank} · 2026 Power List</span>
+                    <span className="block truncate text-[9.5px] text-muted">{person.pos} of {ROWS} · A to Z</span>
                     <span className="block truncate text-[12px] font-bold leading-[1.2]">{person.name}</span>
                   </div>
                 </div>

@@ -2,13 +2,12 @@ import Link from "next/link";
 import { ArrowRight } from "@/components/common/icons";
 import { Kicker } from "@/components/common/kicker";
 import { Reveal } from "@/components/common/reveal";
-import { LazyDemo } from "@/components/demos/lazy-demo";
-import { ProjectBadges, ProjectCard } from "@/components/work/project-card";
-import { featuredProjects, tileProjects } from "@/lib/projects";
+import { ProjectRow } from "@/components/work/project-card";
+import { homeProjects } from "@/lib/projects";
 
 /**
- * Homepage Work section: two featured live demos with their story beside them,
- * two smaller tiles with a static final state and one stat, then a link to /work.
+ * Homepage Work section: four projects, one per row, with the demo and the story
+ * swapping sides each row. Then a link to /work for the rest.
  */
 export function Work() {
   return (
@@ -29,78 +28,16 @@ export function Work() {
           </div>
         </Reveal>
 
-        <div className="mt-14 flex flex-col gap-[clamp(56px,7vw,96px)] md:mt-20">
-          {featuredProjects.map((project, index) => {
-            const flip = index % 2 === 1;
-            const stat = project.stats[0];
-            return (
-              <Reveal key={project.slug}>
-                <article className="grid items-center gap-8 lg:grid-cols-12 lg:gap-12">
-                  <div className={`lg:col-span-7 ${flip ? "lg:order-2" : ""}`}>
-                    <LazyDemo slug={project.slug} />
-                  </div>
-                  <div className={`lg:col-span-5 ${flip ? "lg:order-1" : ""}`}>
-                    <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-                      <p className="text-[14px] text-muted">{project.client}</p>
-                      <ProjectBadges project={project} />
-                    </div>
-                    <h3 className="mt-3 font-display text-[clamp(26px,2.6vw,34px)] font-bold leading-[1.1] tracking-[-0.02em] text-balance">
-                      {project.title}
-                    </h3>
-                    {project.home ? (
-                      <dl className="mt-6 divide-y divide-border border-t border-border">
-                        {project.home.map((row, i, rows) => {
-                          const last = i === rows.length - 1;
-                          return (
-                            <div
-                              key={row.label}
-                              className={`grid gap-1.5 py-4 sm:grid-cols-[112px_1fr] sm:gap-5 ${
-                                last ? "border-l-2 border-accent pl-4 sm:pl-5" : ""
-                              }`}
-                            >
-                              <dt className="text-[12.5px] uppercase tracking-[0.08em] text-muted">{row.label}</dt>
-                              <dd className={`m-0 text-[15.5px] leading-[1.6] ${last ? "font-medium text-text" : "text-muted"}`}>
-                                {row.text}
-                              </dd>
-                            </div>
-                          );
-                        })}
-                      </dl>
-                    ) : (
-                      <p className="mt-5 text-[16px] leading-[1.6] text-muted">{project.summary}</p>
-                    )}
-                    {project.home ? null : stat ? (
-                      <p className="mt-6 border-l-2 border-accent pl-4 text-[15.5px] leading-[1.5]">
-                        <span className="font-display text-[30px] font-bold leading-none tracking-[-0.03em]">{stat.value}</span>
-                        <span className="ml-2 text-muted">{stat.label}</span>
-                      </p>
-                    ) : (
-                      <p className="mt-6 border-l-2 border-accent pl-4 text-[15.5px] leading-[1.5] text-text">{project.result}</p>
-                    )}
-                    <Link
-                      href={`/work/${project.slug}`}
-                      className="mt-7 inline-flex items-center gap-2 text-[15px] font-semibold underline-offset-4 hover:underline"
-                    >
-                      Read the case study
-                      <ArrowRight className="h-4 w-4 text-accent" />
-                    </Link>
-                  </div>
-                </article>
-              </Reveal>
-            );
-          })}
+        <div className="mt-14 flex flex-col gap-[clamp(64px,8vw,112px)] md:mt-20">
+          {homeProjects.map((project, index) => (
+            <Reveal key={project.slug}>
+              <ProjectRow project={project} flip={index % 2 === 1} />
+            </Reveal>
+          ))}
         </div>
 
         <Reveal>
-          <div className="mt-[clamp(56px,7vw,96px)] grid gap-10 border-t border-border pt-12 md:grid-cols-2 md:gap-8">
-            {tileProjects.map((project) => (
-              <ProjectCard key={project.slug} project={project} />
-            ))}
-          </div>
-        </Reveal>
-
-        <Reveal>
-          <div className="mt-14 flex justify-center md:mt-16">
+          <div className="mt-16 flex justify-center md:mt-20">
             <Link
               href="/work"
               className="group inline-flex h-[54px] items-center gap-2.5 rounded-full border border-border px-7 text-[15.5px] font-semibold tracking-[-0.01em] text-text transition-colors hover:border-muted"

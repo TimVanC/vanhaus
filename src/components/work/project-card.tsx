@@ -3,7 +3,7 @@ import { ArrowRight } from "@/components/common/icons";
 import { LazyDemo } from "@/components/demos/lazy-demo";
 import { statusLabel, type Project } from "@/lib/projects";
 
-/** Status and demo-readiness badges, shared by tiles, cards, and case study pages. */
+/** Status and demo-readiness badges, shared by project rows and case study pages. */
 export function ProjectBadges({ project, className = "" }: { project: Project; className?: string }) {
   const inProgress = project.status === "in-progress";
   const comingSoon = project.demo === "coming-soon";
@@ -41,45 +41,53 @@ export function Stat({ value, label, size = "md" }: { value: string; label: stri
 }
 
 /**
- * A project card for the /work grid and the smaller homepage tiles: the demo's final
- * state as a static snapshot, then the client, title, one line, a stat if there is one,
- * and a link to the case study.
+ * One project per row: the live demo on one side, the story on the other. `flip` puts the
+ * demo on the right on large screens; on phones the demo always comes first.
  */
-export function ProjectCard({ project }: { project: Project }) {
-  const stat = project.stats[0];
+export function ProjectRow({
+  project,
+  flip = false,
+  headingLevel = "h3",
+}: {
+  project: Project;
+  flip?: boolean;
+  headingLevel?: "h2" | "h3";
+}) {
+  const Heading = headingLevel;
   return (
-    <article className="group flex h-full flex-col">
-      <Link href={`/work/${project.slug}`} className="block rounded-[var(--radius)]" aria-label={`${project.title}: read the case study`}>
-        <LazyDemo slug={project.slug} isStatic hideCaption />
-      </Link>
-      <div className="flex flex-1 flex-col pt-5">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <p className="text-[13.5px] text-muted">{project.client}</p>
+    <article className="grid items-center gap-8 lg:grid-cols-12 lg:gap-12">
+      <div className={`lg:col-span-7 ${flip ? "lg:order-2" : ""}`}>
+        <LazyDemo slug={project.slug} />
+      </div>
+      <div className={`lg:col-span-5 ${flip ? "lg:order-1" : ""}`}>
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+          <p className="text-[14px] text-muted">{project.client}</p>
           <ProjectBadges project={project} />
         </div>
-        <h3 className="mt-2 font-display text-[clamp(22px,2.2vw,28px)] font-bold leading-[1.12] tracking-[-0.02em] text-balance">
-          <Link href={`/work/${project.slug}`} className="transition-colors duration-200 group-hover:text-accent">
-            {project.title}
-          </Link>
-        </h3>
-        <p className="mt-3 text-[15px] leading-[1.6] text-muted">{project.summary}</p>
-        <div className="mt-auto flex flex-wrap items-end justify-between gap-4 pt-5">
-          {stat ? (
-            <p className="text-[15px] leading-[1.4]">
-              <span className="font-display text-[26px] font-bold leading-none tracking-[-0.03em]">{stat.value}</span>{" "}
-              <span className="text-muted">{stat.label}</span>
-            </p>
-          ) : (
-            <span />
-          )}
-          <Link
-            href={`/work/${project.slug}`}
-            className="inline-flex items-center gap-2 text-[14.5px] font-semibold text-text underline-offset-4 hover:underline"
-          >
-            Case study
-            <ArrowRight className="h-4 w-4 text-accent" />
-          </Link>
-        </div>
+        <Heading className="mt-3 font-display text-[clamp(26px,2.6vw,34px)] font-bold leading-[1.1] tracking-[-0.02em] text-balance">
+          {project.title}
+        </Heading>
+        <dl className="mt-6 divide-y divide-border border-t border-border">
+          {project.home.map((row, i, rows) => {
+            const last = i === rows.length - 1;
+            return (
+              <div
+                key={row.label}
+                className={`grid gap-1.5 py-4 sm:grid-cols-[112px_1fr] sm:gap-5 ${last ? "border-l-2 border-accent pl-4 sm:pl-5" : ""}`}
+              >
+                <dt className="text-[12.5px] uppercase tracking-[0.08em] text-muted">{row.label}</dt>
+                <dd className={`m-0 text-[15.5px] leading-[1.6] ${last ? "font-medium text-text" : "text-muted"}`}>{row.text}</dd>
+              </div>
+            );
+          })}
+        </dl>
+        <Link
+          href={`/work/${project.slug}`}
+          className="mt-7 inline-flex items-center gap-2 text-[15px] font-semibold underline-offset-4 hover:underline"
+        >
+          Read the case study
+          <ArrowRight className="h-4 w-4 text-accent" />
+        </Link>
       </div>
     </article>
   );

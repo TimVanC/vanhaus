@@ -32,11 +32,8 @@ export type Project = {
   demo: "ready" | "coming-soon";
   /** Featured demos get the big slots on the homepage. */
   featured: boolean;
-  /**
-   * Short labeled rows shown beside a featured demo on the homepage. The last row is
-   * highlighted as the result. Falls back to summary and stat when absent.
-   */
-  home?: { label: string; text: string }[];
+  /** Short labeled rows shown beside the demo on the homepage and /work. The last row is highlighted. */
+  home: { label: string; text: string }[];
   problem: string[];
   built: string[];
   /** Only client-approved numbers. Empty means none yet. */
@@ -156,6 +153,17 @@ export const projects: Project[] = [
     status: QAQC_IN_PROGRESS ? "in-progress" : "live",
     demo: "ready",
     featured: false,
+    home: [
+      {
+        label: "Problem",
+        text: "Quality checks lived in a spreadsheet the office filled in after the fact. Half the answers were already sitting in Housecall Pro, but someone still had to look each one up.",
+      },
+      {
+        label: "What we built",
+        text: "A mobile checklist for every job. Housecall Pro data suggests the answers and shows the facts behind them, and a person confirms each one with a tap.",
+      },
+      { label: "Status", text: "Being built now. Results will be added once it's live." },
+    ],
     problem: [
       "Quality checks lived in a spreadsheet that the office filled in after the fact, one call at a time.",
       "Half the questions could be answered from data the company already had in Housecall Pro, but someone still had to look it up.",
@@ -186,23 +194,35 @@ export const projects: Project[] = [
   {
     slug: "accounting-automation",
     name: "Accounting automation",
-    title: "Nightly accounting exports that run themselves",
-    client: "E-commerce manufacturer",
-    summary: "Messy WooCommerce orders become clean inventory and journal files, emailed every night at midnight.",
+    title: "Website sales into their accounting system, without retyping a thing",
+    client: "E-commerce football pad maker, supplier to the NFL",
+    summary:
+      "Their accounting system couldn't connect to their website, so every online sale was rebuilt by hand. Now import-ready files land every night at midnight.",
     status: "live",
     demo: "ready",
     featured: false,
+    home: [
+      {
+        label: "Problem",
+        text: "Years of their books live in Sage 50, an older desktop accounting system, so switching wasn't an option. But it couldn't connect to their website, so every online sale was re-entered by hand.",
+      },
+      {
+        label: "What we built",
+        text: "A WordPress plugin that turns each day's orders, with all their options, add-ons, coupons, and refunds, into files Sage 50 accepts. They import cleanly, exactly as if someone had keyed them in.",
+      },
+      { label: "Result", text: "80 to 90% less time spent on reporting. The files are in the inbox every morning." },
+    ],
     problem: [
-      "Every reporting cycle, someone pulled WooCommerce orders by hand and rebuilt them into inventory and journal entries for Sage 50.",
-      "Product options, coupons, refunds, shipping, and state sales tax all had to be untangled before the numbers would balance.",
+      "This team makes football pads, supplies the NFL, and sells direct online through WooCommerce. Their accounting has run on Sage 50, an older desktop system, for years. All of that history lives there, so moving to a newer service wasn't worth what they would lose.",
+      "Sage 50 has no way to connect to the website. Every online sale had to be rebuilt by hand: product options turned into SKUs, add-ons split out, coupons and refunds netted, and sales tax split by state, until the debits and credits finally matched.",
     ],
     built: [
-      "A WordPress plugin that reads WooCommerce orders every night and turns product options into real inventory SKUs, splits add-ons into their own lines, and nets out coupons, refunds, and shipping.",
-      "Two Excel files, an inventory export and a Sage 50 journal entry, are emailed to the accounting team at midnight. If debits and credits do not match, it stops and says why.",
-      "An admin page for any date range on demand, plus a monthly state summary.",
+      "A WordPress plugin that reads each day's WooCommerce orders and never changes them. It turns product options into real inventory SKUs, splits add-ons into their own lines, and nets out coupons, refunds, shipping, and state sales tax.",
+      "At midnight it builds two files, an inventory export and a journal entry, in the exact layout Sage 50 expects, and emails them to the accounting team. They import cleanly, and the result looks exactly like it was entered by hand.",
+      "If debits and credits don't match, it stops and says why instead of sending bad numbers. An admin page runs any date range on demand, plus a monthly state summary.",
     ],
     stats: [{ value: "80 to 90%", label: "less time spent on reporting" }],
-    result: "Reporting went from a recurring chore to an email that is waiting in the morning.",
+    result: "They kept the accounting system they trust. Reporting went from a recurring chore to an email that is waiting in the morning.",
     howItWorks: {
       stack: ["WordPress plugin", "PHP", "WooCommerce", "PhpSpreadsheet", "WP-Cron", "Sage 50 import"],
       approach: [
@@ -215,42 +235,54 @@ export const projects: Project[] = [
     seo: {
       title: "WooCommerce to Sage 50 Accounting Automation | VanHaus",
       description:
-        "How VanHaus built a WordPress plugin that turns WooCommerce orders into nightly inventory and journal exports for Sage 50, cutting reporting time by 80 to 90%.",
+        "How VanHaus connected a football pad maker's WooCommerce store to Sage 50 with nightly import-ready files, cutting reporting time by 80 to 90% without changing accounting systems.",
     },
   },
   {
     slug: "influencer-importer",
     name: "Influencer importer",
-    title: "Profile posts published straight from a spreadsheet",
+    title: "Hundreds of profile pages from one spreadsheet",
     client: "NJ business news publisher",
-    summary: "Drop a CSV of honorees into WordPress and get a finished, scheduled profile post for every row.",
+    summary:
+      "Influencer lists with more than 700 people, each with a page of their own. Drop in the master spreadsheet and every article is built, formatted, and in order.",
     status: "live",
     demo: "ready",
     featured: false,
+    home: [
+      {
+        label: "Problem",
+        text: "The publisher runs influencer lists across many categories, some with more than 700 people. A page for each person makes the list far more shareable and brings in more page views and revenue, but it meant building hundreds of articles by hand.",
+      },
+      {
+        label: "What we built",
+        text: "A WordPress importer. Drop in the master spreadsheet and it creates every article with the same formatting and the matching headshot, in alphabetical order so the list pages through cleanly.",
+      },
+      { label: "Result", text: "A list with hundreds of people goes from spreadsheet to scheduled articles in one sitting." },
+    ],
     problem: [
-      "Each influencer list meant dozens of posts built by hand: paste the writeup, format the name block, find the headshot, schedule the post.",
-      "It took days, and small formatting differences crept into every list.",
+      "This publisher runs influencer lists across a range of categories. Some lists have more than 700 people on them.",
+      "Giving every person their own article makes the list easy to share, since honorees and their companies pass their own page around. That means more page views and more revenue. The catch was building hundreds of individual articles by hand, each with the same formatting, headshot, and place in the list.",
     ],
     built: [
-      "A WordPress plugin with a five-step wizard: upload the CSV, map the columns, set the title prefix, author, category, and publish schedule, check the headshots, run the import.",
-      "Every post gets the same layout, the matching headshot from the media library, and a publish time spaced out from the one before it. Re-running an import never creates duplicates.",
+      "A WordPress plugin with a five-step wizard: upload the master spreadsheet, map the columns, set the title, author, category, and publish schedule, check the headshots, and run the import.",
+      "Every article gets the same layout and the matching headshot from the media library. People are sorted alphabetically, and each article is scheduled a few minutes after the one before, so the list pages through in order.",
+      "Re-running an import never creates duplicates, and a missing photo never stops the run. It's listed at the end so it can be added later.",
     ],
-    stats: [],
-    /* TODO: add a result the client has approved (for example, posts per list or time saved). */
-    result: "A full list of profiles goes from spreadsheet to scheduled posts in one sitting.",
+    stats: [{ value: "700+", label: "people on the largest lists, each with their own article" }],
+    result: "A list with hundreds of people goes from spreadsheet to scheduled articles in one sitting.",
     howItWorks: {
       stack: ["WordPress plugin", "PHP", "WordPress media library", "Batched imports"],
       approach: [
-        "The plugin reads the CSV, cleans up the text encoding, and guesses which column holds which field. The editor confirms the mapping.",
-        "Titles and publish times are worked out ahead of time, and each headshot is matched by filename. Any photo can be swapped before the import runs.",
-        "Posts are created ten at a time with a progress bar, so large lists never time out. Each post carries a batch ID and a fingerprint so a re-run skips rows that already exist.",
+        "The plugin reads the spreadsheet, cleans up the text encoding, and guesses which column holds which field. The editor confirms the mapping.",
+        "Titles, alphabetical order, and publish times are worked out ahead of time, and each headshot is matched by filename. Any photo can be swapped before the import runs.",
+        "Articles are created ten at a time with a progress bar, so a 700-person list never times out. Each article carries a batch ID and a fingerprint so a re-run skips rows that already exist.",
       ],
     },
-    caption: "One CSV in. Every profile post out.",
+    caption: "One spreadsheet in. Hundreds of articles out.",
     seo: {
-      title: "WordPress CSV Importer for Publisher Lists | VanHaus",
+      title: "WordPress Importer for Influencer Lists | VanHaus",
       description:
-        "How VanHaus built a WordPress plugin for a New Jersey business news publisher that turns a CSV of honorees into finished, scheduled profile posts with matched headshots.",
+        "How VanHaus built a WordPress importer for a New Jersey business news publisher that turns a 700+ person influencer list into individual, formatted, alphabetized articles.",
     },
   },
   {
@@ -269,6 +301,17 @@ export const projects: Project[] = [
     built: [
       "A small desktop app. Choose the newsletter type, the advertiser, their ad links or keywords, a date range, and the metrics you want.",
       "One click pulls every campaign in range from Mailchimp, finds the advertiser's links in each one, and totals opens, recipients, clicks, and CTR by send date. The result opens in Excel or saves as CSV.",
+    ],
+    home: [
+      {
+        label: "Problem",
+        text: "Advertisers wanted to know how their newsletter placements performed. Answering meant opening every campaign in Mailchimp and copying link clicks into a spreadsheet.",
+      },
+      {
+        label: "What we built",
+        text: "A small desktop app. Pick the advertiser, their ad links, and a date range, click once, and get opens, clicks, and CTR by send date, ready for Excel.",
+      },
+      { label: "Result", text: "95% less time on reporting." },
     ],
     stats: [{ value: "95%", label: "less time on reporting" }],
     result: "A report that took most of a morning now takes about as long as a coffee refill.",
@@ -293,8 +336,11 @@ export const projectBySlug = (slug: string): Project | undefined => projects.fin
 
 export const featuredProjects = projects.filter((p) => p.featured);
 
-/** The two smaller homepage tiles. */
-export const tileProjects = projects.filter((p) => p.slug === "accounting-automation" || p.slug === "influencer-importer");
+/** Homepage rows, in order: the two featured demos, then two more projects. */
+export const homeProjects = [
+  ...featuredProjects,
+  ...projects.filter((p) => p.slug === "accounting-automation" || p.slug === "influencer-importer"),
+];
 
 export const statusLabel: Record<Project["status"], string> = {
   live: "Live",
