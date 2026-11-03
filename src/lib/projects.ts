@@ -1,4 +1,4 @@
-import { QAQC_IN_PROGRESS, SHOW_AVA_DEMO } from "@/lib/constants";
+import { OPS_MANAGER_IN_PROGRESS, QAQC_IN_PROGRESS, SHOW_AVA_DEMO } from "@/lib/constants";
 
 /**
  * Every project shown on the homepage, on /work, and on /work/[slug].
@@ -10,6 +10,7 @@ export type ProjectSlug =
   | "ai-receptionist"
   | "proposal-generator"
   | "qaqc-checklist"
+  | "operations-manager"
   | "accounting-automation"
   | "influencer-importer"
   | "mailchimp-reporter";
@@ -212,6 +213,70 @@ export const projects: Project[] = [
     },
   },
   {
+    slug: "operations-manager",
+    name: "Operations manager",
+    title: "An AI operations manager that watches 18 systems at once",
+    client: "Tri-state area HVAC & generator company",
+    summary:
+      "Eighteen business systems, from Housecall Pro to QuickBooks to three Outlook inboxes, feed one private command center. Every morning it briefs the owner on what needs attention, and it texts him when something can't wait.",
+    status: OPS_MANAGER_IN_PROGRESS ? "in-progress" : "live",
+    demo: "ready",
+    featured: false,
+    home: [
+      {
+        label: "Problem",
+        text: "The owner's picture of the business was spread across more than a dozen systems: jobs, money, sales, email, meetings, and timesheets. He checked each one by hand, and problems surfaced late, usually by accident.",
+      },
+      {
+        label: "What we built",
+        text: "A private AI command center connected read-only to 18 systems, including the receptionist, proposal tool, and QA/QC app we built for them. It sends a morning briefing, flags what needs attention, and texts critical alerts.",
+      },
+      OPS_MANAGER_IN_PROGRESS
+        ? { label: "Status", text: "In development and rolling out in phases. Results will be added once it's live." }
+        : /* TODO: replace with a client-approved result once it's live. */
+          { label: "Result", text: "One morning briefing instead of a dozen systems to check." },
+    ],
+    problem: [
+      "This company's picture of the business lived in more than a dozen disconnected places. Jobs were in Housecall Pro, vehicles in Smart Fleet, quality checks in the QA/QC app, money and payroll in QuickBooks Online, and sales split across HubSpot, the proposal tool, government bid alerts, and the AI receptionist's call log.",
+      "Communication was spread across three Outlook inboxes, a Gmail account, and Teams meetings. The business plan and certifications sat in standalone documents, and timesheets were per-person Excel files.",
+      "No single place showed what needed attention today: missed checklists, unpaid invoices, stalled estimates, bid deadlines, or certification renewals. The owner checked each system by hand, and problems surfaced late, usually after someone noticed by accident.",
+    ],
+    built: [
+      "A private command center that pulls from 18 systems on a schedule into its own database. That covers the field, the books, the sales pipeline, every inbox, and meeting transcripts, plus the receptionist, proposal tool, and QA/QC app we built for them earlier.",
+      "Dashboards for today's jobs and technicians, QA/QC scoring and missing checklists, revenue and receivables, and the full sales pipeline. Timesheets move from per-person Excel files into the app.",
+      "Every morning, Claude turns it all into one briefing: what happened, what needs attention, and suggested next steps, grounded in the company's own business plan. Missed checklists, overdue invoices, stalled estimates, bid deadlines, and certification renewals go straight to the owner's phone by email and text, and he can ask plain-language questions about the business.",
+      "It presents and never decides. Every connection is read-only, nothing flows back to the source systems, and every decision stays with the owner.",
+    ],
+    stats: [{ value: "18", label: "business systems feeding one read-only view" }],
+    /* TODO: add client-approved results once it's live. */
+    result: OPS_MANAGER_IN_PROGRESS
+      ? "In development and rolling out in three phases, each one usable on its own. Results will be added once it's live."
+      : "One morning briefing instead of a dozen systems to check, with critical issues on the owner's phone the day they happen.",
+    howItWorks: {
+      stack: [
+        "Next.js",
+        "Neon Postgres",
+        "Claude (Anthropic API)",
+        "Microsoft Graph",
+        "Housecall Pro, QuickBooks, HubSpot, and Gmail APIs",
+        "Twilio SMS",
+        "Vercel",
+      ],
+      approach: [
+        "Each source connects read-only through its most reliable path: an official API, webhooks, a Microsoft 365 app limited to named mailboxes, a scheduled report export, or parsed alert emails. Where an API only offers read and write access together, writes are blocked in code.",
+        "Everything lands in the operations manager's own database. The AI layer reads only from that copy, never from the live systems.",
+        "Scheduled jobs run the syncs and build the morning briefing. Critical alerts go out by email and by text.",
+        "It's delivered in three phases, each usable on its own: the core dashboard and AI layer, then communications and documents, then outside accounts and timesheets. The company owns all of its data and can export it at any time.",
+      ],
+    },
+    caption: "Eighteen systems in. One morning briefing out.",
+    seo: {
+      title: "AI Operations Manager for HVAC Companies | VanHaus",
+      description:
+        "How VanHaus is building a private AI operations manager for a tri-state area HVAC and generator company, connecting 18 business systems into one read-only view with a daily briefing and critical alerts.",
+    },
+  },
+  {
     slug: "accounting-automation",
     name: "Accounting automation",
     title: "Website sales into their accounting system, without retyping a thing",
@@ -373,13 +438,18 @@ export const projects: Project[] = [
 
 export const projectBySlug = (slug: string): Project | undefined => projects.find((p) => p.slug === slug);
 
-export const featuredProjects = projects.filter((p) => p.featured);
 
-/** Homepage rows, in order: the two featured demos, then two more projects. */
-export const homeProjects = [
-  ...featuredProjects,
-  ...projects.filter((p) => p.slug === "accounting-automation" || p.slug === "influencer-importer"),
+/** Homepage rows, in order: the two featured demos, the operations manager, then two more projects. */
+const HOME_ORDER: ProjectSlug[] = [
+  "ai-receptionist",
+  "proposal-generator",
+  "operations-manager",
+  "accounting-automation",
+  "influencer-importer",
 ];
+export const homeProjects = HOME_ORDER.map((slug) => projects.find((p) => p.slug === slug)).filter(
+  (p): p is Project => Boolean(p),
+);
 
 export const statusLabel: Record<Project["status"], string> = {
   live: "Live",

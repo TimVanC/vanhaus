@@ -20,6 +20,7 @@ export const demoHeights: Record<ProjectSlug, string> = {
   "accounting-automation": "min-h-[510px]",
   "influencer-importer": "min-h-[500px]",
   "mailchimp-reporter": "min-h-[440px]",
+  "operations-manager": "min-h-[560px]",
 };
 
 function Skeleton({ slug }: { slug: ProjectSlug }) {
@@ -50,6 +51,10 @@ const registry: Record<ProjectSlug, ComponentType<DemoProps>> = {
   "influencer-importer": dynamic(() => import("./importer-demo").then((m) => m.ImporterDemo), {
     ssr: false,
     loading: () => <Skeleton slug="influencer-importer" />,
+  }),
+  "operations-manager": dynamic(() => import("./ops-demo").then((m) => m.OpsDemo), {
+    ssr: false,
+    loading: () => <Skeleton slug="operations-manager" />,
   }),
   "mailchimp-reporter": dynamic(() => import("./mailchimp-demo").then((m) => m.MailchimpDemo), {
     ssr: false,

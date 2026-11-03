@@ -19,6 +19,9 @@ export const FIRST_YEAR = "[FIRST_YEAR]";
 /** The QA/QC checklist app is still being built. Flip to false once it is live. */
 export const QAQC_IN_PROGRESS = true;
 
+/** The operations manager is still in development. Flip to false once it is live and has results. */
+export const OPS_MANAGER_IN_PROGRESS = true;
+
 /**
  * The AI receptionist demo is on hold until the final call recording and transcript arrive.
  * Flip to true once AVA_AUDIO_SRC and AVA_TRANSCRIPT in src/components/demos/ava-data.ts are real.
