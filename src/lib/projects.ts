@@ -32,6 +32,11 @@ export type Project = {
   demo: "ready" | "coming-soon";
   /** Featured demos get the big slots on the homepage. */
   featured: boolean;
+  /**
+   * Short labeled rows shown beside a featured demo on the homepage. The last row is
+   * highlighted as the result. Falls back to summary and stat when absent.
+   */
+  home?: { label: string; text: string }[];
   problem: string[];
   built: string[];
   /** Only client-approved numbers. Empty means none yet. */
@@ -54,6 +59,17 @@ export const projects: Project[] = [
     status: "live",
     demo: SHOW_AVA_DEMO ? "ready" : "coming-soon",
     featured: true,
+    home: [
+      {
+        label: "Problem",
+        text: "Calls came in while the crew was on job sites. Voicemails piled up and some leads never called back.",
+      },
+      {
+        label: "What we built",
+        text: "An AI phone receptionist built on Twilio and OpenAI Realtime. It answers every call, collects job details, routes urgent calls to a person, and emails a summary after each one.",
+      },
+      { label: "Result", text: "598+ calls handled in its first four months." },
+    ],
     problem: [
       "Calls came in while the crew was on job sites. Voicemails piled up and some leads never called back.",
       "Hiring a full-time receptionist did not make sense for the call volume, but every missed call was a missed job.",
@@ -84,18 +100,34 @@ export const projects: Project[] = [
     slug: "proposal-generator",
     name: "Proposal generator",
     title: "Generator proposals in minutes, not hours",
-    client: "HVAC & generator company, NJ",
+    client: "Tri-state area HVAC & generator company",
     summary: "Enter the job, get a priced, branded proposal the customer can sign online.",
     status: "live",
     demo: "ready",
     featured: true,
+    home: [
+      {
+        label: "Problem",
+        text: "Every generator proposal was built by hand. Pricing lived in old quotes and in people's heads, so each one took hours. Slow quotes meant missed bids and jobs lost to faster competitors.",
+      },
+      {
+        label: "What we built",
+        text: "A proposal generator. The team enters the job once and gets a priced, branded proposal the customer can sign online.",
+      },
+      {
+        label: "How it learns",
+        text: "It's built on their full history of hand-built quotes, and every new proposal is added back in. Each job is priced against their most similar past jobs, so quotes stay consistent and match what they actually charge.",
+      },
+      { label: "Result", text: "Hours by hand became minutes. Customers sign online and the job is marked won." },
+    ],
     problem: [
-      "Every generator quote was built by hand in Word. Pricing lived in old proposals, a dealer price sheet, and in people's heads.",
-      "Each proposal took hours, and two estimators could price the same job differently.",
+      "Every generator proposal was built by hand in Word. Pricing lived in a dealer price sheet, in years of old proposals, and in people's heads, so each quote took hours.",
+      "While a quote was being put together, bids were missed and some jobs went to competitors who answered faster. Two estimators could also price the same job differently.",
     ],
     built: [
-      "A web app where the team describes the job once: quote type, site, generator size and fuel, transfer switch, install details. They can also upload a site survey or old proposal and let the assistant pre-fill the form.",
-      "A pricing engine builds every line from the dealer price sheet and the company's own markups. Installation is priced from similar past jobs. Anything it cannot price is flagged for a person to approve.",
+      "A web app where the team describes the job once: quote type, site, generator size and fuel, transfer switch, and install details. They can also upload a site survey or an old proposal and let the assistant fill in the form.",
+      "It's built on the company's full history of hand-built proposals. Equipment is priced from the dealer price sheet and their own markups. Installation is priced from their most similar past jobs, which are cited right on the worksheet. Anything it can't price is flagged for a person to approve.",
+      "Every new proposal goes back into that history, and jobs they win count the most. Each quote has more of their own real jobs to compare against than the one before it.",
       "The finished proposal exports to Word or PDF, goes to the customer by email, and gets accepted online with a typed or drawn signature.",
     ],
     stats: [],
@@ -112,7 +144,7 @@ export const projects: Project[] = [
     seo: {
       title: "AI Proposal Generator for Generator Installers | VanHaus",
       description:
-        "How VanHaus built a proposal generator for a New Jersey HVAC and generator company. Enter the job, get a priced, branded proposal in minutes that customers sign online.",
+        "How VanHaus built a proposal generator for a tri-state area HVAC and generator company. Built on years of past quotes, it turns a job into a priced, branded proposal in minutes that customers sign online.",
     },
   },
   {

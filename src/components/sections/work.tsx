@@ -47,8 +47,29 @@ export function Work() {
                     <h3 className="mt-3 font-display text-[clamp(26px,2.6vw,34px)] font-bold leading-[1.1] tracking-[-0.02em] text-balance">
                       {project.title}
                     </h3>
-                    <p className="mt-5 text-[16px] leading-[1.6] text-muted">{project.summary}</p>
-                    {stat ? (
+                    {project.home ? (
+                      <dl className="mt-6 divide-y divide-border border-t border-border">
+                        {project.home.map((row, i, rows) => {
+                          const last = i === rows.length - 1;
+                          return (
+                            <div
+                              key={row.label}
+                              className={`grid gap-1.5 py-4 sm:grid-cols-[112px_1fr] sm:gap-5 ${
+                                last ? "border-l-2 border-accent pl-4 sm:pl-5" : ""
+                              }`}
+                            >
+                              <dt className="text-[12.5px] uppercase tracking-[0.08em] text-muted">{row.label}</dt>
+                              <dd className={`m-0 text-[15.5px] leading-[1.6] ${last ? "font-medium text-text" : "text-muted"}`}>
+                                {row.text}
+                              </dd>
+                            </div>
+                          );
+                        })}
+                      </dl>
+                    ) : (
+                      <p className="mt-5 text-[16px] leading-[1.6] text-muted">{project.summary}</p>
+                    )}
+                    {project.home ? null : stat ? (
                       <p className="mt-6 border-l-2 border-accent pl-4 text-[15.5px] leading-[1.5]">
                         <span className="font-display text-[30px] font-bold leading-none tracking-[-0.03em]">{stat.value}</span>
                         <span className="ml-2 text-muted">{stat.label}</span>
