@@ -19,52 +19,7 @@ export const painPoints = {
   outro: "Don't see yours? That's normal. Most of what we build didn't exist until someone asked.",
 };
 
-export type CaseStudy = {
-  id: string;
-  client: string;
-  title: string;
-  problem: string;
-  built: string;
-  result: string;
-  /** TODO: drop a screenshot or demo video path here. Null renders the placeholder slot. */
-  media: { type: "image" | "video"; src: string; alt: string } | null;
-};
-
-export const caseStudies: CaseStudy[] = [
-  {
-    id: "ai-receptionist",
-    client: "HVAC & generator company, NJ",
-    title: "An AI receptionist that picks up every call",
-    problem:
-      "Calls came in while the crew was on job sites. Voicemails piled up and some leads never called back.",
-    built:
-      "An AI phone receptionist built on Twilio and OpenAI Realtime. It answers every call, collects job details, routes urgent calls to a person, and emails a summary after each one.",
-    result: "598+ calls handled in its first four months.",
-    media: null,
-  },
-  {
-    id: "proposal-tool",
-    client: "Same HVAC & generator company",
-    title: "Generator proposals in minutes, not hours",
-    problem:
-      "Every generator quote was built by hand. Pricing lived in old proposals and in people's heads, and each one took hours.",
-    built:
-      "A proposal tool trained on their past proposals and pricing. Enter the job, get a priced, branded proposal the client can sign online.",
-    result: "Priced, branded proposals in minutes instead of hours. Clients sign online.",
-    media: null,
-  },
-  {
-    id: "accounting-automation",
-    client: "E-commerce manufacturer",
-    title: "Nightly accounting exports that run themselves",
-    problem:
-      "Inventory and journal entries were pulled together by hand for their accounting system, every reporting cycle.",
-    built:
-      "An accounting automation plugin that exports inventory and journal entries to their accounting system every night.",
-    result: "80 to 90% less time spent on reporting.",
-    media: null,
-  },
-];
+/* Case studies now live in src/lib/projects.ts. */
 
 export const stats = [
   { value: `${PROJECT_COUNT}+`, label: "projects shipped" },
