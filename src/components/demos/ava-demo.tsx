@@ -109,7 +109,7 @@ export function AvaDemo({ isStatic = false, hideCaption = false }: DemoProps) {
           </div>
 
           {/* Transcript */}
-          <ol className="mt-3 grid list-none gap-1.5 p-0">
+          <ol className="mt-3 grid grid-cols-[minmax(0,1fr)] list-none gap-1.5 p-0">
             {AVA_TRANSCRIPT.map((line, i) => {
               const spoken = ms >= line.start;
               const active = i === activeIndex;

@@ -99,7 +99,7 @@ export function QaqcDemo({ isStatic = false, hideCaption = false }: DemoProps) {
             {/* Steps */}
             <div className="relative mt-2 min-h-0 flex-1 overflow-hidden px-3">
               <ol
-                className="m-0 grid list-none gap-1.5 p-0 transition-transform duration-700 ease-[cubic-bezier(0.2,0.7,0.2,1)]"
+                className="m-0 grid grid-cols-[minmax(0,1fr)] list-none gap-1.5 p-0 transition-transform duration-700 ease-[cubic-bezier(0.2,0.7,0.2,1)]"
                 style={{ transform: `translateY(-${scroll}px)` }}
               >
                 {STEPS.map((step, i) => {
@@ -124,7 +124,7 @@ export function QaqcDemo({ isStatic = false, hideCaption = false }: DemoProps) {
                           <Pill>Manual</Pill>
                         ) : (
                           <Pill tone="info" className={`transition-opacity duration-300 ${suggested ? "opacity-100" : "opacity-0"}`}>
-                            From Housecall Pro · suggests Y
+                            Housecall Pro · suggests Y
                           </Pill>
                         )}
                         <span
@@ -132,7 +132,10 @@ export function QaqcDemo({ isStatic = false, hideCaption = false }: DemoProps) {
                             manual ? "text-text" : "text-[#9fd0a8]"
                           }`}
                         >
-                          {manual ? "answered" : "confirmed"}
+                          <span className="@max-[20rem]:hidden">{manual ? "answered" : "confirmed"}</span>
+                          <span className="@min-[20rem]:hidden" aria-hidden>
+                            ✓
+                          </span>
                         </span>
                       </div>
                       <p

@@ -155,7 +155,7 @@ export function AccountingDemo({
         )
       }
     >
-      <div className="relative min-h-[440px]">
+      <div className="relative @xl:min-h-[440px]">
         {/* Clock */}
         <div className="absolute right-0 top-0 z-10 flex items-center gap-2 rounded-full border border-border bg-bg px-2.5 py-1 text-[11px] tabular-nums text-muted">
           <span
@@ -172,7 +172,7 @@ export function AccountingDemo({
             WooCommerce orders · Nov 2
           </span>
         </div>
-        <ul className="m-0 mt-2 grid list-none gap-1 p-0">
+        <ul className="m-0 mt-2 grid grid-cols-[minmax(0,1fr)] list-none gap-1 p-0">
           {MESSY.map((row, i) => (
             <Appear
               key={row.order}
@@ -213,7 +213,7 @@ export function AccountingDemo({
         </div>
 
         {/* Clean export table. On wide screens the email lands to its right instead of over it. */}
-        <div className="mt-3 grid gap-3 @xl:grid-cols-[minmax(0,1fr)_280px]">
+        <div className="mt-3 grid grid-cols-[minmax(0,1fr)] gap-3 @xl:grid-cols-[minmax(0,1fr)_280px]">
           <div className="overflow-hidden rounded-[10px] border border-border bg-bg">
             <div className="flex items-center justify-between border-b border-border px-2.5 py-1.5 text-[10.5px]">
               <span className="font-semibold">Inventory export</span>
@@ -253,8 +253,9 @@ export function AccountingDemo({
           </div>
 
           {/* Email */}
-          <div className="relative min-h-[120px] @xl:min-h-0">
-            <div className="absolute inset-x-0 bottom-0 @xl:static">
+          {/* On narrow frames the email lands over the finished order list instead of the clean table. */}
+          <div className="pointer-events-none @max-xl:absolute @max-xl:inset-x-0 @max-xl:top-7 @max-xl:z-10">
+            <div>
               <EmailCard
                 show={at(T.email)}
                 from="Daily exports <exports@store.example>"
@@ -288,7 +289,7 @@ export function AccountingDemo({
         <Appear
           show={at(T.running) && !at(T.email)}
           from="none"
-          className="pointer-events-none absolute inset-x-0 bottom-0 flex justify-center @xl:left-auto @xl:w-[280px]"
+          className="pointer-events-none absolute inset-x-0 top-8 flex justify-center @xl:bottom-0 @xl:left-auto @xl:top-auto @xl:w-[280px]"
         >
           <span className="rounded-full border border-accent/50 bg-surface px-3 py-1 text-[11px] text-accent">
             Running daily export...

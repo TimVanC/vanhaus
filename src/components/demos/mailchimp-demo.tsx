@@ -51,7 +51,7 @@ const T = {
   end: 8800,
 };
 
-const grid = "grid grid-cols-[1fr_64px_52px_44px] @md:grid-cols-[1fr_88px_88px_80px_60px] gap-2 px-3";
+const grid = "grid grid-cols-[1fr_56px_44px_40px] gap-1.5 px-3 @md:grid-cols-[1fr_88px_88px_80px_60px] @md:gap-2";
 
 export function MailchimpDemo({ isStatic = false, hideCaption = false }: DemoProps) {
   const player = useDemoPlayer(T.end, { isStatic });
@@ -77,8 +77,8 @@ export function MailchimpDemo({ isStatic = false, hideCaption = false }: DemoPro
       <div className="relative min-h-[420px] overflow-hidden">
         {/* App nav strip */}
         <div className="flex items-center gap-1.5 border-b border-border bg-bg px-3 py-2 text-[10.5px] font-semibold">
-          <span className="mr-2 font-display text-[12px] font-bold tracking-[-0.02em]">Reporter</span>
-          <span className="rounded-full bg-surface px-2.5 py-0.5 text-text">Run Report</span>
+          <span className="mr-2 font-display text-[12px] font-bold tracking-[-0.02em] @max-[20rem]:hidden">Reporter</span>
+          <span className="whitespace-nowrap rounded-full bg-surface px-2.5 py-0.5 text-text">Run Report</span>
           <span className="px-2.5 py-0.5 text-muted">Reports</span>
           <span className="px-2.5 py-0.5 text-muted">Settings</span>
           <span
@@ -100,9 +100,11 @@ export function MailchimpDemo({ isStatic = false, hideCaption = false }: DemoPro
             ))}
           </div>
 
-          <div className="mt-3 grid gap-2.5 @md:grid-cols-2">
-            <Field label="Advertiser">{ADVERTISER}</Field>
-            <Field label="Tracking URLs (optional)">
+          <div className="mt-3 grid grid-cols-2 gap-2.5">
+            <Field label="Advertiser" className="col-span-2 @md:col-span-1">
+              {ADVERTISER}
+            </Field>
+            <Field label="Tracking URLs (optional)" className="col-span-2 @md:col-span-1">
               <span className="text-muted">Using ad placements</span>
             </Field>
             <Field label="Start date">10/01/2026</Field>
@@ -137,10 +139,13 @@ export function MailchimpDemo({ isStatic = false, hideCaption = false }: DemoPro
           <div className="flex flex-col overflow-hidden rounded-[10px] border border-border bg-bg shadow-[0_24px_50px_-20px_rgba(0,0,0,0.8)]">
             <div className="flex items-center justify-between gap-2 border-b border-border px-3 py-2">
               <div className="flex min-w-0 items-center gap-1.5">
-                <span className="rounded-full bg-surface px-2.5 py-0.5 text-[10.5px] font-semibold">AM report</span>
-                <span className="px-1.5 text-[10.5px] text-muted">PM report</span>
+                <span className="whitespace-nowrap rounded-full bg-surface px-2.5 py-0.5 text-[10.5px] font-semibold">AM report</span>
+                <span className="whitespace-nowrap px-1.5 text-[10.5px] text-muted">PM report</span>
               </div>
-              <Pill>Download all CSVs</Pill>
+              <Pill className="shrink-0">
+                <span className="@max-[20rem]:hidden">Download all CSVs</span>
+                <span className="@min-[20rem]:hidden">All CSVs</span>
+              </Pill>
             </div>
             <div className={`${grid} border-b border-border py-1.5 text-[9px] font-semibold uppercase tracking-[0.06em] text-muted`}>
               <span>Date</span>

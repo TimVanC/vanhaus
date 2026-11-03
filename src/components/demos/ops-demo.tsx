@@ -70,16 +70,21 @@ export function OpsDemo({ isStatic = false, hideCaption = false }: DemoProps) {
       summary="Eighteen business systems sync one by one into a private command center. A morning briefing builds with five items that need attention, a critical text alert arrives on the owner's phone, and the owner asks a plain-language question and gets an answer."
       caption={hideCaption ? undefined : "Eighteen systems in. One morning briefing out."}
     >
-      <div className="grid min-h-[520px] grid-cols-[minmax(0,1fr)] gap-3 @xl:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] @xl:grid-rows-[auto_1fr]">
+      {/* On narrow frames the sources, the briefing, and the text alert share one spot, one after another. */}
+      <div className="grid grid-cols-[minmax(0,1fr)] gap-3 @xl:min-h-[520px] @xl:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] @xl:grid-rows-[auto_1fr]">
         {/* Sources */}
-        <div className="rounded-[10px] border border-border bg-bg p-3 @xl:col-start-1 @xl:row-start-1">
+        <div
+          className={`flex flex-col rounded-[10px] border border-border bg-bg p-3 transition-opacity duration-500 @max-xl:[grid-area:1/1] @xl:col-start-1 @xl:row-start-1 ${
+            at(T.briefing) ? "@max-xl:pointer-events-none @max-xl:opacity-0" : ""
+          }`}
+        >
           <div className="flex items-center justify-between gap-2">
             <span className="text-[11.5px] font-semibold">Connected sources</span>
             <span className="shrink-0 text-[10.5px] tabular-nums text-muted">
               {synced} of {SOURCES.length} synced
             </span>
           </div>
-          <div className="mt-2.5 flex flex-wrap gap-1.5">
+          <div className="mt-2.5 flex flex-wrap content-start gap-1.5 @max-xl:flex-1 @max-xl:content-center">
             {SOURCES.map((name, i) => {
               const start = T.sync + i * STEP;
               const syncing = t >= start && t < start + T.syncLength;
@@ -109,7 +114,7 @@ export function OpsDemo({ isStatic = false, hideCaption = false }: DemoProps) {
         <Appear
           show={at(T.briefing)}
           from="up"
-          className="flex flex-col rounded-[10px] border border-border bg-bg p-3 @xl:col-start-2 @xl:row-span-2 @xl:row-start-1 @md:p-4"
+          className="flex flex-col rounded-[10px] border border-border bg-bg p-3 @max-xl:[grid-area:1/1] @xl:col-start-2 @xl:row-span-2 @xl:row-start-1 @md:p-4"
         >
           <div className="flex items-center justify-between gap-2">
             <span className="font-display text-[14px] font-bold tracking-[-0.01em]">Morning briefing</span>
@@ -120,7 +125,7 @@ export function OpsDemo({ isStatic = false, hideCaption = false }: DemoProps) {
           </p>
 
           <span className="mt-3 block text-[10px] font-semibold uppercase tracking-[0.08em] text-muted">Needs attention</span>
-          <ul className="m-0 mt-1.5 grid list-none gap-1.5 p-0">
+          <ul className="m-0 mt-1.5 grid grid-cols-[minmax(0,1fr)] list-none gap-1.5 p-0">
             {ATTENTION.map((item, i) => (
               <Appear
                 key={item.text}
@@ -160,11 +165,11 @@ export function OpsDemo({ isStatic = false, hideCaption = false }: DemoProps) {
         </Appear>
 
         {/* Text alert on the owner's phone */}
-        <div className="@xl:col-start-1 @xl:row-start-2 @xl:self-end">
+        <div className="pointer-events-none @max-xl:z-10 @max-xl:[grid-area:1/1] @max-xl:self-start @max-xl:p-2 @xl:col-start-1 @xl:row-start-2 @xl:self-end">
           <Appear
             show={at(T.sms)}
             from="up"
-            className="ml-auto max-w-[300px] rounded-[14px] border border-border bg-[#2a241e] p-3 shadow-[0_18px_40px_-14px_rgba(0,0,0,0.7)] @xl:ml-0"
+            className="mx-auto max-w-[300px] rounded-[14px] border border-border bg-[#2a241e] p-3 shadow-[0_18px_40px_-14px_rgba(0,0,0,0.7)] @xl:ml-0"
           >
             <div className="flex items-center justify-between text-[10px] text-muted">
               <span className="inline-flex items-center gap-1.5">

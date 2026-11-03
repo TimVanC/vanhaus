@@ -15,11 +15,12 @@ const JOB = {
   ats: "200",
 };
 
+/* `short` is what phones show, so the proposal stays compact on a narrow screen. */
 const EQUIPMENT = [
-  { item: "Generator", desc: "30 kW standby generator, natural gas, liquid-cooled, sound-attenuated enclosure", qty: 1 },
-  { item: "Transfer switch", desc: "200A service-entrance rated automatic transfer switch, outdoor", qty: 1 },
-  { item: "Monitoring", desc: "Remote monitoring kit with mobile app alerts", qty: 1 },
-  { item: "Pad", desc: "Composite mounting pad, pre-leveled", qty: 1 },
+  { item: "Generator", desc: "30 kW standby generator, natural gas, liquid-cooled, sound-attenuated enclosure", short: "30 kW standby generator, natural gas", qty: 1 },
+  { item: "Transfer switch", desc: "200A service-entrance rated automatic transfer switch, outdoor", short: "200A automatic transfer switch", qty: 1 },
+  { item: "Monitoring", desc: "Remote monitoring kit with mobile app alerts", short: "Remote monitoring kit", qty: 1 },
+  { item: "Pad", desc: "Composite mounting pad, pre-leveled", short: "Composite mounting pad", qty: 1 },
 ];
 
 const SUMS = [
@@ -79,11 +80,12 @@ export function ProposalDemo({ isStatic = false, hideCaption = false }: DemoProp
       }
       padded={false}
     >
-      <div className="relative grid min-h-[480px] @xl:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
+      {/* On narrow frames the form and the proposal share one spot, and the proposal replaces the form. */}
+      <div className="relative grid grid-cols-[minmax(0,1fr)] @xl:min-h-[480px] @xl:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
         {/* Job intake form */}
         <div
-          className={`relative border-border p-4 transition-opacity duration-500 @xl:border-r ${
-            showPaper ? "@max-xl:hidden @xl:opacity-50" : ""
+          className={`relative border-border p-4 transition-opacity duration-500 @max-xl:[grid-area:1/1] @xl:border-r ${
+            showPaper ? "@max-xl:pointer-events-none @max-xl:opacity-0 @xl:opacity-50" : ""
           }`}
         >
           <div className="flex items-center justify-between">
@@ -100,7 +102,7 @@ export function ProposalDemo({ isStatic = false, hideCaption = false }: DemoProp
             </div>
           </div>
 
-          <div className="mt-3 grid gap-2.5">
+          <div className="mt-3 grid grid-cols-[minmax(0,1fr)] gap-2.5">
             <Field label="Client name" active={t >= T.client[0] && t < T.client[1]}>
               <Typed text={JOB.client} progress={progress(T.client[0], T.client[1])} />
             </Field>
@@ -136,7 +138,7 @@ export function ProposalDemo({ isStatic = false, hideCaption = false }: DemoProp
         </div>
 
         {/* Proposal paper */}
-        <div className="relative overflow-hidden p-3 @md:p-4">
+        <div className={`relative overflow-hidden p-3 @max-xl:[grid-area:1/1] @md:p-4 ${showPaper ? "" : "@max-xl:invisible"}`}>
           <div className="mb-2.5 flex h-6 items-center justify-between gap-2">
             <span className="text-[11.5px] text-muted">{showPaper ? "Proposal" : "Proposal preview"}</span>
             <Appear show={at(T.accept)} from="down">
@@ -162,7 +164,7 @@ export function ProposalDemo({ isStatic = false, hideCaption = false }: DemoProp
 
             <Appear show={at(T.scope)} className="mt-3">
               <span className="block text-[9.5px] font-bold tracking-[0.1em]">SCOPE OF WORK</span>
-              <p className="mt-1 text-[10px] leading-[1.5] text-bg/80">
+              <p className="mt-1 text-[10px] leading-[1.5] text-bg/80 @max-md:line-clamp-2">
                 Furnish and install one 30 kW natural gas standby generator with a 200A service-entrance transfer switch, gas
                 piping from the meter, and a new composite pad. Includes startup, commissioning, and owner training.
               </p>
@@ -170,8 +172,8 @@ export function ProposalDemo({ isStatic = false, hideCaption = false }: DemoProp
 
             {/* Equipment table */}
             <div className="mt-3 overflow-hidden">
-              <div className="grid grid-cols-[64px_1fr_28px_52px] gap-2 border-b border-bg/20 pb-1 text-[9px] font-bold uppercase tracking-[0.06em] text-bg/70">
-                <span>Item</span>
+              <div className="grid grid-cols-[1fr_24px_48px] gap-2 border-b border-bg/20 pb-1 text-[9px] font-bold uppercase tracking-[0.06em] text-bg/70 @md:grid-cols-[64px_1fr_28px_52px]">
+                <span className="hidden @md:block">Item</span>
                 <span>Description</span>
                 <span className="text-right">Qty</span>
                 <span className="text-right">Price</span>
@@ -181,10 +183,13 @@ export function ProposalDemo({ isStatic = false, hideCaption = false }: DemoProp
                   key={row.item}
                   show={at(T.eq + i * T.eqStep)}
                   from="left"
-                  className="grid grid-cols-[64px_1fr_28px_52px] gap-2 border-b border-bg/10 py-1 text-[10px] leading-[1.35]"
+                  className="grid grid-cols-[1fr_24px_48px] gap-2 border-b border-bg/10 py-1 text-[10px] leading-[1.35] @md:grid-cols-[64px_1fr_28px_52px]"
                 >
-                  <span className="font-semibold">{row.item}</span>
-                  <span className="text-bg/80">{row.desc}</span>
+                  <span className="hidden font-semibold @md:block">{row.item}</span>
+                  <span className="text-bg/80">
+                    <span className="hidden @md:inline">{row.desc}</span>
+                    <span className="@md:hidden">{row.short}</span>
+                  </span>
                   <span className="text-right">{row.qty}</span>
                   <span className="text-right text-bg/60">included</span>
                 </Appear>
@@ -192,18 +197,23 @@ export function ProposalDemo({ isStatic = false, hideCaption = false }: DemoProp
             </div>
 
             {/* Lump sums */}
-            <div className="mt-2.5 grid gap-0.5">
+            <div className="mt-2.5 grid grid-cols-[minmax(0,1fr)] gap-0.5">
               {SUMS.map((row, i) => (
                 <Appear
                   key={row.label}
                   show={at(T.sums + i * T.sumStep)}
                   from="right"
-                  className="flex items-baseline justify-between gap-3 text-[10px]"
+                  className={`flex items-baseline justify-between gap-3 text-[10px] ${i >= 2 ? "@max-md:hidden" : ""}`}
                 >
                   <span className="min-w-0 truncate text-bg/80">{row.label}</span>
                   <span className="shrink-0 tabular-nums">{money(row.amount)}</span>
                 </Appear>
               ))}
+              {/* Phones fold the three small lines into one so the proposal stays short. */}
+              <Appear show={at(T.sums + 2 * T.sumStep)} from="right" className="flex items-baseline justify-between gap-3 text-[10px] @md:hidden">
+                <span className="min-w-0 truncate text-bg/80">Materials, permit, and sales tax</span>
+                <span className="shrink-0 tabular-nums">{money(SUMS.slice(2).reduce((n, r) => n + r.amount, 0))}</span>
+              </Appear>
               <div
                 className={`mt-1.5 flex items-baseline justify-between border-t border-bg/25 pt-1.5 transition-opacity duration-300 ${
                   at(T.sums) ? "opacity-100" : "opacity-0"
@@ -212,7 +222,7 @@ export function ProposalDemo({ isStatic = false, hideCaption = false }: DemoProp
                 <span className="text-[11px] font-bold tracking-[0.06em]">TOTAL:</span>
                 <span className="font-display text-[15px] font-bold tabular-nums tracking-[-0.01em]">{money(totalShown)}</span>
               </div>
-              <span className={`text-[8.5px] text-bg/55 transition-opacity duration-300 ${at(T.total[1]) ? "opacity-100" : "opacity-0"}`}>
+              <span className={`truncate text-[8.5px] text-bg/55 transition-opacity duration-300 ${at(T.total[1]) ? "opacity-100" : "opacity-0"}`}>
                 Quote includes freight and sales tax. Exclusions and clarifications on page 2.
               </span>
             </div>

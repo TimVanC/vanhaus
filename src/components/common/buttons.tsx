@@ -14,8 +14,19 @@ type Size = keyof typeof sizes;
 
 const isExternal = (href: string) => /^https?:\/\//.test(href);
 
-/** The primary CTA. Points at BOOKING_URL, so swapping in a Cal.com link is a one-line change. */
-export function BookCallLink({ size = "lg", className = "" }: { size?: Size; className?: string }) {
+/**
+ * The primary CTA. Points at BOOKING_URL, so swapping in a Cal.com link is a one-line change.
+ * `compact` swaps in a shorter label on very small phones, for tight spots like the header.
+ */
+export function BookCallLink({
+  size = "lg",
+  className = "",
+  compact = false,
+}: {
+  size?: Size;
+  className?: string;
+  compact?: boolean;
+}) {
   const external = isExternal(BOOKING_URL);
   return (
     <a
@@ -24,7 +35,14 @@ export function BookCallLink({ size = "lg", className = "" }: { size?: Size; cla
       rel={external ? "noreferrer" : undefined}
       className={`${base} ${sizes[size]} group bg-accent text-on-accent hover:bg-accent-hover ${className}`}
     >
-      {CTA_LABEL}
+      {compact ? (
+        <>
+          <span className="max-[400px]:hidden">{CTA_LABEL}</span>
+          <span className="min-[401px]:hidden">Book a call</span>
+        </>
+      ) : (
+        CTA_LABEL
+      )}
       <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
     </a>
   );

@@ -25,7 +25,7 @@ export function Header() {
           ))}
         </nav>
 
-        <BookCallLink size="md" className="shrink-0 max-sm:h-10 max-sm:px-4 max-sm:text-[13px]" />
+        <BookCallLink size="md" compact className="shrink-0 max-sm:h-10 max-sm:px-4 max-sm:text-[13px]" />
       </div>
     </header>
   );

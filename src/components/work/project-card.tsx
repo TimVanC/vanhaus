@@ -55,7 +55,7 @@ export function ProjectRow({
 }) {
   const Heading = headingLevel;
   return (
-    <article className="grid items-center gap-8 lg:grid-cols-12 lg:gap-12">
+    <article className="grid grid-cols-[minmax(0,1fr)] items-center gap-8 lg:grid-cols-12 lg:gap-12">
       <div className={`lg:col-span-7 ${flip ? "lg:order-2" : ""}`}>
         <LazyDemo slug={project.slug} />
       </div>

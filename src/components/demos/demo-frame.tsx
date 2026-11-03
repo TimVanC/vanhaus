@@ -39,20 +39,20 @@ export function DemoFrame({ player, title, summary, caption, children, className
         ref={attach}
         className="demo-stage @container relative overflow-hidden rounded-[var(--radius)] border border-border bg-surface"
       >
-        <div className="flex h-10 items-center justify-between border-b border-border/80 px-3.5">
-          <div className="flex items-center gap-3">
-            <span className="flex gap-1.5" aria-hidden>
+        <div className="flex h-10 items-center justify-between gap-3 border-b border-border/80 px-3.5">
+          <div className="flex min-w-0 items-center gap-3">
+            <span className="flex shrink-0 gap-1.5" aria-hidden>
               <span className="h-2.5 w-2.5 rounded-full bg-border" />
               <span className="h-2.5 w-2.5 rounded-full bg-border" />
               <span className="h-2.5 w-2.5 rounded-full bg-border" />
             </span>
-            <span className="text-[12.5px] font-medium tracking-[0.01em] text-muted">{title}</span>
+            <span className="truncate text-[12.5px] font-medium tracking-[0.01em] text-muted">{title}</span>
           </div>
           {showReplay ? (
             <button
               type="button"
               onClick={replay}
-              className={`inline-flex h-7 items-center gap-1.5 rounded-full border px-2.5 text-[12px] font-medium transition-colors ${
+              className={`inline-flex h-7 shrink-0 items-center gap-1.5 rounded-full border px-2.5 text-[12px] font-medium transition-colors ${
                 done
                   ? "border-accent/60 text-accent hover:bg-accent/10"
                   : "border-border text-muted hover:border-muted hover:text-text"
