@@ -224,31 +224,39 @@ export const projects: Project[] = [
     home: [
       {
         label: "Problem",
-        text: "Years of their books live in Sage 50, an older desktop accounting system, so switching wasn't an option. But it couldn't connect to their website, so every online sale was re-entered by hand.",
+        text: "Years of their books live in Sage 50, an older desktop accounting system, so switching wasn't an option. But it couldn't connect to their website, so 4,500 to 5,000 online orders a year were re-keyed by hand.",
       },
       {
         label: "What we built",
-        text: "A WordPress plugin that turns each day's orders, with all their options, add-ons, coupons, and refunds, into files Sage 50 accepts. They import cleanly, exactly as if someone had keyed them in.",
+        text: "A WordPress plugin that turns each day's orders into files Sage 50 accepts, including custom shoulder pads where one product stands for 360 possible inventory SKUs. They import cleanly, as if someone had keyed them in.",
       },
       { label: "Result", text: "80 to 90% less time spent on reporting. The files are in the inbox every morning." },
     ],
     problem: [
       "This team makes football pads, supplies the NFL, and sells direct online through WooCommerce. Their accounting has run on Sage 50, an older desktop system, for years. All of that history lives there, so moving to a newer service wasn't worth what they would lose.",
-      "Sage 50 has no way to connect to the website. Every online sale had to be rebuilt by hand: product options turned into SKUs, add-ons split out, coupons and refunds netted, and sales tax split by state, until the debits and credits finally matched.",
+      "Sage 50 has no way to connect to the website. Each of the 4,500 to 5,000 online orders a year was re-keyed by hand as a sales order, an invoice, and a payment. Mistakes crept in: missed orders, the wrong SKU, the wrong tax, and refunds handled differently each time.",
+      "Custom shoulder pads were the hardest part. Customers build them from options like size, arch, and cup, so one product on the website stands for hundreds of physical inventory items, and the choices only live inside each order.",
     ],
     built: [
-      "A WordPress plugin that reads each day's WooCommerce orders and never changes them. It turns product options into real inventory SKUs, splits add-ons into their own lines, and nets out coupons, refunds, shipping, and state sales tax.",
-      "At midnight it builds two files, an inventory export and a journal entry, in the exact layout Sage 50 expects, and emails them to the accounting team. They import cleanly, and the result looks exactly like it was entered by hand.",
-      "If debits and credits don't match, it stops and says why instead of sending bad numbers. An admin page runs any date range on demand, plus a monthly state summary.",
+      "A WordPress plugin that reads each day's WooCommerce orders and never changes them. It reads the builder choices on every custom pad and assembles the exact inventory SKU, out of 360 possible combinations. Add-ons like backplates and rib guards become their own rows, with their price moved off the pad so revenue is never counted twice.",
+      "Coupons, refunds, shipping, and state sales tax are all netted out. Refunds land on the refund date, and partial refunds are split fairly between a pad and its add-ons.",
+      "At midnight it builds two files, an inventory export and a journal entry, in the exact layout Sage 50 expects, and emails them to the accounting team. A monthly sales summary by state goes out on the 1st.",
+      "It never invents a balancing entry. If a day's debits and credits don't match, it stops, names the exact order behind the problem, and emails a plain-language note on what to do next. The controller handles day-to-day exceptions, like a new tax state or an unmapped product, from the admin pages without calling a developer.",
     ],
-    stats: [{ value: "80 to 90%", label: "less time spent on reporting" }],
-    result: "They kept the accounting system they trust. Reporting went from a recurring chore to an email that is waiting in the morning.",
+    stats: [
+      { value: "80 to 90%", label: "less time spent on reporting" },
+      { value: "4,500+", label: "orders a year no longer re-keyed by hand" },
+      { value: "360", label: "possible SKUs behind one custom pad, worked out automatically" },
+    ],
+    result:
+      "They kept the accounting system they trust, and the team's daily work is now checking numbers instead of typing them. It has run every night since February 2026, and every problem so far was caught by its own safety checks before bad numbers reached the books.",
     howItWorks: {
       stack: ["WordPress plugin", "PHP", "WooCommerce", "PhpSpreadsheet", "WP-Cron", "Sage 50 import"],
       approach: [
         "The plugin only reads orders. It never changes anything in WooCommerce.",
         "A dictionary maps option labels to SKUs and add-ons. Coupons become negative rows, refunds mirror the original items on the refund date, and sales tax is credited per state.",
-        "At midnight Eastern the scheduler builds both Excel files and emails them. A 4 AM check re-runs the export if the midnight run failed.",
+        "At midnight Eastern the scheduler builds both Excel files and emails them. A 4 AM check re-runs any day that didn't succeed, and every run is logged with its result.",
+        "Both files are built from the same set of orders, so they always agree. Unmapped products and unbalanced days show up as warnings in the email instead of being quietly guessed at.",
       ],
     },
     caption: "80 to 90% less reporting time.",
@@ -308,46 +316,57 @@ export const projects: Project[] = [
   {
     slug: "mailchimp-reporter",
     name: "Mailchimp reporter",
-    title: "Ad performance reports in one click",
+    title: "Advertiser reports that credit the right ad",
     client: "NJ business news publisher",
-    summary: "Pick an advertiser and a date range, click once, and get a clean report of opens, clicks, and CTR.",
+    summary:
+      "Pick an advertiser, a date range, and the newsletters. Get opens and ad clicks for every send, credited to whoever actually held that ad slot that day.",
     status: "live",
     demo: "ready",
     featured: false,
-    problem: [
-      "Advertisers wanted to know how their newsletter placements performed. Pulling that meant opening every campaign in Mailchimp and copying link clicks into a spreadsheet.",
-      "Each report took a chunk of someone's day, and the numbers were easy to get wrong.",
-    ],
-    built: [
-      "A small desktop app. Choose the newsletter type, the advertiser, their ad links or keywords, a date range, and the metrics you want.",
-      "One click pulls every campaign in range from Mailchimp, finds the advertiser's links in each one, and totals opens, recipients, clicks, and CTR by send date. The result opens in Excel or saves as CSV.",
-    ],
     home: [
       {
         label: "Problem",
-        text: "Advertisers wanted to know how their newsletter placements performed. Answering meant opening every campaign in Mailchimp and copying link clicks into a spreadsheet.",
+        text: "Advertisers buy slots in the publisher's newsletters and are owed a report. Mailchimp only logs clicks against links, the ad slots rotate between advertisers, and the old report script ran on one computer.",
       },
       {
         label: "What we built",
-        text: "A small desktop app. Pick the advertiser, their ad links, and a date range, click once, and get opens, clicks, and CTR by send date, ready for Excel.",
+        text: "A web app any authorized staffer can open. Pick the advertiser, dates, and newsletters, and it credits every click to whoever held that ad slot on the send date, then hands back a CSV per newsletter.",
       },
-      { label: "Result", text: "95% less time on reporting." },
+      {
+        label: "Result",
+        text: "95% less time on reporting. Checked against a known advertiser report, all 204 rows matched.",
+      },
     ],
-    stats: [{ value: "95%", label: "less time on reporting" }],
-    result: "A report that took most of a morning now takes about as long as a coffee refill.",
+    problem: [
+      "The publisher sells ad slots in its email newsletters and owes each advertiser a report: how many readers opened the newsletters their ad ran in, and how many clicked the ad. Mailchimp has the raw numbers, but turning them into a per-advertiser, per-day report was a manual grind on a desktop script that only ran on one machine.",
+      "The numbers were also hard to get right. Mailchimp logs clicks against links, not advertisers, and the ad links point at ad slots that rotate. One slot held five different advertisers between June and October, so following the link today credits whoever is in the slot now, not who was there on the send date.",
+      "Reports often span months and hundreds of campaigns, far more work than a single web request can finish.",
+    ],
+    built: [
+      "A web app for invited staff. Pick an advertiser, a date range, and any mix of newsletters, choose the columns, and run it. One run produces a CSV per newsletter, in the same layout the team already used, with monthly subtotals and a grand total.",
+      "Clicks are credited using the ad server's own placement history. A click only counts when that advertiser held that ad slot on the send date, and older plain links to the advertiser's site still count too. Every report includes an attribution log showing which advertiser held each slot, and when.",
+      "Long reports run as resumable jobs. They survive a page reload, a closed tab, or a server timeout and pick up from the last saved campaign. A progress bar shows campaigns processed and time left, and any past report can be re-run with the same settings.",
+    ],
+    stats: [
+      { value: "95%", label: "less time on reporting" },
+      { value: "204", label: "rows checked against a known advertiser report, matched row for row" },
+    ],
+    result:
+      "Reports any staffer can run from a browser, with every click credited to the advertiser who actually held the slot.",
     howItWorks: {
-      stack: ["Tauri", "React", "Rust", "Mailchimp Marketing API"],
+      stack: ["Next.js", "Supabase (auth and Postgres)", "Mailchimp Marketing API", "Broadstreet ad server API", "Vercel"],
       approach: [
-        "The app lists every campaign sent in the date range and keeps the ones whose title matches the newsletter type.",
-        "For each campaign it reads opens and recipients, then fetches the per-link click report and adds up clicks on any link that contains the advertiser's URL or keyword.",
-        "CTR is ad clicks over unique opens. Dates with no ad clicks are dropped, and the finished table is saved to history and exported with only the columns that were checked.",
+        "The app pulls the campaign list from Mailchimp once, tags each campaign with every newsletter type it matches using whole-word matching, and reads opens, recipients, and per-link clicks for each send.",
+        "Ad placement history is synced from the ad server every few hours. For each ad link, the app checks which advertiser held that slot on the send date and only counts the clicks that belong to them.",
+        "Work runs in 30-second steps that save their place in the database, so a months-long report never times out. Send dates are handled in Eastern time, so a 9 PM blast lands on the right day.",
+        "API keys stay on the server and never reach the browser. CTR is total clicks over total opens, the same formula on every row and total.",
       ],
     },
     caption: "95% less time on reporting.",
     seo: {
       title: "Mailchimp Ad Reporting Tool for Publishers | VanHaus",
       description:
-        "How VanHaus built a one-click Mailchimp ad performance reporter for a New Jersey business news publisher, cutting reporting time by 95%.",
+        "How VanHaus built a web app for a New Jersey business news publisher that turns Mailchimp data into advertiser reports, crediting every ad click to the right advertiser and cutting reporting time by 95%.",
     },
   },
 ];
