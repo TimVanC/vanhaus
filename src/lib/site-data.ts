@@ -25,7 +25,7 @@ export const stats = [
   { value: `${PROJECT_COUNT}+`, label: "projects shipped" },
   { value: `Since ${FIRST_YEAR}`, label: "building for businesses" },
   { value: "1,000+", label: "calls answered by our AI" },
-  { value: "80 to 90%", label: "less reporting time for one client" },
+  { value: "80 to 90%", label: "less reporting time for multiple clients" },
 ];
 
 export const trustPoints = [
