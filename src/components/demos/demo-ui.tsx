@@ -92,7 +92,7 @@ export function Field({
   );
 }
 
-/** A chip that lights up copper when selected. */
+/** A chip that lights up in the accent color when selected. */
 export function Chip({
   children,
   selected = false,
@@ -259,7 +259,7 @@ export function Bar({ value, className = "", tone = "accent" }: { value: number;
   );
 }
 
-/** Check mark in a copper circle. */
+/** Check mark in an accent circle. */
 export function CheckBadge({ show, className = "" }: { show: boolean; className?: string }) {
   return (
     <span

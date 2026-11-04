@@ -8,7 +8,7 @@
  * - AVA_AUDIO_SRC: path under /public (for example "/audio/ava-sample.mp3") or null to run
  *   the demo on its internal clock with no sound.
  * - AVA_TRANSCRIPT: one entry per line of speech, with start/end in milliseconds that match
- *   the recording. "ai" lines are drawn in copper, "caller" lines in the muted tone.
+ *   the recording. "ai" lines are drawn in the accent color, "caller" lines in the muted tone.
  * - AVA_SUMMARY: the summary email that slides in when the call ends.
  */
 

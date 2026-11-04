@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /* ---------------------------------------------------------------------------
-   VanHaus palette. Warm dark mode. Copper is the only accent.
+   VanHaus palette. Warm dark mode. Sage (#7c8575) is the only accent.
    --------------------------------------------------------------------------- */
 :root {
   --bg: #16130f;
@@ -9,10 +9,10 @@
   --border: #3a322b;
   --text: #f2ece4;
   --text-muted: #b5aaa0;
-  --accent: #c4703f;
-  --accent-hover: #db8a57;
+  --accent: #7c8575;
+  --accent-hover: #8a9383;
 
-  /* Text that sits on a copper background. Dark on copper passes AA; off-white on copper does not. */
+  /* Text that sits on an accent background. Dark on sage passes AA (4.8:1); off-white on sage does not (3.3:1). */
   --on-accent: #16130f;
 
   --radius: 16px;

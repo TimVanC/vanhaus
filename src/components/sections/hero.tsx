@@ -3,7 +3,7 @@ import { FIRST_YEAR, PROJECT_COUNT } from "@/lib/constants";
 import { hero } from "@/lib/site-data";
 
 /**
- * A distinctive grotesk set very large across the full width, one hand-drawn copper
+ * A distinctive grotesk set very large across the full width, one hand-drawn accent
  * underline, and a plain facts column instead of imagery. Everything here is above the
  * fold, so it renders immediately with no scroll reveal.
  */

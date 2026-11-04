@@ -9,7 +9,7 @@ import { useDemoPlayer } from "./use-demo-player";
 
 /**
  * Shell for the AI receptionist demo. Audio player with a two-color waveform (caller in
- * the muted tone, Ava in copper), transcript lines that highlight in sync, and a summary
+ * the muted tone, Ava in the accent color), transcript lines that highlight in sync, and a summary
  * email that slides in when the call ends.
  *
  * With AVA_AUDIO_SRC set, the real <audio> element drives the clock. Without it, the demo
