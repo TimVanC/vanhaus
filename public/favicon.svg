@@ -2,6 +2,6 @@
   <rect width="512" height="512" rx="112" fill="#16130F"/>
   <g fill="none" stroke-width="54" stroke-linecap="round" stroke-linejoin="round">
     <path d="M100 186 L186 352 L272 186" stroke="#F2ECE4"/>
-    <path d="M304 150 V352 M304 266 C304 212 412 212 412 266 V352" stroke="#7C8575"/>
+    <path d="M304 150 V352 M304 266 C304 212 412 212 412 266 V352" stroke="#93AD85"/>
   </g>
 </svg>
