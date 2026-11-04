@@ -32,5 +32,4 @@ export const SHOW_AVA_DEMO = false;
 export const SHOW_TESTIMONIAL = false;
 
 export const LOCATION_LINE = "Serving New Jersey and the NYC area, and working remotely with clients anywhere.";
-export const STATUS_LINE = "Taking on new projects";
 export const CTA_LABEL = "Book a free discovery call";

@@ -8,8 +8,8 @@ import { painPoints } from "@/lib/site-data";
  */
 export function PainPoints() {
   return (
-    <section id="what-we-fix" className="border-t border-border">
-      <div className="container-site py-[clamp(72px,9vw,128px)]">
+    <section id="what-we-fix">
+      <div className="container-site py-[clamp(48px,7vw,104px)]">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-4">
             <Reveal>

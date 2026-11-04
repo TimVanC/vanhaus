@@ -11,8 +11,8 @@ import { homeProjects } from "@/lib/projects";
  */
 export function Work() {
   return (
-    <section id="work" className="border-t border-border">
-      <div className="container-site py-[clamp(72px,9vw,128px)]">
+    <section id="work">
+      <div className="container-site py-[clamp(48px,7vw,104px)]">
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-6">
             <div>
@@ -28,7 +28,7 @@ export function Work() {
           </div>
         </Reveal>
 
-        <div className="mt-14 flex flex-col gap-[clamp(64px,8vw,112px)] md:mt-20">
+        <div className="mt-10 flex flex-col gap-[clamp(56px,7vw,104px)] md:mt-16">
           {homeProjects.map((project, index) => (
             <Reveal key={project.slug}>
               <ProjectRow project={project} flip={index % 2 === 1} />

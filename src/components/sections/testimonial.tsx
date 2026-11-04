@@ -10,8 +10,8 @@ export function Testimonial() {
   if (!SHOW_TESTIMONIAL || !testimonial) return null;
 
   return (
-    <section id="testimonial" className="border-t border-border bg-surface/50">
-      <div className="container-site py-[clamp(64px,8vw,112px)]">
+    <section id="testimonial" className="bg-surface/50">
+      <div className="container-site py-[clamp(44px,6vw,96px)]">
         <Reveal>
           <figure className="mx-auto max-w-[820px]">
             <span className="block font-display text-[72px] leading-[0.6] text-accent" aria-hidden>

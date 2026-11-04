@@ -63,8 +63,8 @@ export function Contact() {
   };
 
   return (
-    <section id="contact" className="border-t border-border">
-      <div className="container-site py-[clamp(72px,9vw,128px)]">
+    <section id="contact">
+      <div className="container-site py-[clamp(48px,7vw,104px)]">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-14">
           <div className="lg:col-span-5">
             <Reveal>

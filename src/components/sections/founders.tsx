@@ -10,8 +10,8 @@ const linkedin = { tim: TIM_LINKEDIN, joe: JOE_LINKEDIN };
 /** Who we are: the photo, cropped from just above our heads to the knees, and two short bios. */
 export function Founders() {
   return (
-    <section id="who-we-are" className="border-t border-border">
-      <div className="container-site py-[clamp(72px,9vw,128px)]">
+    <section id="who-we-are">
+      <div className="container-site py-[clamp(48px,7vw,104px)]">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-14">
           <Reveal className="lg:col-span-7">
             <div className="relative aspect-square overflow-hidden rounded-[var(--radius)] bg-surface">

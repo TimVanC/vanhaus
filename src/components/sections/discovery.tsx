@@ -7,8 +7,8 @@ const points = ["30 minutes on a call", "No cost, no obligation", "A fixed price
 /** A slim band right under the hero that makes the free discovery call impossible to miss. */
 export function Discovery() {
   return (
-    <section aria-label="Free discovery call" className="border-t border-border">
-      <div className="container-site py-[clamp(28px,4vw,44px)]">
+    <section aria-label="Free discovery call">
+      <div className="container-site py-[clamp(8px,2vw,24px)]">
         <Reveal>
           <div className="relative overflow-hidden rounded-[var(--radius)] border border-accent/40 bg-accent/[0.07] p-6 md:p-8">
             <span className="absolute inset-y-0 left-0 w-1 bg-accent" aria-hidden />

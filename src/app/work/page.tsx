@@ -19,7 +19,7 @@ export default function WorkPage() {
       <div className="grain" />
       <main className="relative z-10">
         <Header />
-        <section className="container-site pb-[clamp(72px,9vw,128px)] pt-[clamp(44px,6vw,80px)]">
+        <section className="container-site pb-[clamp(48px,7vw,104px)] pt-[clamp(32px,5vw,72px)]">
           <Reveal>
             <Kicker>Work</Kicker>
             <h1 className="mt-6 max-w-[14ch] font-display text-[clamp(40px,6vw,88px)] font-bold leading-[0.98] tracking-[-0.035em] text-balance">
@@ -31,7 +31,7 @@ export default function WorkPage() {
             </p>
           </Reveal>
 
-          <div className="mt-14 flex flex-col gap-[clamp(64px,8vw,112px)] md:mt-20">
+          <div className="mt-10 flex flex-col gap-[clamp(56px,7vw,104px)] md:mt-16">
             {projects.map((project, index) => (
               <Reveal key={project.slug}>
                 <ProjectRow project={project} flip={index % 2 === 1} headingLevel="h2" />

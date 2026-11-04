@@ -8,8 +8,8 @@ import { stats, trustPoints } from "@/lib/site-data";
  */
 export function Stats() {
   return (
-    <section id="numbers" className="border-t border-border bg-surface/50">
-      <div className="container-site py-[clamp(64px,8vw,112px)]">
+    <section id="numbers" className="bg-surface/50">
+      <div className="container-site py-[clamp(44px,6vw,96px)]">
         <Reveal>
           <dl className="grid grid-cols-2 gap-y-10 lg:grid-cols-4 lg:divide-x lg:divide-border">
             {stats.map((stat) => (
@@ -28,7 +28,7 @@ export function Stats() {
         </Reveal>
 
         <Reveal className="d1">
-          <div className="mt-16 grid gap-10 border-t border-border pt-12 md:mt-20 lg:grid-cols-12">
+          <div className="mt-12 grid gap-10 md:mt-16 lg:grid-cols-12">
             <h2 className="font-display text-[clamp(26px,2.6vw,34px)] font-bold leading-[1.1] tracking-[-0.02em] lg:col-span-4">
               How we work with you.
             </h2>

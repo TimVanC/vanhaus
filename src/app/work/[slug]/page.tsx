@@ -36,8 +36,8 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
 
 function Section({ kicker, title, children }: { kicker: string; title: string; children: React.ReactNode }) {
   return (
-    <section className="border-t border-border">
-      <div className="container-site grid gap-8 py-[clamp(56px,7vw,96px)] lg:grid-cols-12 lg:gap-12">
+    <section>
+      <div className="container-site grid gap-6 py-[clamp(32px,4.5vw,64px)] lg:grid-cols-12 lg:gap-12">
         <Reveal className="lg:col-span-4">
           <Kicker>{kicker}</Kicker>
           <h2 className="mt-5 max-w-[16ch] font-display text-[clamp(26px,2.8vw,38px)] font-bold leading-[1.1] tracking-[-0.02em] text-balance">
@@ -76,7 +76,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
         <Header />
 
         {/* Intro */}
-        <section className="container-site pb-[clamp(40px,5vw,64px)] pt-[clamp(40px,6vw,72px)]">
+        <section className="container-site pb-[clamp(32px,4vw,56px)] pt-[clamp(32px,5vw,64px)]">
           <Reveal>
             <Link href="/work" className="inline-flex items-center gap-2 text-[14px] text-muted hover:text-text">
               <ArrowRight className="h-3.5 w-3.5 rotate-180" />
@@ -94,7 +94,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
         </section>
 
         {/* Demo */}
-        <section className="container-site pb-[clamp(56px,7vw,96px)]">
+        <section className="container-site pb-[clamp(24px,4vw,56px)]">
           <Reveal className="d1">
             <div className="mx-auto max-w-[920px]">
               <LazyDemo slug={project.slug} />
@@ -144,8 +144,8 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
         </Section>
 
         {/* CTA */}
-        <section className="border-t border-border bg-surface/50">
-          <div className="container-site py-[clamp(64px,8vw,112px)]">
+        <section className="mt-[clamp(16px,3vw,40px)] bg-surface/50">
+          <div className="container-site py-[clamp(44px,6vw,96px)]">
             <Reveal>
               <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
                 <div>
@@ -164,8 +164,8 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
         </section>
 
         {/* More work */}
-        <section className="border-t border-border">
-          <div className="container-site py-[clamp(48px,6vw,80px)]">
+        <section>
+          <div className="container-site py-[clamp(40px,5vw,72px)]">
             <Reveal>
               <div className="flex items-end justify-between gap-6">
                 <h2 className="font-display text-[clamp(22px,2.4vw,30px)] font-bold tracking-[-0.02em]">More work</h2>

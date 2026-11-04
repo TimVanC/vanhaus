@@ -1,69 +1,51 @@
 import { BookCallLink, SecondaryLink } from "@/components/common/buttons";
-import { Kicker } from "@/components/common/kicker";
-import { Reveal } from "@/components/common/reveal";
-import { StatusDot } from "@/components/common/status-dot";
 import { FIRST_YEAR, PROJECT_COUNT } from "@/lib/constants";
 import { hero } from "@/lib/site-data";
 
 /**
  * A distinctive grotesk set very large across the full width, one hand-drawn copper
- * underline, and a plain facts column instead of imagery. The photo stays exclusive
- * to the founders section.
+ * underline, and a plain facts column instead of imagery. Everything here is above the
+ * fold, so it renders immediately with no scroll reveal.
  */
 export function Hero() {
   return (
     <section className="relative">
-      <div className="container-site pb-[clamp(64px,8vw,112px)] pt-[clamp(44px,6vw,80px)]">
-        <Reveal>
-          <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-3">
-            <Kicker>Custom software and AI for small businesses</Kicker>
-            <StatusDot />
-          </div>
-        </Reveal>
-
-        <Reveal className="d1">
-          <h1 className="mt-10 font-display text-[clamp(44px,8.2vw,122px)] font-bold leading-[0.96] tracking-[-0.035em] md:mt-14">
-            <span className="md:block">Every task has a</span>{" "}
-            <span className="md:block">
-              <span className="relative inline-block">
-                smarter
-                <svg
-                  className="absolute left-0 top-full -mt-[0.14em] h-[0.16em] w-full text-accent"
-                  viewBox="0 0 200 20"
-                  preserveAspectRatio="none"
-                  aria-hidden
-                >
-                  <path
-                    d="M3 15 C 50 5, 120 3, 197 11"
-                    stroke="currentColor"
-                    strokeWidth="5"
-                    strokeLinecap="round"
-                    fill="none"
-                  />
-                </svg>
-              </span>{" "}
-              way to do it.
+      <div className="container-site pb-[clamp(40px,6vw,88px)] pt-[clamp(32px,5vw,72px)]">
+        <h1 className="font-display text-[clamp(42px,8.2vw,122px)] font-bold leading-[1.06] tracking-[-0.025em] md:leading-[0.96] md:tracking-[-0.035em]">
+          <span className="md:block">Every task has a</span>{" "}
+          <span className="md:block">
+            <span className="relative inline-block">
+              smarter
+              <svg
+                className="absolute left-0 top-full -mt-[0.14em] h-[0.16em] w-full text-accent"
+                viewBox="0 0 200 20"
+                preserveAspectRatio="none"
+                aria-hidden
+              >
+                <path
+                  d="M3 15 C 50 5, 120 3, 197 11"
+                  stroke="currentColor"
+                  strokeWidth="5"
+                  strokeLinecap="round"
+                  fill="none"
+                />
+              </svg>
             </span>{" "}
-            <span className="md:block">We find it and build it.</span>
-          </h1>
-        </Reveal>
+            way to do it.
+          </span>{" "}
+          <span className="md:block">We find it and build it.</span>
+        </h1>
 
-        <div className="mt-12 grid gap-10 border-t border-border pt-10 md:mt-16 lg:grid-cols-12 lg:gap-8">
+        <div className="mt-8 grid gap-10 md:mt-14 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-6">
-            <Reveal className="d2">
-              <p className="max-w-[48ch] text-[clamp(17px,1.4vw,20px)] leading-[1.6] text-muted text-pretty">
-                {hero.sub}
-              </p>
-            </Reveal>
-            <Reveal className="d3">
-              <div className="mt-9 flex flex-wrap items-center gap-3">
-                <BookCallLink />
-                <SecondaryLink href="#work">{hero.secondaryCta}</SecondaryLink>
-              </div>
-            </Reveal>
+            <p className="max-w-[48ch] text-[clamp(17px,1.4vw,20px)] leading-[1.6] text-muted text-pretty">{hero.sub}</p>
+            <div className="mt-7 flex flex-wrap items-center gap-3 md:mt-9">
+              <BookCallLink />
+              <SecondaryLink href="#work">{hero.secondaryCta}</SecondaryLink>
+            </div>
           </div>
 
-          <Reveal className="d3 lg:col-span-4 lg:col-start-9">
+          <div className="lg:col-span-4 lg:col-start-9">
             <dl className="divide-y divide-border border-y border-border text-[15px]">
               <div className="grid grid-cols-[88px_1fr] gap-4 py-4">
                 <dt className="text-muted">Serving</dt>
@@ -71,14 +53,16 @@ export function Hero() {
               </div>
               <div className="grid grid-cols-[88px_1fr] gap-4 py-4">
                 <dt className="text-muted">Building</dt>
-                <dd className="text-text">Since {FIRST_YEAR}. {PROJECT_COUNT}+ projects shipped.</dd>
+                <dd className="text-text">
+                  Since {FIRST_YEAR}. {PROJECT_COUNT}+ projects shipped.
+                </dd>
               </div>
               <div className="grid grid-cols-[88px_1fr] gap-4 py-4">
                 <dt className="text-muted">Discovery</dt>
                 <dd className="text-text">Always free. 30 minutes, no pitch deck.</dd>
               </div>
             </dl>
-          </Reveal>
+          </div>
         </div>
       </div>
     </section>

@@ -9,8 +9,8 @@ const rise = ["md:mt-16", "md:mt-8", ""];
 /** Three steps climbing left to right, kept compact so the section stays tight. */
 export function Process() {
   return (
-    <section id="how-it-works" className="border-t border-border">
-      <div className="container-site py-[clamp(56px,6vw,88px)]">
+    <section id="how-it-works">
+      <div className="container-site py-[clamp(44px,5vw,80px)]">
         <Reveal>
           <Kicker>How it works</Kicker>
           <h2 className="mt-5 max-w-[16ch] font-display text-[clamp(32px,3.8vw,52px)] font-bold leading-[1] tracking-[-0.03em] text-balance">
