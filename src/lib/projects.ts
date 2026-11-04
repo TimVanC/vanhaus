@@ -66,7 +66,7 @@ export const projects: Project[] = [
         label: "What we built",
         text: "An AI phone receptionist built on Twilio and OpenAI Realtime. It answers every call, collects job details, routes urgent calls to a person, and emails a summary after each one.",
       },
-      { label: "Result", text: "598+ calls handled in its first four months." },
+      { label: "Result", text: "1,000+ calls answered so far." },
     ],
     problem: [
       "Calls came in while the crew was on job sites. Voicemails piled up and some leads never called back.",
@@ -76,7 +76,7 @@ export const projects: Project[] = [
       "An AI phone receptionist, named Ava, built on Twilio and the OpenAI Realtime API. She answers every call, asks the questions a dispatcher would ask, and collects the name, address, and what is going on.",
       "Urgent calls get routed to a real person. Everything else ends with a summary email to the office so nothing has to be transcribed from voicemail.",
     ],
-    stats: [{ value: "598+", label: "calls handled in the first four months" }],
+    stats: [{ value: "1,000+", label: "calls answered so far" }],
     result: "No more voicemail backlog. Every lead gets a callback with the details already written down.",
     howItWorks: {
       /* TODO: confirm hosting and the email provider for Ava's summaries. */
@@ -91,7 +91,7 @@ export const projects: Project[] = [
     seo: {
       title: "AI Receptionist for HVAC Companies | VanHaus",
       description:
-        "How VanHaus built Ava, an AI phone receptionist for a New Jersey HVAC and generator company. Answers every call, collects job details, and emails a summary. 598+ calls handled in four months.",
+        "How VanHaus built Ava, an AI phone receptionist for a New Jersey HVAC and generator company. Answers every call, collects job details, and emails a summary. 1,000+ calls answered so far.",
     },
   },
   {

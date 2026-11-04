@@ -1,4 +1,5 @@
 import { Contact } from "@/components/sections/contact";
+import { Discovery } from "@/components/sections/discovery";
 import { Footer } from "@/components/sections/footer";
 import { Founders } from "@/components/sections/founders";
 import { Header } from "@/components/sections/header";
@@ -16,6 +17,7 @@ export default function Home() {
       <main className="relative z-10">
         <Header />
         <Hero />
+        <Discovery />
         <PainPoints />
         <Work />
         <Stats />

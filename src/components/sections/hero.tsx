@@ -2,6 +2,7 @@ import { BookCallLink, SecondaryLink } from "@/components/common/buttons";
 import { Kicker } from "@/components/common/kicker";
 import { Reveal } from "@/components/common/reveal";
 import { StatusDot } from "@/components/common/status-dot";
+import { FIRST_YEAR, PROJECT_COUNT } from "@/lib/constants";
 import { hero } from "@/lib/site-data";
 
 /**
@@ -65,12 +66,12 @@ export function Hero() {
           <Reveal className="d3 lg:col-span-4 lg:col-start-9">
             <dl className="divide-y divide-border border-y border-border text-[15px]">
               <div className="grid grid-cols-[88px_1fr] gap-4 py-4">
-                <dt className="text-muted">Based in</dt>
-                <dd className="text-text">Madison, NJ</dd>
+                <dt className="text-muted">Serving</dt>
+                <dd className="text-text">New Jersey, the NYC area, and clients anywhere</dd>
               </div>
               <div className="grid grid-cols-[88px_1fr] gap-4 py-4">
-                <dt className="text-muted">Serving</dt>
-                <dd className="text-text">New Jersey and the NYC area</dd>
+                <dt className="text-muted">Building</dt>
+                <dd className="text-text">Since {FIRST_YEAR}. {PROJECT_COUNT}+ projects shipped.</dd>
               </div>
               <div className="grid grid-cols-[88px_1fr] gap-4 py-4">
                 <dt className="text-muted">Discovery</dt>

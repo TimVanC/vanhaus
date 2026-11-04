@@ -19,9 +19,9 @@ const bricolage = Bricolage_Grotesque({
   display: "swap",
 });
 
-const SITE_TITLE = "VanHaus | Custom Software & AI for Small Businesses | Madison, NJ";
+const SITE_TITLE = "VanHaus | Custom Software & AI for Small Businesses | New Jersey & NYC";
 const SITE_DESCRIPTION =
-  "VanHaus builds custom software and AI for small businesses. AI receptionists, proposal tools, integrations, dashboards, and fast websites. Based in Madison, NJ. Serving New Jersey and the NYC area. Discovery is always free.";
+  "VanHaus builds custom software and AI for small businesses. AI receptionists, proposal tools, integrations, dashboards, and fast websites. Serving New Jersey, the NYC area, and clients anywhere. Discovery is always free.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://vanhaus.dev"),

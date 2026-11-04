@@ -24,7 +24,7 @@ export const painPoints = {
 export const stats = [
   { value: `${PROJECT_COUNT}+`, label: "projects shipped" },
   { value: `Since ${FIRST_YEAR}`, label: "building for businesses" },
-  { value: "598+", label: "calls answered by our AI" },
+  { value: "1,000+", label: "calls answered by our AI" },
   { value: "80 to 90%", label: "less reporting time for one client" },
 ];
 
@@ -76,7 +76,7 @@ export const founders = {
     {
       name: "Tim Van Cauwenberge",
       role: "Builds it.",
-      bio: "CS degree, former D1 track captain, and four years building custom software and AI tools for real businesses.",
+      bio: "CS degree, former D1 track captain, and six years building custom software and AI tools for real businesses.",
       linkedinKey: "tim" as const,
     },
     {

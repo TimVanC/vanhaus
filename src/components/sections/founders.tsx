@@ -7,20 +7,20 @@ import { founders } from "@/lib/site-data";
 
 const linkedin = { tim: TIM_LINKEDIN, joe: JOE_LINKEDIN };
 
-/** Who we are: the photo, cropped chest-up, and two short bios. */
+/** Who we are: the photo, cropped from just above our heads to the knees, and two short bios. */
 export function Founders() {
   return (
     <section id="who-we-are" className="border-t border-border">
       <div className="container-site py-[clamp(72px,9vw,128px)]">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-14">
           <Reveal className="lg:col-span-7">
-            <div className="relative aspect-[4/3] overflow-hidden rounded-[var(--radius)] bg-surface">
+            <div className="relative aspect-square overflow-hidden rounded-[var(--radius)] bg-surface">
               <Image
                 src={founders.photo.src}
                 alt={founders.photo.alt}
                 fill
                 sizes="(min-width: 1024px) 660px, 100vw"
-                className="object-cover object-[center_20%]"
+                className="object-cover object-[center_86%]"
               />
             </div>
           </Reveal>
