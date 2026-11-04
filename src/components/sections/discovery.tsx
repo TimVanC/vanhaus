@@ -10,11 +10,11 @@ export function Discovery() {
     <section aria-label="Free discovery call">
       <div className="container-site py-[clamp(8px,2vw,24px)]">
         <Reveal>
-          <div className="relative overflow-hidden rounded-[var(--radius)] border border-accent/40 bg-accent/[0.07] p-6 md:p-8">
-            <span className="absolute inset-y-0 left-0 w-1 bg-accent" aria-hidden />
+          <div className="relative overflow-hidden rounded-[var(--radius)] border border-accent/70 bg-accent/[0.14] p-6 md:p-8">
+            <span className="absolute inset-y-0 left-0 w-1.5 bg-accent" aria-hidden />
             <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:gap-10">
               <div>
-                <p className="text-[13px] font-semibold uppercase tracking-[0.1em] text-accent">Free discovery call</p>
+                <p className="text-[13px] font-semibold uppercase tracking-[0.1em] text-accent-hover">Free discovery call</p>
                 <h2 className="mt-2 font-display text-[clamp(24px,2.6vw,34px)] font-bold leading-[1.1] tracking-[-0.02em] text-balance">
                   Discovery is always free.
                 </h2>

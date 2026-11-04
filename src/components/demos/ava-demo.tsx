@@ -91,7 +91,7 @@ export function AvaDemo({ isStatic = false, hideCaption = false }: DemoProps) {
                 {bars.map((bar, i) => {
                   const played = i / BAR_COUNT <= playedFraction;
                   const color =
-                    bar.who === "ai" ? (played ? "bg-accent" : "bg-accent/30") : bar.who === "caller" ? (played ? "bg-muted" : "bg-muted/35") : "bg-border";
+                    bar.who === "ai" ? (played ? "bg-accent" : "bg-accent/45") : bar.who === "caller" ? (played ? "bg-muted" : "bg-muted/35") : "bg-border";
                   return <span key={i} className={`w-full max-w-[4px] rounded-full ${color}`} style={{ height: `${Math.round(bar.h * 100)}%` }} />;
                 })}
               </div>
@@ -118,7 +118,7 @@ export function AvaDemo({ isStatic = false, hideCaption = false }: DemoProps) {
                   key={line.start}
                   className={`grid grid-cols-[44px_1fr] gap-2 rounded-[8px] px-2 py-1.5 text-[12px] leading-[1.45] transition-[opacity,background-color] duration-300 ${
                     spoken ? "opacity-100" : "opacity-30"
-                  } ${active ? "bg-accent/10" : ""}`}
+                  } ${active ? "bg-accent/20" : ""}`}
                 >
                   <span className={`text-[10px] font-semibold uppercase tracking-[0.06em] ${line.who === "ai" ? "text-accent" : "text-muted"}`}>
                     {line.who === "ai" ? "Ava" : "Caller"}

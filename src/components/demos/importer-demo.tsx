@@ -65,7 +65,7 @@ export function ImporterDemo({ isStatic = false, hideCaption = false }: DemoProp
             <li
               key={step}
               className={`rounded-full border px-2.5 py-0.5 text-[10px] font-semibold transition-colors duration-300 ${
-                i === stepIndex ? "border-accent bg-accent text-on-accent" : i < stepIndex ? "border-accent/50 text-accent" : "border-border text-muted"
+                i === stepIndex ? "border-accent bg-accent text-on-accent" : i < stepIndex ? "border-accent text-accent" : "border-border text-muted"
               }`}
             >
               {step}
@@ -78,7 +78,7 @@ export function ImporterDemo({ isStatic = false, hideCaption = false }: DemoProp
           {/* Upload and column mapping */}
           <div
             className={`relative flex min-h-[170px] flex-col overflow-hidden rounded-[10px] border transition-[border-color,background-color,opacity] duration-500 [grid-area:1/1] ${
-              fileHovering ? "border-accent bg-accent/10" : dropped ? "border-border bg-bg" : "border-dashed border-border bg-bg"
+              fileHovering ? "border-accent bg-accent/20" : dropped ? "border-border bg-bg" : "border-dashed border-border bg-bg"
             } ${importing ? "pointer-events-none opacity-0" : "opacity-100"}`}
           >
             {/* Empty dropzone */}

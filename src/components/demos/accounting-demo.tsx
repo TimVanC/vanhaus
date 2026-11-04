@@ -291,7 +291,7 @@ export function AccountingDemo({
           from="none"
           className="pointer-events-none absolute inset-x-0 top-8 flex justify-center @xl:bottom-0 @xl:left-auto @xl:top-auto @xl:w-[280px]"
         >
-          <span className="rounded-full border border-accent/50 bg-surface px-3 py-1 text-[11px] text-accent">
+          <span className="rounded-full border border-accent bg-surface px-3 py-1 text-[11px] text-accent">
             Running daily export...
           </span>
         </Appear>

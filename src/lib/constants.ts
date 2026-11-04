@@ -8,19 +8,18 @@ export const BOOKING_URL = "/#contact";
 
 export const CONTACT_EMAIL = "hello@vanhaus.dev";
 
-/** TODO: fill in both LinkedIn profile URLs. */
-export const TIM_LINKEDIN = "[TIM_LINKEDIN]";
-export const JOE_LINKEDIN = "[JOE_LINKEDIN]";
+export const TIM_LINKEDIN = "https://www.linkedin.com/in/timothyvancauwenberge/";
+export const JOE_LINKEDIN = "https://www.linkedin.com/in/josephchiusano/";
 
 /** Projects shipped (client work plus our own builds) and the year we started. */
 export const PROJECT_COUNT = "50";
 export const FIRST_YEAR = "2020";
 
-/** The QA/QC checklist app is still being built. Flip to false once it is live. */
-export const QAQC_IN_PROGRESS = true;
+/** The QA/QC checklist app is live (since 2026-10-23). Set to true to show the "In progress" badge again. */
+export const QAQC_IN_PROGRESS = false;
 
-/** The operations manager is still in development. Flip to false once it is live and has results. */
-export const OPS_MANAGER_IN_PROGRESS = true;
+/** The operations manager is complete and live. Set to true to show the "In progress" badge again. */
+export const OPS_MANAGER_IN_PROGRESS = false;
 
 /**
  * The AI receptionist demo is on hold until the final call recording and transcript arrive.

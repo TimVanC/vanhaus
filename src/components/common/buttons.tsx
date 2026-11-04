@@ -36,10 +36,9 @@ export function BookCallLink({
       className={`${base} ${sizes[size]} group bg-accent text-on-accent hover:bg-accent-hover ${className}`}
     >
       {compact ? (
-        <>
-          <span className="max-[400px]:hidden">{CTA_LABEL}</span>
-          <span className="min-[401px]:hidden">Book a call</span>
-        </>
+        <span>
+          Book a <span className="max-[400px]:hidden">free discovery </span>call
+        </span>
       ) : (
         CTA_LABEL
       )}

@@ -266,14 +266,14 @@ export const projects: Project[] = [
         "Each source connects read-only through its most reliable path: an official API, webhooks, a Microsoft 365 app limited to named mailboxes, a scheduled report export, or parsed alert emails. Where an API only offers read and write access together, writes are blocked in code.",
         "Everything lands in the operations manager's own database. The AI layer reads only from that copy, never from the live systems.",
         "Scheduled jobs run the syncs and build the morning briefing. Critical alerts go out by email and by text.",
-        "It's delivered in three phases, each usable on its own: the core dashboard and AI layer, then communications and documents, then outside accounts and timesheets. The company owns all of its data and can export it at any time.",
+        "It shipped in three phases, each usable on its own: the core dashboard and AI layer, then communications and documents, then outside accounts and timesheets. The company owns all of its data and can export it at any time.",
       ],
     },
     caption: "Eighteen systems in. One morning briefing out.",
     seo: {
       title: "AI Operations Manager for HVAC Companies | VanHaus",
       description:
-        "How VanHaus is building a private AI operations manager for a tri-state area HVAC and generator company, connecting 18 business systems into one read-only view with a daily briefing and critical alerts.",
+        "How VanHaus built a private AI operations manager for a tri-state area HVAC and generator company, connecting 18 business systems into one read-only view with a daily briefing and critical alerts.",
     },
   },
   {

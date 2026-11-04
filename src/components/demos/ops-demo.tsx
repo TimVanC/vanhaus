@@ -133,7 +133,7 @@ export function OpsDemo({ isStatic = false, hideCaption = false }: DemoProps) {
                 show={at(T.attention + i * T.attentionStep)}
                 from="left"
                 className={`flex items-center gap-2 rounded-[7px] border px-2.5 py-1.5 text-[11px] leading-[1.35] ${
-                  item.critical ? "border-accent/60 bg-accent/10" : "border-border"
+                  item.critical ? "border-accent bg-accent/20" : "border-border"
                 }`}
               >
                 <Pill tone={item.critical ? "accent" : "muted"} className="w-[74px] shrink-0 justify-center">

@@ -80,7 +80,7 @@ function ComingSoon() {
         {Array.from({ length: 28 }, (_, i) => (
           <span
             key={i}
-            className={`w-1.5 shrink-0 rounded-full ${i % 3 === 0 ? "bg-accent/50" : "bg-border"}`}
+            className={`w-1.5 shrink-0 rounded-full ${i % 3 === 0 ? "bg-accent/80" : "bg-border"}`}
             style={{ height: 6 + ((i * 37) % 23) }}
           />
         ))}

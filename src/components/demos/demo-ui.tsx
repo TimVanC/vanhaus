@@ -125,7 +125,7 @@ export function Pill({
 }) {
   const tones = {
     muted: "border-border text-muted",
-    accent: "border-accent/60 bg-accent/15 text-accent",
+    accent: "border-accent/80 bg-accent/25 text-text",
     good: "border-[#7fb58a]/50 bg-[#7fb58a]/15 text-[#9fd0a8]",
     info: "border-[#7aa7c7]/50 bg-[#7aa7c7]/15 text-[#a9cde6]",
   };
@@ -279,7 +279,7 @@ export function CheckBadge({ show, className = "" }: { show: boolean; className?
 export function Avatar({ initials, size = 40, className = "" }: { initials: string; size?: number; className?: string }) {
   return (
     <span
-      className={`inline-flex shrink-0 items-center justify-center rounded-full bg-accent/20 font-display font-bold text-accent ${className}`}
+      className={`inline-flex shrink-0 items-center justify-center rounded-full bg-accent/30 font-display font-bold text-text ${className}`}
       style={{ width: size, height: size, fontSize: Math.round(size * 0.36) }}
       aria-hidden
     >

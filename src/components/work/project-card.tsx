@@ -11,7 +11,7 @@ export function ProjectBadges({ project, className = "" }: { project: Project; c
   return (
     <span className={`flex flex-wrap gap-2 ${className}`}>
       {inProgress ? (
-        <span className="inline-flex h-6 items-center rounded-full border border-accent/60 bg-accent/10 px-2.5 text-[11.5px] font-semibold text-accent">
+        <span className="inline-flex h-6 items-center rounded-full border border-accent bg-accent/25 px-2.5 text-[11.5px] font-semibold text-text">
           {statusLabel[project.status]}
         </span>
       ) : null}

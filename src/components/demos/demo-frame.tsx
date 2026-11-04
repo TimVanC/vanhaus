@@ -54,7 +54,7 @@ export function DemoFrame({ player, title, summary, caption, children, className
               onClick={replay}
               className={`inline-flex h-7 shrink-0 items-center gap-1.5 rounded-full border px-2.5 text-[12px] font-medium transition-colors ${
                 done
-                  ? "border-accent/60 text-accent hover:bg-accent/10"
+                  ? "border-accent text-accent hover:bg-accent/20"
                   : "border-border text-muted hover:border-muted hover:text-text"
               }`}
               aria-label={`Replay the ${title} demo`}

@@ -17,7 +17,7 @@ export function Hero() {
             <span className="relative inline-block">
               smarter
               <svg
-                className="absolute left-0 top-full -mt-[0.14em] h-[0.16em] w-full text-accent"
+                className="absolute left-0 top-full -mt-[0.16em] h-[0.22em] w-full text-accent"
                 viewBox="0 0 200 20"
                 preserveAspectRatio="none"
                 aria-hidden
@@ -25,7 +25,7 @@ export function Hero() {
                 <path
                   d="M3 15 C 50 5, 120 3, 197 11"
                   stroke="currentColor"
-                  strokeWidth="5"
+                  strokeWidth="8"
                   strokeLinecap="round"
                   fill="none"
                 />
