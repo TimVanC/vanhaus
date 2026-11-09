@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { DemoFrame } from "./demo-frame";
 import { EmailCard } from "./demo-ui";
 import type { DemoProps } from "./lazy-demo";
@@ -16,11 +16,12 @@ import {
 import { useDemoPlayer } from "./use-demo-player";
 
 /**
- * The AI receptionist demo. Unlike the other demos it never auto-plays: it waits for the
- * visitor to press play, then the recording drives a large waveform scrolling past a center
- * playhead, with the line being spoken overlaid as a caption. When the call ends the wave
- * fades out and the office summary email fades in. The title bar control reads Play, Pause,
- * Resume, then animates into Replay once everything has finished.
+ * The AI receptionist demo. It starts playing, muted, when it scrolls into view, pauses when it
+ * scrolls away, and resumes when it comes back. A sound button turns the audio on. The
+ * recording drives a large waveform scrolling past a center playhead, with the line being
+ * spoken overlaid as a caption. When the call ends the wave fades out and the office summary
+ * email fades in. The title bar control reads Pause and Resume, then animates into Replay.
+ * Visitors who prefer reduced motion get a play button instead of auto-play.
  */
 
 const LEN = AVA_CALL_LENGTH;
@@ -70,6 +71,22 @@ function ReplayGlyph({ className = "" }: { className?: string }) {
   );
 }
 
+function SpeakerGlyph({ off, className = "" }: { off: boolean; className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M11 5 6 9H3v6h3l5 4z" fill="currentColor" />
+      {off ? <path d="m16 9 5 6m0-6-5 6" /> : <path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13" />}
+    </svg>
+  );
+}
+
+const REDUCED_QUERY = "(prefers-reduced-motion: reduce)";
+const subscribeReduced = (onChange: () => void) => {
+  const mq = window.matchMedia(REDUCED_QUERY);
+  mq.addEventListener("change", onChange);
+  return () => mq.removeEventListener("change", onChange);
+};
+
 export function AvaDemo({ isStatic = false, hideCaption = false }: DemoProps) {
   /* The shared player only provides the frame's scroll hook here; this demo runs on its own clock. */
   const player = useDemoPlayer(LEN, { isStatic: true });
@@ -80,6 +97,16 @@ export function AvaDemo({ isStatic = false, hideCaption = false }: DemoProps) {
   /* If the browser refuses to play the audio, the animation still runs, silently. */
   const [silent, setSilent] = useState(false);
   const silentClock = useRef({ start: 0, offset: 0 });
+  /* Sound is off until the visitor turns it on. */
+  const [muted, setMuted] = useState(true);
+  const reduced = useSyncExternalStore(
+    subscribeReduced,
+    () => window.matchMedia(REDUCED_QUERY).matches,
+    () => false,
+  );
+  /* The frame node, watched so the call starts in view and pauses out of view. */
+  const [node, setNode] = useState<HTMLDivElement | null>(null);
+  const autoPaused = useRef(false);
 
   /* Drive the visuals from the audio (or the silent clock) while playing. */
   useEffect(() => {
@@ -109,15 +136,17 @@ export function AvaDemo({ isStatic = false, hideCaption = false }: DemoProps) {
     setSilent(true);
   };
 
-  const start = () => {
+  const start = (withSound = !muted) => {
     setMs(0);
     setSilent(false);
     setPhase("playing");
+    autoPaused.current = false;
     const audio = audioRef.current;
     if (!audio) {
       runSilently(0);
       return;
     }
+    audio.muted = !withSound;
     audio.currentTime = 0;
     audio.play().catch(() => runSilently(0));
   };
@@ -138,10 +167,61 @@ export function AvaDemo({ isStatic = false, hideCaption = false }: DemoProps) {
   };
 
   const onControl = () => {
+    autoPaused.current = false;
     if (phase === "playing") pause();
     else if (phase === "paused") resume();
     else start();
   };
+
+  const playWithSound = () => {
+    setMuted(false);
+    start(true);
+  };
+
+  const toggleMute = () => {
+    const next = !muted;
+    setMuted(next);
+    const audio = audioRef.current;
+    if (!audio) return;
+    audio.muted = next;
+    /* If the audio had been refused and we fell back to the silent clock, try the real audio now. */
+    if (!next && silent && phase === "playing") {
+      audio.currentTime = ms / 1000;
+      audio
+        .play()
+        .then(() => setSilent(false))
+        .catch(() => undefined);
+    }
+  };
+
+  /* Latest state for the scroll watcher, which is set up once per frame node. */
+  const latest = useRef({ phase, reduced, start, pause, resume });
+  useEffect(() => {
+    latest.current = { phase, reduced, start, pause, resume };
+  });
+
+  useEffect(() => {
+    if (isStatic || !node) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.some((e) => e.isIntersecting);
+        const { phase: current, reduced: prefersReduced, start: begin, pause: hold, resume: carryOn } = latest.current;
+        if (visible) {
+          if (current === "idle" && !prefersReduced) begin(false);
+          else if (current === "paused" && autoPaused.current) {
+            autoPaused.current = false;
+            carryOn();
+          }
+        } else if (current === "playing") {
+          autoPaused.current = true;
+          hold();
+        }
+      },
+      { threshold: 0.35 },
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [node, isStatic]);
 
   const label = phase === "idle" ? "Play" : phase === "playing" ? "Pause" : phase === "paused" ? "Resume" : "Replay";
   const showSummary = phase === "ended";
@@ -164,9 +244,7 @@ export function AvaDemo({ isStatic = false, hideCaption = false }: DemoProps) {
     phase === "idle"
       ? "Press play to hear the call"
       : phase === "playing"
-        ? silent
-          ? "Playing without sound"
-          : "Playing"
+        ? "Playing"
         : phase === "paused"
           ? "Paused"
           : "Call ended. Summary sent to the office.";
@@ -193,9 +271,9 @@ export function AvaDemo({ isStatic = false, hideCaption = false }: DemoProps) {
 
   return (
     <DemoFrame
-      player={player}
+      player={{ ...player, attach: setNode }}
       title="Ava, AI receptionist"
-      summary="A sample call to Ava, the AI receptionist. Press play to hear the recording. A waveform scrolls by with each line of the conversation shown as a caption, then the summary email for the office appears."
+      summary="A sample call to Ava, the AI receptionist. It plays with the sound off when it scrolls into view; use the sound button to hear it. A waveform scrolls by with each line of the conversation shown as a caption, then the summary email for the office appears."
       caption={hideCaption ? undefined : "Every detail read back to the caller. The summary lands in the office inbox."}
       interactive
       control={control}
@@ -268,7 +346,7 @@ export function AvaDemo({ isStatic = false, hideCaption = false }: DemoProps) {
               {phase === "idle" && !isStatic ? (
                 <button
                   type="button"
-                  onClick={start}
+                  onClick={playWithSound}
                   className="group flex flex-col items-center gap-3 rounded-[18px] border border-border/70 bg-bg/80 px-6 py-5 text-center shadow-[0_18px_40px_-18px_rgba(0,0,0,0.8)] backdrop-blur-sm"
                   aria-label="Play the call recording with sound"
                 >
@@ -327,9 +405,25 @@ export function AvaDemo({ isStatic = false, hideCaption = false }: DemoProps) {
           </EmailCard>
         </div>
 
-        {/* Status line */}
-        <div className="absolute inset-x-4 bottom-4 flex items-end justify-between gap-3">
-          <div className="min-w-0">
+        {/* Sound toggle and status line */}
+        <div className="absolute inset-x-4 bottom-4 flex items-center justify-between gap-3">
+          {!isStatic ? (
+            <button
+              type="button"
+              onClick={toggleMute}
+              aria-pressed={!muted}
+              aria-label={muted ? "Turn sound on" : "Turn sound off"}
+              className={`inline-flex h-9 shrink-0 items-center gap-2 rounded-full border px-3 text-[12px] font-semibold transition-colors duration-300 ${
+                muted ? "border-accent bg-accent/15 text-accent hover:bg-accent/25" : "border-border text-text hover:border-muted"
+              }`}
+            >
+              <SpeakerGlyph off={muted} className="h-4 w-4" />
+              <span key={muted ? "off" : "on"} className="demo-label">
+                {muted ? "Turn sound on" : "Sound on"}
+              </span>
+            </button>
+          ) : null}
+          <div className="min-w-0 flex-1">
             <span className="block truncate text-[12px] text-text" aria-live="polite">
               {status}
             </span>
