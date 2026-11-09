@@ -175,6 +175,21 @@ section[id] {
   }
 }
 
+@keyframes demo-caption-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.demo-caption {
+  animation: demo-caption-in 0.35s ease-out both;
+}
+
 .demo-caret {
   animation: demo-blink 0.9s steps(1) infinite;
 }
