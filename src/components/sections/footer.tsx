@@ -1,5 +1,5 @@
 import { BrandLogo } from "@/components/common/brand-logo";
-import { CONTACT_EMAIL, JOE_LINKEDIN, LOCATION_LINE, TIM_LINKEDIN } from "@/lib/constants";
+import { COMPANY_LINKEDIN, CONTACT_EMAIL, LOCATION_LINE } from "@/lib/constants";
 
 export function Footer() {
   return (
@@ -14,14 +14,9 @@ export function Footer() {
           <a href={`mailto:${CONTACT_EMAIL}`} className="text-text underline-offset-4 hover:underline">
             {CONTACT_EMAIL}
           </a>
-          <div className="flex gap-4">
-            <a href={TIM_LINKEDIN} target="_blank" rel="noreferrer" className="hover:text-text">
-              Tim on LinkedIn
-            </a>
-            <a href={JOE_LINKEDIN} target="_blank" rel="noreferrer" className="hover:text-text">
-              Joe on LinkedIn
-            </a>
-          </div>
+          <a href={COMPANY_LINKEDIN} target="_blank" rel="noreferrer" className="hover:text-text">
+            VanHaus on LinkedIn
+          </a>
           <p className="mt-2">&copy; {new Date().getFullYear()} VanHaus</p>
         </div>
       </div>

@@ -2,6 +2,7 @@ import { Contact } from "@/components/sections/contact";
 import { Discovery } from "@/components/sections/discovery";
 import { Footer } from "@/components/sections/footer";
 import { Founders } from "@/components/sections/founders";
+import { SHOW_FOUNDERS } from "@/lib/constants";
 import { Header } from "@/components/sections/header";
 import { Hero } from "@/components/sections/hero";
 import { PainPoints } from "@/components/sections/pain-points";
@@ -22,7 +23,7 @@ export default function Home() {
         <Work />
         <Stats />
         <Process />
-        <Founders />
+        {SHOW_FOUNDERS ? <Founders /> : null}
         <Testimonial />
         <Contact />
         <Footer />

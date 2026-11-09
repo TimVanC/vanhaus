@@ -8,6 +8,10 @@ export const BOOKING_URL = "/#contact";
 
 export const CONTACT_EMAIL = "hello@vanhaus.dev";
 
+/** Company page, linked in the footer. */
+export const COMPANY_LINKEDIN = "https://www.linkedin.com/company/vanhaus-studio";
+
+/** Personal profiles, used by the "Who we are" section. */
 export const TIM_LINKEDIN = "https://www.linkedin.com/in/timothyvancauwenberge/";
 export const JOE_LINKEDIN = "https://www.linkedin.com/in/josephchiusano/";
 
@@ -26,6 +30,9 @@ export const SHOW_AVA_DEMO = true;
 
 /** Flip to true once a real quote is in site-data.ts. */
 export const SHOW_TESTIMONIAL = false;
+
+/** The "Who we are" section (founders photo and bios) is on hold. Flip to true to bring it back. */
+export const SHOW_FOUNDERS = false;
 
 export const LOCATION_LINE = "Serving New Jersey and the NYC area, and working remotely with clients anywhere.";
 export const CTA_LABEL = "Book a free discovery call";

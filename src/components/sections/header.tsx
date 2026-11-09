@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { BrandLogo } from "@/components/common/brand-logo";
 import { BookCallLink } from "@/components/common/buttons";
+import { SHOW_FOUNDERS } from "@/lib/constants";
 
 /* Root-relative so the links work from /work and the case study pages too. */
 const links = [
   { href: "/work", label: "Work" },
   { href: "/#how-it-works", label: "How it works" },
-  { href: "/#who-we-are", label: "Who we are" },
+  ...(SHOW_FOUNDERS ? [{ href: "/#who-we-are", label: "Who we are" }] : []),
 ];
 
 export function Header() {
