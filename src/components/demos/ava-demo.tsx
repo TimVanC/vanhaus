@@ -280,7 +280,7 @@ export function AvaDemo({ isStatic = false, hideCaption = false }: DemoProps) {
         ? "Playing"
         : phase === "paused"
           ? "Paused"
-          : "Call ended. Summary sent to the office.";
+          : "Call ended";
 
   const control = isStatic ? null : (
     <button
@@ -336,7 +336,7 @@ export function AvaDemo({ isStatic = false, hideCaption = false }: DemoProps) {
         ))}
       </ol>
 
-      <div className="relative h-[470px] overflow-hidden @md:h-[400px]">
+      <div className="relative h-[500px] overflow-hidden @md:h-[430px]">
         <p className="absolute left-4 right-4 top-3 m-0 text-[11.5px] text-muted">{AVA_CONTEXT}</p>
 
         {/* The call: scrolling waveform with the caption (or the play button) on top */}
@@ -417,13 +417,20 @@ export function AvaDemo({ isStatic = false, hideCaption = false }: DemoProps) {
           </div>
         </div>
 
-        {/* After the call: the summary email takes the same spot, just after the wave fades */}
+        {/* After the call: a short heading and the summary email take the same spot, just after the wave fades.
+            The seek bar is hidden here, so this layer reaches down to the controls. */}
         <div
-          className={`absolute inset-x-0 bottom-[88px] top-9 flex items-center justify-center px-3 transition-[opacity,transform] duration-700 ease-out @md:px-4 ${
+          className={`absolute inset-x-0 bottom-[60px] top-9 flex flex-col items-center justify-center gap-2.5 px-3 transition-[opacity,transform] duration-700 ease-out @md:px-4 ${
             showSummary ? "translate-y-0 opacity-100 delay-300" : "pointer-events-none translate-y-3 opacity-0"
           }`}
           aria-live="polite"
         >
+          <div className="w-full max-w-[460px]">
+            <p className="m-0 text-[10.5px] font-semibold uppercase tracking-[0.12em] text-accent">After the call</p>
+            <p className="m-0 mt-0.5 text-[12.5px] leading-[1.4] text-text">
+              Ava emails the office this summary the moment the caller hangs up.
+            </p>
+          </div>
           <EmailCard
             show={showSummary}
             from="Ava <ava@company.example>"
@@ -446,7 +453,12 @@ export function AvaDemo({ isStatic = false, hideCaption = false }: DemoProps) {
 
         {/* Seek bar: the visible track, with an invisible range input on top for mouse, touch, and keyboard */}
         {!isStatic ? (
-          <div className="absolute inset-x-4 bottom-[60px] h-5">
+          <div
+            className={`absolute inset-x-4 bottom-[60px] h-5 transition-opacity duration-300 ${
+              showSummary ? "pointer-events-none opacity-0" : "opacity-100"
+            }`}
+            aria-hidden={showSummary}
+          >
             <span className="absolute inset-x-0 top-1/2 h-1 -translate-y-1/2 rounded-full bg-border" aria-hidden />
             <span
               className="absolute left-0 top-1/2 h-1 -translate-y-1/2 rounded-full bg-accent"
@@ -467,6 +479,7 @@ export function AvaDemo({ isStatic = false, hideCaption = false }: DemoProps) {
               onChange={(e) => seek(Number(e.currentTarget.value))}
               aria-label="Seek through the call"
               aria-valuetext={`${fmt(ms)} of ${fmt(LEN)}`}
+              tabIndex={showSummary ? -1 : 0}
               className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
             />
           </div>
