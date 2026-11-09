@@ -14,7 +14,7 @@ export type DemoProps = {
 
 /** Reserved heights so the page doesn't jump when a demo chunk loads. Keep in sync with each demo's stage. */
 export const demoHeights: Record<ProjectSlug, string> = {
-  "ai-receptionist": "min-h-[500px]",
+  "ai-receptionist": "min-h-[520px]",
   "proposal-generator": "min-h-[520px]",
   "qaqc-checklist": "min-h-[624px]",
   "accounting-automation": "min-h-[510px]",

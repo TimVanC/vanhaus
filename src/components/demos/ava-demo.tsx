@@ -163,7 +163,40 @@ export function AvaDemo({ isStatic = false, hideCaption = false }: DemoProps) {
       silentClock.current.start = performance.now();
       return;
     }
-    audioRef.current?.play().catch(() => runSilently(ms));
+    const audio = audioRef.current;
+    if (!audio) return;
+    audio.muted = muted;
+    audio.play().catch(() => runSilently(ms));
+  };
+
+  /* Jump to any point in the call. Seeking back after the end hides the summary and pauses there. */
+  const seek = (target: number) => {
+    const t = Math.min(Math.max(target, 0), LEN);
+    setMs(t);
+    const audio = audioRef.current;
+    if (silent || !audio) silentClock.current = { start: performance.now(), offset: t };
+    else audio.currentTime = t / 1000;
+    if ((phase === "ended" || phase === "idle") && t < LEN) {
+      autoPaused.current = false;
+      setPhase("paused");
+    }
+  };
+
+  /* Drag the wave like a voice memo: pull right to go back, left to skip ahead. */
+  const drag = useRef<{ x: number; from: number; width: number } | null>(null);
+  const onWavePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (isStatic) return;
+    drag.current = { x: e.clientX, from: ms, width: e.currentTarget.getBoundingClientRect().width };
+    e.currentTarget.setPointerCapture(e.pointerId);
+  };
+  const onWavePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    const d = drag.current;
+    if (!d) return;
+    const pitch = d.width / BARS;
+    seek(d.from - ((e.clientX - d.x) / pitch) * AVA_ENVELOPE_STEP);
+  };
+  const endDrag = () => {
+    drag.current = null;
   };
 
   const onControl = () => {
@@ -303,16 +336,22 @@ export function AvaDemo({ isStatic = false, hideCaption = false }: DemoProps) {
         ))}
       </ol>
 
-      <div className="relative h-[450px] overflow-hidden @md:h-[400px]">
+      <div className="relative h-[470px] overflow-hidden @md:h-[400px]">
         <p className="absolute left-4 right-4 top-3 m-0 text-[11.5px] text-muted">{AVA_CONTEXT}</p>
 
         {/* The call: scrolling waveform with the caption (or the play button) on top */}
         <div
-          className={`absolute inset-x-0 bottom-16 top-9 flex items-center transition-[opacity,transform] duration-500 ease-out ${
+          className={`absolute inset-x-0 bottom-[88px] top-9 flex items-center transition-[opacity,transform] duration-500 ease-out ${
             showSummary ? "pointer-events-none scale-[0.97] opacity-0" : "scale-100 opacity-100"
           }`}
         >
-          <div className="relative h-[200px] w-full @md:h-[230px]">
+          <div
+            className={`relative h-[200px] w-full touch-pan-y select-none @md:h-[230px] ${isStatic ? "" : "cursor-grab active:cursor-grabbing"}`}
+            onPointerDown={onWavePointerDown}
+            onPointerMove={onWavePointerMove}
+            onPointerUp={endDrag}
+            onPointerCancel={endDrag}
+          >
             <div
               className="absolute inset-y-0 left-0 flex items-center gap-[2px]"
               style={{ width: `${((BARS + 1) / BARS) * 100}%`, transform: `translateX(-${(fraction / (BARS + 1)) * 100}%)` }}
@@ -380,7 +419,7 @@ export function AvaDemo({ isStatic = false, hideCaption = false }: DemoProps) {
 
         {/* After the call: the summary email takes the same spot, just after the wave fades */}
         <div
-          className={`absolute inset-x-0 bottom-16 top-9 flex items-center justify-center px-3 transition-[opacity,transform] duration-700 ease-out @md:px-4 ${
+          className={`absolute inset-x-0 bottom-[88px] top-9 flex items-center justify-center px-3 transition-[opacity,transform] duration-700 ease-out @md:px-4 ${
             showSummary ? "translate-y-0 opacity-100 delay-300" : "pointer-events-none translate-y-3 opacity-0"
           }`}
           aria-live="polite"
@@ -404,6 +443,34 @@ export function AvaDemo({ isStatic = false, hideCaption = false }: DemoProps) {
             </dl>
           </EmailCard>
         </div>
+
+        {/* Seek bar: the visible track, with an invisible range input on top for mouse, touch, and keyboard */}
+        {!isStatic ? (
+          <div className="absolute inset-x-4 bottom-[60px] h-5">
+            <span className="absolute inset-x-0 top-1/2 h-1 -translate-y-1/2 rounded-full bg-border" aria-hidden />
+            <span
+              className="absolute left-0 top-1/2 h-1 -translate-y-1/2 rounded-full bg-accent"
+              style={{ width: `${(ms / LEN) * 100}%` }}
+              aria-hidden
+            />
+            <span
+              className="absolute top-1/2 h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-surface bg-accent shadow-[0_0_0_3px_rgba(147,173,133,0.25)]"
+              style={{ left: `${(ms / LEN) * 100}%` }}
+              aria-hidden
+            />
+            <input
+              type="range"
+              min={0}
+              max={LEN}
+              step={100}
+              value={Math.round(ms)}
+              onChange={(e) => seek(Number(e.currentTarget.value))}
+              aria-label="Seek through the call"
+              aria-valuetext={`${fmt(ms)} of ${fmt(LEN)}`}
+              className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+            />
+          </div>
+        ) : null}
 
         {/* Sound toggle and status line */}
         <div className="absolute inset-x-4 bottom-4 flex items-center justify-between gap-3">
