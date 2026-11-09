@@ -2,30 +2,28 @@
 
 import { useEffect, useRef, useState } from "react";
 import { DemoFrame } from "./demo-frame";
-import { Appear, EmailCard } from "./demo-ui";
+import { EmailCard } from "./demo-ui";
 import type { DemoProps } from "./lazy-demo";
-import { AVA_AUDIO_SRC, AVA_CALL_LENGTH, AVA_SUMMARY, AVA_TRANSCRIPT } from "./ava-data";
+import { AVA_AUDIO_SRC, AVA_CALL_LENGTH, AVA_CONTEXT, AVA_SUMMARY, AVA_TRANSCRIPT, AVA_WAVEFORM } from "./ava-data";
 import { useDemoPlayer } from "./use-demo-player";
 
 /**
- * Shell for the AI receptionist demo. Audio player with a two-color waveform (caller in
- * the muted tone, Ava in the accent color), transcript lines that highlight in sync, and a summary
- * email that slides in when the call ends.
+ * The AI receptionist demo. A real sample call with a waveform in two colors (Ava in the
+ * accent, the caller in the light tone), a transcript that highlights and scrolls in sync, and
+ * the summary email that lands when the call ends.
  *
- * With AVA_AUDIO_SRC set, the real <audio> element drives the clock. Without it, the demo
- * runs on the shared timeline player so the layout can be reviewed before the recording lands.
+ * On scroll it plays silently on the shared timeline, like the other demos. Pressing play
+ * starts the recording from the top, and the audio element then drives the clock.
  */
 
-const BAR_COUNT = 72;
-const SUMMARY_DELAY = 600;
-const END = AVA_CALL_LENGTH + 2400;
+const LEN = AVA_CALL_LENGTH;
+const SUMMARY_DELAY = 700;
+const END = LEN + 2400;
 
-/** Deterministic bar heights so the waveform is the same on every render. */
-const bars = Array.from({ length: BAR_COUNT }, (_, i) => {
-  const ms = (i / BAR_COUNT) * AVA_CALL_LENGTH;
-  const line = AVA_TRANSCRIPT.find((l) => ms >= l.start && ms <= l.end);
-  const seed = Math.abs(Math.sin(i * 12.9898) * 43758.5453) % 1;
-  return { who: line?.who ?? null, h: line ? 0.3 + seed * 0.7 : 0.08 + seed * 0.1 };
+const bars = AVA_WAVEFORM.map((h, i) => {
+  const ms = ((i + 0.5) / AVA_WAVEFORM.length) * LEN;
+  const line = AVA_TRANSCRIPT.find((l) => ms >= l.start - 150 && ms <= l.end + 150);
+  return { h: Math.max(0.08, h), who: line?.who ?? null };
 });
 
 const fmt = (ms: number) => {
@@ -33,92 +31,189 @@ const fmt = (ms: number) => {
   return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
 };
 
+function PlayIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-4 w-4 translate-x-[1px]" fill="currentColor" aria-hidden>
+      <path d="M7 4v16l13-8z" />
+    </svg>
+  );
+}
+
+function PauseIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden>
+      <path d="M6 4h4v16H6zM14 4h4v16h-4z" />
+    </svg>
+  );
+}
+
 export function AvaDemo({ isStatic = false, hideCaption = false }: DemoProps) {
   const player = useDemoPlayer(END, { isStatic });
   const audioRef = useRef<HTMLAudioElement>(null);
+  const listRef = useRef<HTMLOListElement>(null);
+
+  /* Once the visitor presses play, the audio drives everything below. */
+  const [listening, setListening] = useState(false);
+  const [playing, setPlaying] = useState(false);
   const [audioMs, setAudioMs] = useState(0);
   const [audioEnded, setAudioEnded] = useState(false);
 
-  const usingAudio = Boolean(AVA_AUDIO_SRC) && !isStatic && !player.reduced;
-  const ms = isStatic || player.reduced ? AVA_CALL_LENGTH : usingAudio ? audioMs : Math.min(player.t, AVA_CALL_LENGTH);
-  const ended = isStatic || player.reduced ? true : usingAudio ? audioEnded : player.t >= AVA_CALL_LENGTH;
-  const showSummary = isStatic || player.reduced ? true : usingAudio ? audioEnded : player.t >= AVA_CALL_LENGTH + SUMMARY_DELAY;
+  const finalState = (isStatic || player.reduced) && !listening;
+  const ms = listening ? audioMs : finalState ? LEN : Math.min(player.t, LEN);
+  const showSummary = listening ? audioEnded : finalState || player.t >= LEN + SUMMARY_DELAY;
 
-  /* When a real recording exists, play it once the frame scrolls into view. */
+  /* Smooth sync while the recording plays (timeupdate only fires a few times a second). */
   useEffect(() => {
-    if (!usingAudio) return;
+    if (!playing) return;
+    let raf = 0;
+    const tick = () => {
+      const audio = audioRef.current;
+      if (audio) setAudioMs(audio.currentTime * 1000);
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [playing]);
+
+  /* Keep the line being spoken in view. */
+  const current = AVA_TRANSCRIPT.reduce((idx, line, i) => (ms >= line.start ? i : idx), -1);
+  const activeIndex = AVA_TRANSCRIPT.findIndex((l) => ms >= l.start && ms <= l.end + 400);
+  useEffect(() => {
+    const list = listRef.current;
+    const viewport = list?.parentElement;
+    if (!list || !viewport) return;
+    const item = current >= 0 ? (list.children[current] as HTMLElement | undefined) : undefined;
+    const target = item ? Math.max(0, item.offsetTop - viewport.clientHeight * 0.3) : 0;
+    const max = Math.max(0, list.scrollHeight - viewport.clientHeight);
+    list.style.transform = `translateY(-${Math.min(target, max)}px)`;
+  }, [current]);
+
+  const toggle = () => {
     const audio = audioRef.current;
     if (!audio) return;
-    const onTime = () => setAudioMs(audio.currentTime * 1000);
-    const onEnd = () => setAudioEnded(true);
-    audio.addEventListener("timeupdate", onTime);
-    audio.addEventListener("ended", onEnd);
-    return () => {
-      audio.removeEventListener("timeupdate", onTime);
-      audio.removeEventListener("ended", onEnd);
-    };
-  }, [usingAudio]);
+    if (playing) {
+      audio.pause();
+      return;
+    }
+    if (!listening || audioEnded) {
+      audio.currentTime = 0;
+      setAudioMs(0);
+      setAudioEnded(false);
+      setListening(true);
+    }
+    void audio.play().catch(() => setPlaying(false));
+  };
 
-  const activeIndex = AVA_TRANSCRIPT.findIndex((l) => ms >= l.start && ms <= l.end);
-  const playedFraction = ms / AVA_CALL_LENGTH;
+  const resetAudio = () => {
+    const audio = audioRef.current;
+    if (audio) {
+      audio.pause();
+      audio.currentTime = 0;
+    }
+    setListening(false);
+    setPlaying(false);
+    setAudioEnded(false);
+    setAudioMs(0);
+  };
+
+  const played = ms / LEN;
+  const status = !listening ? "Press play to hear the call" : playing ? "Playing with sound" : audioEnded ? "Call ended" : "Paused";
 
   return (
     <DemoFrame
       player={player}
       title="Ava, AI receptionist"
-      summary="A recorded call plays with a waveform in two colors, one for the caller and one for Ava. The transcript highlights each line as it is spoken. When the call ends, a summary email slides in with the caller's details and the next step."
-      caption={hideCaption ? undefined : "Every call answered. Summary in the inbox before the caller hangs up."}
+      summary="A sample call to Ava, the AI receptionist. The transcript highlights as each line is spoken, and a summary email for the office arrives when the call ends. Press play to hear the recording."
+      caption={hideCaption ? undefined : "Every detail read back to the caller. The summary lands in the office inbox."}
+      interactive
+      onReplay={resetAudio}
     >
-      {usingAudio && AVA_AUDIO_SRC ? <audio ref={audioRef} src={AVA_AUDIO_SRC} preload="metadata" /> : null}
+      {AVA_AUDIO_SRC ? (
+        <audio
+          ref={audioRef}
+          src={AVA_AUDIO_SRC}
+          preload="none"
+          onPlay={() => setPlaying(true)}
+          onPause={() => setPlaying(false)}
+          onTimeUpdate={(e) => setAudioMs(e.currentTarget.currentTime * 1000)}
+          onEnded={() => {
+            setPlaying(false);
+            setAudioEnded(true);
+            setAudioMs(LEN);
+          }}
+        />
+      ) : null}
 
-      <div className="grid min-h-[380px] gap-4 @xl:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">
-        <div>
-          {/* Player */}
-          <div className="rounded-[10px] border border-border bg-bg p-3">
+      <div className="grid grid-cols-[minmax(0,1fr)] gap-3 @xl:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] @xl:gap-4">
+        {/* Player */}
+        <div className="col-start-1 row-start-1">
+          <p className="m-0 text-[11.5px] text-muted">{AVA_CONTEXT}</p>
+          <div className="mt-2 rounded-[10px] border border-border bg-bg p-3">
             <div className="flex items-center gap-3">
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent text-on-accent" aria-hidden>
-                {ended ? (
-                  <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="currentColor">
-                    <path d="M6 4h4v16H6zM14 4h4v16h-4z" />
-                  </svg>
-                ) : (
-                  <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="currentColor">
-                    <path d="M7 4v16l13-8z" />
-                  </svg>
-                )}
-              </span>
-              <div className="flex h-10 flex-1 items-center gap-[2px]">
+              <button
+                type="button"
+                onClick={toggle}
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent text-on-accent transition-colors hover:bg-accent-hover"
+                aria-label={playing ? "Pause the call recording" : "Play the call recording with sound"}
+              >
+                {playing ? <PauseIcon /> : <PlayIcon />}
+              </button>
+              <div className="flex h-10 min-w-0 flex-1 items-center gap-[2px]" aria-hidden>
                 {bars.map((bar, i) => {
-                  const played = i / BAR_COUNT <= playedFraction;
+                  const isPlayed = (i + 0.5) / bars.length <= played;
                   const color =
-                    bar.who === "ai" ? (played ? "bg-accent" : "bg-accent/45") : bar.who === "caller" ? (played ? "bg-muted" : "bg-muted/35") : "bg-border";
-                  return <span key={i} className={`w-full max-w-[4px] rounded-full ${color}`} style={{ height: `${Math.round(bar.h * 100)}%` }} />;
+                    bar.who === "ai"
+                      ? isPlayed
+                        ? "bg-accent"
+                        : "bg-accent/35"
+                      : bar.who === "caller"
+                        ? isPlayed
+                          ? "bg-text/80"
+                          : "bg-text/25"
+                        : "bg-border";
+                  return (
+                    <span
+                      key={i}
+                      className={`w-full max-w-[4px] rounded-full transition-colors duration-150 ${color}`}
+                      style={{ height: `${Math.round(bar.h * 100)}%` }}
+                    />
+                  );
                 })}
               </div>
-              <span className="w-10 shrink-0 text-right text-[11px] tabular-nums text-muted">{fmt(ms)}</span>
+              <span className="w-[74px] shrink-0 text-right text-[11px] tabular-nums text-muted" aria-hidden>
+                {fmt(ms)} / {fmt(LEN)}
+              </span>
             </div>
-            <div className="mt-2 flex items-center gap-4 text-[10.5px] text-muted">
+            <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-[10.5px] text-muted">
               <span className="inline-flex items-center gap-1.5">
-                <span className="h-2 w-2 rounded-full bg-accent" /> Ava
+                <span className="h-2 w-2 rounded-full bg-accent" aria-hidden /> Ava
               </span>
               <span className="inline-flex items-center gap-1.5">
-                <span className="h-2 w-2 rounded-full bg-muted" /> Caller
+                <span className="h-2 w-2 rounded-full bg-text/80" aria-hidden /> Caller
               </span>
-              <span className="ml-auto">{AVA_AUDIO_SRC ? "Recording" : "Placeholder transcript"}</span>
+              <span className="ml-auto" aria-live="polite">
+                {status}
+              </span>
             </div>
           </div>
+        </div>
 
-          {/* Transcript */}
-          <ol className="mt-3 grid grid-cols-[minmax(0,1fr)] list-none gap-1.5 p-0">
+        {/* Transcript */}
+        <div
+          className={`relative col-start-1 row-start-2 h-[220px] overflow-hidden transition-opacity duration-500 @xl:h-[260px] ${
+            showSummary ? "@max-xl:pointer-events-none @max-xl:opacity-0" : ""
+          }`}
+        >
+          <ol ref={listRef} className="m-0 grid list-none gap-1 p-0 transition-transform duration-500 ease-out">
             {AVA_TRANSCRIPT.map((line, i) => {
               const spoken = ms >= line.start;
               const active = i === activeIndex;
               return (
                 <li
                   key={line.start}
-                  className={`grid grid-cols-[44px_1fr] gap-2 rounded-[8px] px-2 py-1.5 text-[12px] leading-[1.45] transition-[opacity,background-color] duration-300 ${
-                    spoken ? "opacity-100" : "opacity-30"
-                  } ${active ? "bg-accent/20" : ""}`}
+                  className={`grid grid-cols-[46px_1fr] gap-2 rounded-[8px] px-2 py-1.5 text-[12px] leading-[1.45] transition-[opacity,background-color] duration-300 ${
+                    spoken ? "opacity-100" : "opacity-35"
+                  } ${active ? "bg-accent/15" : ""}`}
                 >
                   <span className={`text-[10px] font-semibold uppercase tracking-[0.06em] ${line.who === "ai" ? "text-accent" : "text-muted"}`}>
                     {line.who === "ai" ? "Ava" : "Caller"}
@@ -128,37 +223,30 @@ export function AvaDemo({ isStatic = false, hideCaption = false }: DemoProps) {
               );
             })}
           </ol>
+          <span className="pointer-events-none absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-surface to-transparent" aria-hidden />
         </div>
 
-        {/* Summary email */}
-        <div className="relative flex items-end @xl:items-start">
-          <Appear show={!showSummary} from="none" className={`absolute inset-x-0 top-0 ${showSummary ? "pointer-events-none" : ""}`}>
-            <div className="rounded-[10px] border border-dashed border-border p-4 text-[12px] text-muted">
-              Summary email arrives when the call ends.
+        {/* Summary email: beside the call on wide frames, in the transcript's spot on narrow ones */}
+        <div className="relative z-10 col-start-1 row-start-2 @xl:col-start-2 @xl:row-span-2 @xl:row-start-1">
+          {!showSummary ? (
+            <div className="hidden rounded-[10px] border border-dashed border-border p-4 text-[12px] text-muted @xl:block">
+              The summary email for the office arrives when the call ends.
             </div>
-          </Appear>
-          <EmailCard
-            show={showSummary}
-            from="Ava <ava@company.example>"
-            to="office@company.example"
-            subject={AVA_SUMMARY.subject}
-            className="w-full"
-          >
-            <dl className="grid grid-cols-[72px_1fr] gap-x-2 gap-y-1">
-              <dt className="text-bg/55">Caller</dt>
-              <dd className="m-0">{AVA_SUMMARY.caller}</dd>
-              <dt className="text-bg/55">Phone</dt>
-              <dd className="m-0">{AVA_SUMMARY.phone}</dd>
-              <dt className="text-bg/55">Address</dt>
-              <dd className="m-0">{AVA_SUMMARY.address}</dd>
-              <dt className="text-bg/55">Issue</dt>
-              <dd className="m-0">{AVA_SUMMARY.issue}</dd>
-              <dt className="text-bg/55">Urgency</dt>
-              <dd className="m-0">{AVA_SUMMARY.urgency}</dd>
-              <dt className="text-bg/55">Next step</dt>
-              <dd className="m-0 font-semibold">{AVA_SUMMARY.nextStep}</dd>
-            </dl>
-          </EmailCard>
+          ) : null}
+          <div aria-live="polite">
+            <EmailCard show={showSummary} from="Ava <ava@company.example>" to="office@company.example" subject={AVA_SUMMARY.subject}>
+              <dl className="m-0 grid grid-cols-[78px_1fr] gap-x-2 gap-y-1">
+                {AVA_SUMMARY.fields.map(([label, value]) => (
+                  <div key={label} className="contents">
+                    <dt className="text-bg/55">{label}</dt>
+                    <dd className="m-0">{value}</dd>
+                  </div>
+                ))}
+                <dt className="text-bg/55">Next step</dt>
+                <dd className="m-0 font-semibold">{AVA_SUMMARY.nextStep}</dd>
+              </dl>
+            </EmailCard>
+          </div>
         </div>
       </div>
     </DemoFrame>

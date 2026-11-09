@@ -21,11 +21,8 @@ export const QAQC_IN_PROGRESS = false;
 /** The operations manager is complete and live. Set to true to show the "In progress" badge again. */
 export const OPS_MANAGER_IN_PROGRESS = false;
 
-/**
- * The AI receptionist demo is on hold until the final call recording and transcript arrive.
- * Flip to true once AVA_AUDIO_SRC and AVA_TRANSCRIPT in src/components/demos/ava-data.ts are real.
- */
-export const SHOW_AVA_DEMO = false;
+/** The AI receptionist demo plays the sample call in src/components/demos/ava-data.ts. */
+export const SHOW_AVA_DEMO = true;
 
 /** Flip to true once a real quote is in site-data.ts. */
 export const SHOW_TESTIMONIAL = false;

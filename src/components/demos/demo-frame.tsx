@@ -14,6 +14,13 @@ type Props = {
   className?: string;
   /** Tone of the stage behind the demo. "app" is the dark app surface; "paper" adds no padding. */
   padded?: boolean;
+  /**
+   * Set when the demo contains real controls (like an audio play button). The content is then
+   * exposed to assistive tech instead of being hidden as decoration.
+   */
+  interactive?: boolean;
+  /** Runs alongside the player's own replay, for demos that also need to reset media. */
+  onReplay?: () => void;
 };
 
 function ReplayIcon({ className = "" }: { className?: string }) {
@@ -30,8 +37,22 @@ function ReplayIcon({ className = "" }: { className?: string }) {
  * replay button, and an optional caption underneath. The player attaches to the root so
  * the IntersectionObserver watches the whole frame.
  */
-export function DemoFrame({ player, title, summary, caption, children, className = "", padded = true }: Props) {
-  const { attach, replay, done, isStatic, reduced } = player;
+export function DemoFrame({
+  player,
+  title,
+  summary,
+  caption,
+  children,
+  className = "",
+  padded = true,
+  interactive = false,
+  onReplay,
+}: Props) {
+  const { attach, replay: replayTimeline, done, isStatic, reduced } = player;
+  const replay = () => {
+    onReplay?.();
+    replayTimeline();
+  };
   const showReplay = !isStatic && !reduced;
   return (
     <figure className={`m-0 ${className}`}>
@@ -66,7 +87,7 @@ export function DemoFrame({ player, title, summary, caption, children, className
         </div>
         <div className={`relative ${padded ? "p-3 @md:p-4" : ""}`}>
           <p className="sr-only">{summary}</p>
-          <div aria-hidden>{children}</div>
+          {interactive ? children : <div aria-hidden>{children}</div>}
         </div>
       </div>
       {caption ? (

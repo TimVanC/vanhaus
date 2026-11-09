@@ -87,7 +87,7 @@ export const projects: Project[] = [
         "When a call is urgent she transfers it to the on-call person. Otherwise the call ends and a summary email lands in the office inbox within seconds.",
       ],
     },
-    caption: "Every call answered. Summary in the inbox before the caller hangs up.",
+    caption: "Every detail read back to the caller. The summary lands in the office inbox.",
     seo: {
       title: "AI Receptionist for HVAC Companies | VanHaus",
       description:
