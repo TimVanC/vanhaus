@@ -21,6 +21,8 @@ type Props = {
   interactive?: boolean;
   /** Runs alongside the player's own replay, for demos that also need to reset media. */
   onReplay?: () => void;
+  /** Replaces the title bar's Replay button, for demos that run their own play, pause, and replay. */
+  control?: ReactNode;
 };
 
 function ReplayIcon({ className = "" }: { className?: string }) {
@@ -47,6 +49,7 @@ export function DemoFrame({
   padded = true,
   interactive = false,
   onReplay,
+  control,
 }: Props) {
   const { attach, replay: replayTimeline, done, isStatic, reduced } = player;
   const replay = () => {
@@ -69,7 +72,9 @@ export function DemoFrame({
             </span>
             <span className="truncate text-[12.5px] font-medium tracking-[0.01em] text-muted">{title}</span>
           </div>
-          {showReplay ? (
+          {control ? (
+            control
+          ) : showReplay ? (
             <button
               type="button"
               onClick={replay}
