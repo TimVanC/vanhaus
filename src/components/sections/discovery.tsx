@@ -8,7 +8,7 @@ const points = ["30 minutes on a call", "No cost, no obligation", "A fixed price
 export function Discovery() {
   return (
     <section aria-label="Free discovery call">
-      <div className="container-site py-[clamp(8px,2vw,24px)]">
+      <div className="container-site pb-[clamp(40px,5vw,72px)] pt-[clamp(8px,2vw,24px)]">
         <Reveal>
           <div className="relative overflow-hidden rounded-[var(--radius)] border border-accent/70 bg-accent/[0.14] p-6 md:p-8">
             <span className="absolute inset-y-0 left-0 w-1.5 bg-accent" aria-hidden />

@@ -1,4 +1,5 @@
 import { CheckIcon } from "@/components/common/icons";
+import { Kicker } from "@/components/common/kicker";
 import { Reveal } from "@/components/common/reveal";
 import { stats, trustPoints } from "@/lib/site-data";
 
@@ -8,9 +9,10 @@ import { stats, trustPoints } from "@/lib/site-data";
  */
 export function Stats() {
   return (
-    <section id="numbers" className="bg-surface/50">
-      <div className="container-site py-[clamp(44px,6vw,96px)]">
+    <section id="numbers" className="band">
+      <div className="container-site py-[clamp(48px,7vw,104px)]">
         <Reveal>
+          <Kicker className="mb-8 md:mb-10">By the numbers</Kicker>
           <dl className="grid grid-cols-2 gap-y-10 lg:grid-cols-4 lg:divide-x lg:divide-border">
             {stats.map((stat) => (
               <div key={stat.label} className="min-w-0 lg:px-8 lg:first:pl-0 lg:last:pr-0">

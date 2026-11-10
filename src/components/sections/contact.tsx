@@ -8,7 +8,7 @@ import { contact } from "@/lib/site-data";
 import { useState, type FormEvent } from "react";
 
 const fieldClass =
-  "w-full rounded-[var(--radius-sm)] border border-border bg-bg px-4 text-[15.5px] text-text outline-none transition-colors placeholder:text-muted/70 focus:border-accent";
+  "w-full rounded-[var(--radius-sm)] border border-border bg-surface px-4 text-[15.5px] text-text outline-none transition-colors placeholder:text-muted/70 focus:border-accent";
 
 const labelClass = "flex flex-col gap-2 text-[14px] text-muted";
 
@@ -63,7 +63,7 @@ export function Contact() {
   };
 
   return (
-    <section id="contact">
+    <section id="contact" className="band">
       <div className="container-site py-[clamp(48px,7vw,104px)]">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-14">
           <div className="lg:col-span-5">
@@ -99,7 +99,7 @@ export function Contact() {
 
           <Reveal className="d1 lg:col-span-6 lg:col-start-7">
             {submitted ? (
-              <div className="rounded-[var(--radius)] border border-border bg-surface p-8" role="status">
+              <div className="rounded-[var(--radius)] border border-border bg-bg p-8" role="status">
                 <p className="font-display text-[26px] font-bold leading-[1.15] tracking-[-0.02em]">Got it. Thanks.</p>
                 <p className="mt-3 text-[16px] leading-[1.6] text-muted">
                   We&apos;ll read it and get back to you within one business day.
@@ -108,7 +108,7 @@ export function Contact() {
             ) : (
               <form
                 onSubmit={handleSubmit}
-                className="grid gap-5 rounded-[var(--radius)] border border-border bg-surface p-5 sm:p-7"
+                className="grid gap-5 rounded-[var(--radius)] border border-border bg-bg p-5 sm:p-7"
                 noValidate
               >
                 <div className="grid gap-5 sm:grid-cols-2">

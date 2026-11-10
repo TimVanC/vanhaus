@@ -86,6 +86,12 @@ section[id] {
   background-size: 240px 240px;
 }
 
+/* Alternate homepage sections sit on this lighter band, so each section reads as its own block
+   without divider lines. Slightly see-through so the grain still shows. */
+.band {
+  background-color: color-mix(in srgb, var(--surface) 92%, transparent);
+}
+
 /* Scroll reveal: gentle fade and slide only. Only hides content once JS has confirmed it can reveal it. */
 .js .reveal {
   opacity: 0;
